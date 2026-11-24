@@ -26,7 +26,6 @@ const kanonisch = new URL(Astro.url.pathname, seite.url).href;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{titel}</title>
     <meta name="description" content={beschreibung} />
-    <meta name="theme-color" content="#F4F1EA" />
     {noindex && <meta name="robots" content="noindex, follow" />}
     <link rel="canonical" href={kanonisch} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />

@@ -87,7 +87,7 @@ import { kontakt, telHref, whatsappHref, mailHref, demoLink, demoLinkExtern } fr
           <input type="checkbox" name="datenschutz" required />
           <span>Ich habe die <a href="/datenschutz" target="_blank" rel="noopener">Datenschutzerklärung</a> gelesen und bin einverstanden, dass Sie mich zur Anfrage kontaktieren.</span>
         </label>
-        <button type="submit" class="btn btn-gelb btn-gross voll">Demo anfragen</button>
+        <button type="submit" class="btn btn-primaer btn-gross voll">Demo anfragen</button>
         <p class="fein">Kostenlos und unverbindlich. Ihre Angaben werden nur für den Rückruf verwendet.</p>
       </form>
 
@@ -97,13 +97,13 @@ import { kontakt, telHref, whatsappHref, mailHref, demoLink, demoLinkExtern } fr
         <p class="zeiten">{kontakt.zeiten} · {kontakt.ort}</p>
         <a class="tel" href={telHref}>{kontakt.telefon}</a>
         <div class="knoepfe">
-          <a class="btn btn-gelb" href={telHref}>Anrufen</a>
-          <a class="btn btn-rand wa" href={whatsappHref} target="_blank" rel="noopener">WhatsApp schreiben</a>
+          <a class="btn btn-primaer" href={telHref}>Anrufen</a>
+          <a class="btn btn-zweit wa" href={whatsappHref} target="_blank" rel="noopener">WhatsApp schreiben</a>
         </div>
         <a class="mail" href={mailHref}>{kontakt.email}</a>
         <hr />
         <p class="selbst">Lieber erst selbst ausprobieren?</p>
-        <a class="btn btn-rand" href={demoLink} {...(demoLinkExtern ? { target: "_blank", rel: "noopener" } : {})}>
+        <a class="btn btn-zweit" href={demoLink} {...(demoLinkExtern ? { target: "_blank", rel: "noopener" } : {})}>
           {demoLinkExtern ? "Demo selbst ausprobieren" : "Demo-Zugang anfragen"}
         </a>
       </aside>
@@ -122,28 +122,28 @@ import { kontakt, telHref, whatsappHref, mailHref, demoLink, demoLinkExtern } fr
   .kontakt { scroll-margin-top: 70px; }
   .lead { margin-top: 16px; color: var(--grau); font-size: 1.125rem; max-width: 46ch; }
   .spalten { margin-top: 40px; display: grid; gap: 28px; }
-  .form, .direkt { background: var(--karte); border-radius: 24px; padding: 26px 22px; box-shadow: 0 1px 0 var(--linie); display: grid; gap: 18px; align-content: start; }
+  .form, .direkt { background: var(--creme); border-radius: 24px; padding: 26px 22px; box-shadow: 0 1px 0 var(--sand-linie); display: grid; gap: 18px; align-content: start; }
   .honig { position: absolute; left: -9999px; }
   .feld { display: grid; gap: 7px; }
   .zwei { display: grid; gap: 18px; }
   label { font-weight: 700; font-size: 0.9375rem; }
   .opt { font-weight: 500; color: var(--grau); }
-  input[type="text"], input[type="tel"], input[type="email"], select { width: 100%; min-height: 52px; padding: 0 14px; font: inherit; font-size: 1rem; color: var(--schiefer); background: var(--papier); border: 2px solid transparent; border-radius: 12px; }
-  input:hover, select:hover { border-color: var(--linie); }
-  input:focus-visible, select:focus-visible { outline: none; border-color: var(--schiefer); background: #fff; }
+  input[type="text"], input[type="tel"], input[type="email"], select { width: 100%; min-height: 52px; padding: 0 14px; font: inherit; font-size: 1rem; color: var(--tiefgruen); background: var(--papier); border: 2px solid transparent; border-radius: 12px; }
+  input:hover, select:hover { border-color: var(--sand-linie); }
+  input:focus-visible, select:focus-visible { outline: none; border-color: var(--tiefgruen); background: var(--creme); }
   .check { display: grid; grid-template-columns: 26px 1fr; gap: 12px; align-items: start; font-weight: 500; font-size: 0.9375rem; color: var(--grau); }
-  .check input { width: 24px; height: 24px; margin: 1px 0 0; accent-color: var(--schiefer); }
-  .check a { color: var(--schiefer); font-weight: 700; }
+  .check input { width: 24px; height: 24px; margin: 1px 0 0; accent-color: var(--tiefgruen); }
+  .check a { color: var(--tiefgruen); font-weight: 700; }
   .voll { width: 100%; }
   .fein { font-size: 0.8125rem; color: var(--grau); text-align: center; }
 
   .name { font-size: 2rem; font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
   .zeiten { color: var(--grau); margin-top: -10px; }
   .tel { display: inline-flex; align-items: center; min-height: 44px; font-size: clamp(1.5rem, 6.6vw, 2rem); font-weight: 800; letter-spacing: -0.03em; text-decoration: none; }
-  .tel:hover { text-decoration: underline; text-decoration-color: var(--akzent); text-decoration-thickness: 3px; }
+  .tel:hover { text-decoration: underline; text-decoration-color: var(--mint); text-decoration-thickness: 3px; }
   .knoepfe { display: grid; gap: 10px; }
   .mail { font-weight: 600; word-break: break-all; min-height: 44px; display: inline-flex; align-items: center; }
-  hr { border: 0; border-top: 1px solid var(--linie); width: 100%; margin: 0; }
+  hr { border: 0; border-top: 1px solid var(--sand-linie); width: 100%; margin: 0; }
   .selbst { font-weight: 700; margin-bottom: -6px; }
 
   @media (min-width: 640px) { .zwei { grid-template-columns: 1fr 1fr; } .knoepfe { grid-template-columns: 1fr 1fr; } }

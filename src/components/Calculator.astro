@@ -23,26 +23,26 @@ import { rechner as r } from "../config";
 
       <div class="ergebnis dunkel" aria-live="polite">
         <p class="e-zeile"><span class="zahl" data-res="std">–</span> <span>Stunden pro Monat für Planung und Abstimmung</span></p>
-        <p class="e-zeile"><span class="zahl gelb" data-res="eur">–</span> <span>Kosten Ihrer Zeit pro Monat</span></p>
+        <p class="e-zeile"><span class="zahl signal" data-res="eur">–</span> <span>Kosten Ihrer Zeit pro Monat</span></p>
       </div>
       <p class="fein">Grobe Schätzung. Angenommen: {r.planMinProMitarbeiterWoche} Min. Planung je Mitarbeiter und Woche, {r.minProAusfall} Min. je Ausfall oder Tausch. Ihr Betrieb kann abweichen.</p>
-      <a class="btn btn-gelb" href="/#kontakt">Zeit zurückholen: Demo anfragen</a>
+      <a class="btn btn-primaer" href="/#kontakt">Zeit zurückholen: Demo anfragen</a>
     </div>
   </div>
 </section>
 
 <style>
   .lead { margin-top: 14px; color: var(--grau); max-width: 52ch; font-size: 1.125rem; }
-  .rechner { margin-top: 32px; background: var(--karte); border-radius: 24px; padding: 26px 22px; display: grid; gap: 24px; max-width: 760px; }
+  .rechner { margin-top: 32px; background: var(--creme); border-radius: 24px; padding: 26px 22px; display: grid; gap: 24px; max-width: 760px; }
   .regler { display: grid; gap: 10px; }
   label { font-weight: 600; }
   label b { font-weight: 800; }
-  input[type="range"] { width: 100%; height: 44px; accent-color: var(--schiefer); cursor: pointer; background: transparent; }
-  .ergebnis { background: var(--schiefer); border-radius: 18px; padding: 22px; display: grid; gap: 14px; color: #fff; }
+  input[type="range"] { width: 100%; height: 44px; accent-color: var(--tiefgruen); cursor: pointer; background: transparent; }
+  .ergebnis { background: var(--tiefgruen); border-radius: 18px; padding: 22px; display: grid; gap: 14px; color: var(--creme); }
   .e-zeile { display: grid; gap: 2px; }
   .zahl { font-size: clamp(2.25rem, 9vw, 3.25rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
-  .gelb { color: var(--akzent); }
-  .e-zeile span:last-child { color: #CBD0D5; font-size: 0.9375rem; }
+  .signal { color: var(--mint); }
+  .e-zeile span:last-child { color: var(--auf-dunkel-leise); font-size: 0.9375rem; }
   .fein { font-size: 0.875rem; color: var(--grau); }
   .rechner .btn { justify-self: start; }
   @media (min-width: 900px) { .rechner { padding: 40px; } }

@@ -28,7 +28,7 @@ npm run build      # fertige Seite im Ordner dist/
 
 - `src/components/` – Hero, Handy-Mockup, Schritte, Preise (mit Countdown), Kontakt, Kopf, Fuß
 - `src/pages/` – Startseite, `/demo` (Ziel des Flyer-QR-Codes), `/danke`, Rechtsseiten, 404
-- `src/styles/global.css` – Farben und Maße als Tokens (wie der Flyer)
+- `src/styles/global.css` – alle Farben als Tokens (Tiefgrün und Mint) und Maße; im restlichen Code stehen keine festen Farbwerte
 - Kein Tracking, keine Fremdserver: Schrift „Inter“ wird selbst ausgeliefert.
 
 ## Hinweise

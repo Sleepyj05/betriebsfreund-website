@@ -6,7 +6,7 @@ Alles an einem Ort. Haken setzen, wenn erledigt. Danach neu bauen lassen (Änder
 - [ ] `av-vertrag/` – Ihren geprüften AV-Vertrag als PDF
 
 ## 2. Datei `src/config.ts` (Telefon, Preise, Texte)
-- [ ] `kontakt.telefon` – echte Telefonnummer (jetzt noch Platzhalter vom Flyer)
+- [ ] `kontakt.telefon` – echte Telefonnummer 
 - [ ] `kontakt.whatsapp` – WhatsApp-Nummer nur Ziffern, z. B. 491701234567
 - [ ] `kontakt.email` – echte E-Mail-Adresse
 - [ ] `kontakt.anschrift` – echte Anschrift

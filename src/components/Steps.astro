@@ -1,12 +1,12 @@
 ---
-// Abschnitt "So funktioniert's": 3 Schritte, große Zahlen in navy Kreisen mit gelber Ziffer (wie auf dem Flyer).
+// Abschnitt "So funktioniert's": 3 Schritte, große Zahlen in Tiefgrün-Kreisen mit Mint-Ziffer.
 const schritte = [
   { titel: "Ihr Team meldet sich in der App", text: "Krank, Urlaub oder Tauschwunsch – per Knopfdruck." },
   { titel: "Die App findet Ersatz", text: "Nur Kollegen, die passen, Zeit haben und bei denen alle Regeln stimmen." },
   { titel: "Sie tippen „Freigeben“", text: "Fertig. Kein Anruf, keine WhatsApp-Gruppe." },
 ];
 ---
-<section class="abschnitt" id="so-funktionierts" aria-labelledby="schritte-titel">
+<section class="abschnitt abgesetzt" id="so-funktionierts" aria-labelledby="schritte-titel">
   <div class="wrap schritte-in">
     <h2 id="schritte-titel" class="reveal">So läuft Ihr Dienstplan <span class="mark">ab morgen.</span></h2>
     <ol class="liste">
@@ -25,9 +25,9 @@ const schritte = [
 
 <style>
   .schritte-in { display: grid; gap: 40px; }
-  .liste { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--linie); }
-  .liste li { display: flex; gap: 20px; align-items: center; padding-block: 26px; border-bottom: 1px solid var(--linie); }
-  .zahl { flex: none; width: 64px; height: 64px; border-radius: 50%; background: var(--schiefer); color: var(--akzent); display: grid; place-items: center; font-weight: 800; font-size: 1.75rem; letter-spacing: -0.02em; }
+  .liste { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--sand-linie); }
+  .liste li { display: flex; gap: 20px; align-items: center; padding-block: 26px; border-bottom: 1px solid var(--sand-linie); }
+  .zahl { flex: none; width: 64px; height: 64px; border-radius: 50%; background: var(--tiefgruen); color: var(--mint); display: grid; place-items: center; font-weight: 800; font-size: 1.75rem; letter-spacing: -0.02em; }
   h3 { font-size: clamp(1.25rem, 4.6vw, 1.5rem); }
   p { color: var(--grau); margin-top: 6px; max-width: 44ch; }
   @media (min-width: 900px) {

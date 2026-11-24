@@ -41,25 +41,25 @@ const sym: Record<string, string> = { yes: "✓", mid: "~", no: "✕" };
   .lead { margin-top: 14px; color: var(--grau); max-width: 60ch; font-size: 1.125rem; }
   .vgl { margin-top: 32px; width: 100%; border-collapse: separate; border-spacing: 0; }
   .vgl thead { display: none; }
-  .vgl tr { display: block; background: var(--karte); border-radius: var(--radius); padding: 18px 18px 8px; margin-bottom: 12px; }
+  .vgl tr { display: block; background: var(--creme); border-radius: var(--radius); padding: 18px 18px 8px; margin-bottom: 12px; }
   .vgl th[scope="row"] { display: block; text-align: left; font-size: 1.125rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 10px; }
-  .vgl td { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid var(--linie); font-weight: 600; }
+  .vgl td { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid var(--sand-linie); font-weight: 600; }
   .vgl td::before { content: attr(data-label); color: var(--grau); font-weight: 500; font-size: 0.9375rem; }
   .vgl td .s { display: none; }
-  .vgl td.wir { background: #F6E7D8; margin: 0 -18px; padding-inline: 18px; border-radius: 0 0 var(--radius) var(--radius); border-top-color: transparent; }
-  .vgl .yes { color: #0b6b45; } .vgl .no { color: #b3262b; } .vgl .mid { color: #6B5528; }
+  .vgl td.wir { background: var(--mint-hell); margin: 0 -18px; padding-inline: 18px; border-radius: 0 0 var(--radius) var(--radius); border-top-color: transparent; }
+  .vgl .yes { color: var(--erfolg-dunkel); } .vgl .no { color: var(--fehler-dunkel); } .vgl .mid { color: var(--grau); }
   .fein { margin-top: 14px; font-size: 0.875rem; color: var(--grau); }
   @media (min-width: 900px) {
     .vgl thead { display: table-header-group; }
     .vgl tr { display: table-row; background: none; padding: 0; margin: 0; }
-    .vgl th, .vgl td { display: table-cell; padding: 18px 16px; border-top: 1px solid var(--linie); text-align: left; vertical-align: middle; }
+    .vgl th, .vgl td { display: table-cell; padding: 18px 16px; border-top: 1px solid var(--sand-linie); text-align: left; vertical-align: middle; }
     .vgl td::before { content: none; }
-    .vgl td .s { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; font-size: 0.8rem; font-weight: 800; margin-right: 8px; color: #fff; }
-    .vgl .yes .s { background: var(--gruen); } .vgl .no .s { background: var(--rot); } .vgl .mid .s { background: #8A7448; }
+    .vgl td .s { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; font-size: 0.8rem; font-weight: 800; margin-right: 8px; color: var(--creme); }
+    .vgl .yes .s { background: var(--erfolg-flaeche); } .vgl .no .s { background: var(--fehler-dunkel); } .vgl .mid .s { background: var(--grau-mittel); }
     .vgl thead th { border-top: 0; font-size: 0.9375rem; font-weight: 800; color: var(--grau); }
-    .vgl thead th.wir { background: var(--schiefer); color: var(--akzent); border-radius: 16px 16px 0 0; }
+    .vgl thead th.wir { background: var(--tiefgruen); color: var(--mint); border-radius: 16px 16px 0 0; }
     .vgl th[scope="row"] { margin: 0; font-size: 1rem; }
-    .vgl td.wir { background: #F6E7D8; margin: 0; padding-inline: 16px; border-radius: 0; border-top: 1px solid var(--linie); }
+    .vgl td.wir { background: var(--mint-hell); margin: 0; padding-inline: 16px; border-radius: 0; border-top: 1px solid var(--sand-linie); }
     .vgl tbody tr:last-child td.wir { border-radius: 0 0 16px 16px; }
   }
 </style>

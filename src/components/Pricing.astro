@@ -41,7 +41,7 @@ const alle = preise.pakete;
             {p.leistungen.map((l) => <li>{l}</li>)}
           </ul>
 
-          <a href={`/?paket=${p.id}#kontakt`} class="btn btn-gelb btn-gross voll">
+          <a href={`/?paket=${p.id}#kontakt`} class="btn btn-primaer btn-gross voll">
             <span data-gruender hidden={!gruenderAktivBeimBau}>Gründerpreis sichern</span>
             <span data-regulaer-block hidden={gruenderAktivBeimBau}>Paket anfragen</span>
           </a>
@@ -68,27 +68,27 @@ const alle = preise.pakete;
   .preis-h2 { max-width: 16ch; }
   .lead { margin-top: 14px; color: var(--grau); font-size: 1.125rem; }
   .pakete { margin-top: 32px; display: grid; gap: 20px; }
-  .karte { background: var(--schiefer); color: #fff; border-radius: 28px; padding: 30px 24px; display: grid; gap: 4px; align-content: start; box-shadow: var(--schatten); position: relative; }
-  .karte.top { outline: 4px solid var(--akzent); outline-offset: -4px; }
-  .p-name { font-size: 1.5rem; color: #fff; }
-  .p-sub { color: #CBD0D5; margin-bottom: 14px; min-height: 2.8em; }
-  .etikett { display: inline-block; background: var(--akzent); color: var(--schiefer); font-weight: 800; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 7px 12px; border-radius: 99px; }
+  .karte { background: var(--tiefgruen); color: var(--creme); border-radius: 28px; padding: 30px 24px; display: grid; gap: 4px; align-content: start; box-shadow: var(--schatten); position: relative; }
+  .karte.top { outline: 4px solid var(--mint); outline-offset: -4px; }
+  .p-name { font-size: 1.5rem; color: var(--creme); }
+  .p-sub { color: var(--auf-dunkel-leise); margin-bottom: 14px; min-height: 2.8em; }
+  .etikett { display: inline-block; background: var(--mint); color: var(--tiefgruen); font-weight: 800; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 7px 12px; border-radius: 99px; }
   .gross { margin-top: 16px; font-size: clamp(2rem, 9vw, 2.75rem); font-weight: 800; letter-spacing: -0.045em; line-height: 1.02; }
-  .betrag { color: var(--akzent); }
-  .pro { font-size: 0.4em; letter-spacing: -0.01em; font-weight: 700; color: #CBD0D5; }
-  .danach { margin-top: 10px; color: #CBD0D5; }
-  .danach strong { color: #fff; }
-  .haken { list-style: none; margin: 24px 0; padding: 22px 0 0; border-top: 1px solid rgba(255, 255, 255, 0.16); display: grid; gap: 12px; }
+  .betrag { color: var(--mint); }
+  .pro { font-size: 0.4em; letter-spacing: -0.01em; font-weight: 700; color: var(--auf-dunkel-leise); }
+  .danach { margin-top: 10px; color: var(--auf-dunkel-leise); }
+  .danach strong { color: var(--creme); }
+  .haken { list-style: none; margin: 24px 0; padding: 22px 0 0; border-top: 1px solid var(--linie-dunkel); display: grid; gap: 12px; }
   .haken li { display: grid; grid-template-columns: 26px 1fr; gap: 10px; align-items: start; }
-  .haken li::before { content: "✓"; width: 24px; height: 24px; border-radius: 50%; background: var(--gruen); color: #fff; display: grid; place-items: center; font-weight: 800; font-size: 0.8125rem; margin-top: 1px; }
-  .haken .alles::before { content: "+"; background: var(--akzent); color: var(--schiefer); }
+  .haken li::before { content: "✓"; width: 24px; height: 24px; border-radius: 50%; background: var(--erfolg-flaeche); color: var(--creme); display: grid; place-items: center; font-weight: 800; font-size: 0.8125rem; margin-top: 1px; }
+  .haken .alles::before { content: "+"; background: var(--mint); color: var(--tiefgruen); }
   .voll { width: 100%; align-self: end; }
   .countdown { margin-top: 28px; text-align: center; max-width: 520px; margin-inline: auto; }
-  .cd-titel { color: var(--schiefer); font-weight: 700; }
+  .cd-titel { color: var(--tiefgruen); font-weight: 700; }
   .cd { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 12px; }
-  .cd div { background: var(--schiefer); border-radius: 14px; padding: 12px 4px 10px; }
-  .cd b { display: block; font-size: 1.75rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1; font-variant-numeric: tabular-nums; color: var(--akzent); }
-  .cd span { display: block; margin-top: 6px; font-size: 0.75rem; color: #AEB5BC; text-transform: uppercase; letter-spacing: 0.08em; }
+  .cd div { background: var(--tiefgruen); border-radius: 14px; padding: 12px 4px 10px; }
+  .cd b { display: block; font-size: 1.75rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1; font-variant-numeric: tabular-nums; color: var(--mint); }
+  .cd span { display: block; margin-top: 6px; font-size: 0.75rem; color: var(--auf-dunkel-leise); text-transform: uppercase; letter-spacing: 0.08em; }
   .klein { margin-top: 22px; font-size: 0.875rem; color: var(--grau); text-align: center; }
   @media (min-width: 900px) {
     .pakete { grid-template-columns: 1fr 1fr; gap: 28px; align-items: stretch; }

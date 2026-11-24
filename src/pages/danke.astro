@@ -11,8 +11,8 @@ import { kontakt, telHref, whatsappHref } from "../config";
       <p class="lead">Ich rufe Sie {kontakt.antwortFrist} zurück. Ihre Angaben sind bei mir angekommen.</p>
       <p class="lead">Es eilt? Ich bin auch direkt erreichbar ({kontakt.zeiten}):</p>
       <div class="knoepfe">
-        <a class="btn btn-gelb btn-gross" href={telHref}>Jetzt anrufen: {kontakt.telefon}</a>
-        <a class="btn btn-rand btn-gross" href={whatsappHref} target="_blank" rel="noopener">WhatsApp schreiben</a>
+        <a class="btn btn-primaer btn-gross" href={telHref}>Jetzt anrufen: {kontakt.telefon}</a>
+        <a class="btn btn-zweit btn-gross" href={whatsappHref} target="_blank" rel="noopener">WhatsApp schreiben</a>
       </div>
       <p class="zurueck"><a class="textlink" href="/">Zurück zur Startseite</a></p>
     </div>
@@ -22,7 +22,7 @@ import { kontakt, telHref, whatsappHref } from "../config";
 <style>
   .danke { min-height: 70vh; }
   .wrap { max-width: 720px; }
-  .haken { width: 76px; height: 76px; border-radius: 50%; background: var(--gruen); color: #fff; display: grid; place-items: center; font-size: 2.25rem; font-weight: 800; margin-bottom: 28px; }
+  .haken { width: 76px; height: 76px; border-radius: 50%; background: var(--erfolg); color: var(--creme); display: grid; place-items: center; font-size: 2.25rem; font-weight: 800; margin-bottom: 28px; }
   h1 { font-size: clamp(2.5rem, 10vw, 4.5rem); }
   .lead { margin-top: 18px; font-size: 1.1875rem; color: var(--grau); max-width: 44ch; }
   .knoepfe { display: grid; gap: 12px; margin-top: 24px; max-width: 460px; }

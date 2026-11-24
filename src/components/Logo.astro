@@ -1,10 +1,10 @@
 ---
-// Logo: kleines gelbes Quadrat + Name. Der Name kommt aus src/config.ts.
+// Logo: kleines Mint-Quadrat mit dünnem Tiefgrün-Rand + Name. Der Name kommt aus src/config.ts.
 import { marke } from "../config";
 ---
 <span class="logo"><span class="logo-q" aria-hidden="true"></span>{marke.name}</span>
 <style>
   .logo { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.25rem; letter-spacing: -0.03em; }
-  .logo-q { width: 18px; height: 18px; border-radius: 5px; background: var(--akzent); box-shadow: 0 0 0 3px var(--schiefer); margin-right: 3px; }
-  :global(.dunkel) .logo-q { box-shadow: 0 0 0 3px var(--schiefer-hell); }
+  .logo-q { width: 18px; height: 18px; border-radius: 5px; background: var(--mint); box-shadow: 0 0 0 1.5px var(--tiefgruen); margin-right: 2px; }
+  :global(.dunkel) .logo-q { box-shadow: 0 0 0 1.5px var(--creme); }
 </style>

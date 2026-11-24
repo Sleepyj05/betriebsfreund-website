@@ -3,26 +3,37 @@
    Alle Farben und Maße als Tokens an EINER Stelle.
    ============================================================ */
 :root {
-  --schiefer: #232B33;
-  --schiefer-hell: #323C46;
-  --papier: #f4f1ea;
-  --karte: #ffffff;
-  --akzent: #E2A978;
-  --gruen: #1fa971;
-  --rot: #e5484d;
-  --grau: #5e6678;
-  --linie: #dcd8cd;
-  --karte-grau: #ebe8e0;
+  /* --- Farben: "Tiefgrün und Mint". Nur hier definieren, überall sonst nur var(--…) benutzen. --- */
+  --papier: #F4F1EA;            /* Seitenhintergrund (Beige) */
+  --creme: #FBF9F4;             /* Karten und Flächen (kein reines Weiß) */
+  --sand: #E9DDC9;              /* abgesetzte Bereiche */
+  --sand-linie: #D9CAAE;        /* Trennlinien */
+  --tiefgruen: #1E4D40;         /* Haupttext, Überschriften, dunkle Flächen */
+  --tiefgruen-hell: #2A6655;    /* Verlauf im Handy, Flächen auf Dunkel */
+  --mint: #A8D5BA;              /* Signalfarbe: Hauptbutton, Marker, Angebot, aktive Zustände */
+  --mint-dunkel: #8FC7A6;       /* Hover des Hauptbuttons */
+  --mint-hell: #DCEBDF;         /* sehr heller Mint-Ton für Hervorhebungen */
+  --grau: #6B6259;              /* Zweittext (warmes Grau) */
+  --grau-auf-sand: #5A5249;     /* Zweittext auf Sand (dunkler, damit Kontrast stimmt) */
+  --grau-mittel: #766C62;       /* neutrale Symbole */
+  --erfolg: #2E8B5E;            /* Häkchen, "besetzt" (Symbole) */
+  --erfolg-dunkel: #1F6A45;     /* Erfolg als Text auf hellem Grund */
+  --erfolg-flaeche: #256F4C;    /* Erfolg als Fläche mit hellem Text */
+  --fehler: #C94A4A;            /* Problem/Ausfall, sparsam */
+  --fehler-dunkel: #A53A3A;     /* Fehler als Text auf hellem Grund */
+  --auf-dunkel-leise: #D4DBD2;  /* Zweittext auf Tiefgrün */
+  --linie-dunkel: color-mix(in srgb, var(--creme) 18%, transparent); /* Linien auf Tiefgrün */
+  --handy-rahmen: #14352D;      /* Rahmen des Handy-Mockups */
 
   --radius: 20px;
   --radius-klein: 12px;
   --max: 1120px;
   --rand: 20px; /* seitlicher Abstand am Handy */
   --abschnitt: clamp(64px, 11vw, 120px);
-  --leiste-h: 76px; /* Höhe des festen Balkens am Handy */
+  --leiste-h: 88px; /* Höhe des festen Balkens am Handy */
 
   --schrift: "Inter Variable", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --schatten: 0 10px 18px -12px rgba(35, 43, 51, 0.4);
+  --schatten: 0 10px 18px -12px color-mix(in srgb, var(--tiefgruen) 45%, transparent);
 }
 
 *,
@@ -38,7 +49,7 @@ html {
 body {
   margin: 0;
   background: var(--papier);
-  color: var(--schiefer);
+  color: var(--tiefgruen);
   font-family: var(--schrift);
   font-size: 1.0625rem;
   line-height: 1.55;
@@ -80,12 +91,12 @@ h3 {
 }
 
 :focus-visible {
-  outline: 3px solid var(--schiefer);
+  outline: 3px solid var(--tiefgruen);
   outline-offset: 3px;
   border-radius: 6px;
 }
 .dunkel :focus-visible {
-  outline-color: var(--akzent);
+  outline-color: var(--mint);
 }
 [hidden] {
   display: none !important;
@@ -103,8 +114,8 @@ h3 {
   left: 12px;
   top: -60px;
   z-index: 100;
-  background: var(--schiefer);
-  color: #fff;
+  background: var(--tiefgruen);
+  color: var(--creme);
   padding: 10px 16px;
   border-radius: 10px;
   font-weight: 700;
@@ -128,15 +139,15 @@ h3 {
 
 /* Textmarker wie auf dem Flyer */
 .mark {
-  background: linear-gradient(transparent 60%, var(--akzent) 60%, var(--akzent) 92%, transparent 92%);
+  background: linear-gradient(transparent 66%, var(--mint) 66%, var(--mint) 94%, transparent 94%);
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
   padding-inline: 0.08em;
   margin-inline: -0.08em;
 }
 .dunkel .mark {
-  color: var(--schiefer);
-  background: var(--akzent);
+  color: var(--tiefgruen);
+  background: var(--mint);
   padding: 0.02em 0.14em;
   border-radius: 4px;
 }
@@ -149,69 +160,75 @@ h3 {
   color: var(--grau);
 }
 
-/* ---------- Buttons: mind. 44 px hoch ---------- */
+/* ---------- Buttons ----------
+   Hauptbutton (Mint): bewusst groß (mind. 56 px, im Hero 64 px), damit er trotz weicher Farbe sofort auffällt. */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  min-height: 52px;
-  padding: 0 26px;
+  min-height: 56px;
+  padding: 0 28px;
   border-radius: 14px;
-  border: 2px solid transparent;
+  border: 1.5px solid transparent;
   font: inherit;
   font-weight: 800;
   font-size: 1.0625rem;
   letter-spacing: -0.01em;
   text-decoration: none;
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
 }
-.btn-gelb {
-  background: var(--akzent);
-  color: var(--schiefer);
-  
+.btn-primaer {
+  background: var(--mint);
+  color: var(--tiefgruen);
 }
-.btn-gelb:hover {
+.btn-primaer:hover {
+  background: var(--mint-dunkel);
   transform: translateY(-1px);
 }
-.btn-gelb:active {
+.btn-primaer:active {
   transform: translateY(1px);
 }
-.btn-rand {
+.btn-zweit {
   background: transparent;
-  color: var(--schiefer);
-  border-color: var(--schiefer);
+  color: var(--tiefgruen);
+  border-color: var(--tiefgruen);
 }
-.btn-rand:hover {
-  background: var(--schiefer);
-  color: #fff;
+.btn-zweit:hover {
+  background: var(--tiefgruen);
+  color: var(--creme);
 }
-.dunkel .btn-rand {
-  color: #fff;
-  border-color: rgba(255, 255, 255, 0.5);
+.dunkel .btn-zweit {
+  color: var(--creme);
+  border-color: var(--creme);
 }
-.dunkel .btn-rand:hover {
-  background: #fff;
-  color: var(--schiefer);
+.dunkel .btn-zweit:hover {
+  background: var(--creme);
+  color: var(--tiefgruen);
 }
 .btn-gross {
-  min-height: 60px;
-  padding: 0 32px;
+  min-height: 64px;
+  padding: 0 34px;
   font-size: 1.125rem;
+}
+/* Abgesetzter Bereich (Sand) */
+.abgesetzt {
+  background: var(--sand);
+  --grau: var(--grau-auf-sand);
 }
 .textlink {
   font-weight: 700;
-  color: var(--schiefer);
+  color: var(--tiefgruen);
   text-underline-offset: 4px;
   text-decoration-thickness: 2px;
-  text-decoration-color: var(--akzent);
+  text-decoration-color: var(--mint);
   display: inline-flex;
   align-items: center;
   min-height: 44px;
 }
 .textlink:hover {
-  text-decoration-color: var(--schiefer);
+  text-decoration-color: var(--tiefgruen);
 }
 
 /* ---------- Weiches Einblenden beim Scrollen (nur mit JavaScript) ---------- */
