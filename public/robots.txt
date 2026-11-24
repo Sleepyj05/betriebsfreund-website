@@ -3,4 +3,4 @@ Allow: /
 Disallow: /danke
 
 # Adresse beim Domain-Wechsel anpassen
-Sitemap: https://ablaufklar.de/sitemap-index.xml
+Sitemap: https://betriebsfreund.de/sitemap-index.xml

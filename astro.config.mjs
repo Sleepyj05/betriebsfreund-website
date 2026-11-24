@@ -3,7 +3,7 @@ import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
-  site: "https://ablaufklar.de", // MUSS mit src/config.ts → seite.url übereinstimmen
+  site: "https://betriebsfreund.de", // MUSS mit src/config.ts → seite.url übereinstimmen
   output: "static",
   trailingSlash: "never",
   build: { format: "file" }, // /demo statt /demo/index.html → saubere URLs auch ohne Weiterleitung

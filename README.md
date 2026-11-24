@@ -39,7 +39,7 @@ npm run build      # fertige Seite im Ordner dist/
 
 ## Name und Marke
 
-- **Ablaufklar** ist die Dach-Marke (Dienstplan, KI, Optimierung). **Schichtklar** bleibt der Name der Dienstplan-App (steht so auf dem Flyer). Beides in `src/config.ts` (`marke`, `produkt`).
+- **Betriebsfreund** ist die Dach-Marke (Dienstplan, KI, Optimierung). **Schichtklar** bleibt der Name der Dienstplan-App (steht so auf dem Flyer). Beides in `src/config.ts` (`marke`, `produkt`).
 - Vorschaubild für WhatsApp/Google: `public/og.png`, erzeugt aus `tools/og.html` (mit Chrome: `chrome --headless --window-size=1200,630 --screenshot=public/og.png tools/og.html`).
 - Über-mich-Foto: Platzhalter in `src/components/About.astro`, Texte in [ECKIGEN KLAMMERN] selbst ausfüllen.
 - Kundenstimmen: `kundenstimmen` in `src/config.ts` füllen, dann erscheint der Bereich automatisch.

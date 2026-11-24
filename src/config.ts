@@ -7,25 +7,25 @@
  * Stellen mit [ECKIGEN KLAMMERN] sind Platzhalter, die Sie selbst ausfüllen müssen.
  */
 
-/** MARKE (Dach): der Name der Firma/Website. "Abläufe klar" – passt zu Dienstplan, KI und Optimierung. */
+/** MARKE (Dach): der Name der Firma/Website. Der Freund des Betriebs: hilft bei Dienstplan, KI und Optimierung. */
 export const marke = {
-  name: "Ablaufklar",
-  slogan: "Weniger Chaos im Betrieb. Dienstplan, KI und Optimierung aus Köln.",
+  name: "Betriebsfreund",
+  slogan: "Der Freund Ihres Betriebs. Dienstplan, KI und Optimierung aus Köln.",
 };
 
 /** PRODUKT: die Dienstplan-App. Heißt weiter "Schichtklar" (steht so auf dem Flyer). */
 export const produkt = {
   name: "Schichtklar",
   /** Titel-Tag der Startseite */
-  titel: "Ablaufklar Köln | Dienstplan, KI und Optimierung für Betriebe",
+  titel: "Betriebsfreund Köln | Dienstplan, KI und Optimierung für Betriebe",
   /** Beschreibung für Google und Link-Vorschauen (max. 155 Zeichen) */
   beschreibung:
-    "Ablaufklar aus Köln: Dienstplan-App Schichtklar, KI im Alltag und einfachere Abläufe für Gastro, Handel und Dienstleister. Persönlich, verständlich.",
+    "Betriebsfreund aus Köln: Dienstplan-App Schichtklar, KI im Alltag und einfachere Abläufe für Gastro, Handel und Dienstleister. Persönlich, verständlich.",
 };
 
 export const seite = {
   /** Endgültige Adresse der Website (ohne Schrägstrich am Ende). Auch in astro.config.mjs anpassen! */
-  url: "https://ablaufklar.de",
+  url: "https://betriebsfreund.de",
   sprache: "de",
 };
 
@@ -35,8 +35,8 @@ export const kontakt = {
   telefon: "0221 123 456 78",
   /** WhatsApp-Nummer nur mit Ziffern, mit Ländervorwahl ohne + und ohne Null (49 = Deutschland) */
   whatsapp: "4922112345678",
-  whatsappText: "Hallo Daniel, ich interessiere mich für Ablaufklar.",
-  email: "kontakt@ablaufklar.de", // [BITTE AUSFÜLLEN] echte E-Mail-Adresse
+  whatsappText: "Hallo Daniel, ich interessiere mich für Betriebsfreund.",
+  email: "kontakt@betriebsfreund.de", // [BITTE AUSFÜLLEN] echte E-Mail-Adresse
   zeiten: "Mo–Fr, 9–16 Uhr",
   ort: "Köln",
   /** Vollständige Anschrift (für Impressum und Footer) – Platzhalter aus dem Flyer */
@@ -46,7 +46,7 @@ export const kontakt = {
 };
 
 /** Link zum Demo-Modus der App. Leer lassen, solange es ihn nicht gibt → Button führt dann zum Formular. */
-export const demoUrl = ""; // z. B. "https://app.ablaufklar.de" ([BITTE AUSFÜLLEN])
+export const demoUrl = ""; // z. B. "https://app.betriebsfreund.de" ([BITTE AUSFÜLLEN])
 
 export const preise = {
   /** Aktionspreis. Nach "bis" blendet sich das Angebot automatisch aus (echter Countdown, kein Neustart). */
