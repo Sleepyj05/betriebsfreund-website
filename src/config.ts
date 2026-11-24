@@ -99,7 +99,9 @@ export const preise = {
     },
   ],
   /** Zusatz hinter dem Preis */
-  zusatz: "pro Monat · monatlich kündbar",
+  zusatz: "pro Monat · 6 Monate Mindestlaufzeit, danach monatlich kündbar",
+  /** Kurzform für Hinweiszeilen. [BITTE RECHTLICH PRÜFEN] */
+  laufzeitKurz: "6 Monate Laufzeit, danach monatlich kündbar",
   /** Obergrenze Mitarbeiter im Preis. null = keine Grenze nennen. [BITTE FESTLEGEN] */
   maxMitarbeiter: null as number | null,
   /** "kleinunternehmer" → „Gemäß § 19 UStG …“, "mwst" → „Alle Preise zzgl. MwSt.“ */
