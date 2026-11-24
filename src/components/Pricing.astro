@@ -17,7 +17,7 @@ const alle = preise.pakete;
   data-bis={g.bis}>
   <div class:list={["wrap", { kompakt }]}>
     {!kompakt && <h2 id="preise-titel" class="reveal preis-h2">Ein Preis. Für Ihren <span class="mark">ganzen Betrieb.</span></h2>}
-    {!kompakt && <p class="lead reveal">Zwei Pakete, 6 Monate Mindestlaufzeit, danach monatlich kündbar. Im Dezember mit Angebotspreis.</p>}
+    {!kompakt && <p class="lead reveal">Zwei Pakete, beide monatlich kündbar. Im Dezember mit Angebotspreis.</p>}
 
     <div class="pakete">
       {alle.map((p, i) => (
@@ -34,7 +34,7 @@ const alle = preise.pakete;
           </div>
           <div data-regulaer-block hidden={gruenderAktivBeimBau}>
             <p class="gross"><span class="betrag" data-regulaer-gross>{p.regulaer}</span> <span class="pro">pro Monat</span></p>
-            <p class="danach">6 Monate Mindestlaufzeit, danach monatlich kündbar</p>
+            <p class="danach">monatlich kündbar · keine Mindestlaufzeit</p>
           </div>
 
           <ul class="haken">
