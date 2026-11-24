@@ -49,30 +49,30 @@
     margin-inline: auto;
     position: relative;
     border-radius: 3.1em;
-    border: 0.62em solid #0a1428;
-    background: linear-gradient(170deg, var(--navy-hell) 0%, var(--navy) 100%);
+    border: 0.62em solid #14191E;
+    background: linear-gradient(170deg, var(--schiefer-hell) 0%, var(--schiefer) 100%);
     box-shadow: var(--schatten);
     overflow: hidden;
     text-align: left;
     color: #fff;
   }
-  .phone-notch { position: absolute; top: 0.75em; left: 50%; translate: -50% 0; width: 6.2em; height: 1.7em; border-radius: 1em; background: #0a1428; z-index: 2; }
+  .phone-notch { position: absolute; top: 0.75em; left: 50%; translate: -50% 0; width: 6.2em; height: 1.7em; border-radius: 1em; background: #14191E; z-index: 2; }
   .screen { padding: 3.2em 0.9em 1em; }
   .zeit { margin: 0; text-align: center; font-size: 4.2em; font-weight: 300; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
-  .tag { margin: 0.5em 0 2em; text-align: center; font-size: 1em; color: #c3cde0; }
+  .tag { margin: 0.5em 0 2em; text-align: center; font-size: 1em; color: #C4CBD1; }
   .meldungen { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.7em; }
 
-  .n { display: grid; grid-template-columns: auto 1fr auto; gap: 0.75em; align-items: start; background: rgba(255, 255, 255, 0.96); color: var(--navy); border-radius: 1.1em; padding: 0.85em 0.9em;  }
+  .n { display: grid; grid-template-columns: auto 1fr auto; gap: 0.75em; align-items: start; background: rgba(255, 255, 255, 0.96); color: var(--schiefer); border-radius: 1.1em; padding: 0.85em 0.9em;  }
   .ico { width: 2.1em; height: 2.1em; border-radius: 0.6em; display: grid; place-items: center; font-weight: 800; font-size: 1em; color: #fff; flex: none; }
-  .ico.rot { background: var(--rot); } .ico.gruen { background: var(--gruen); } .ico.navy { background: var(--navy); }
+  .ico.rot { background: var(--rot); } .ico.gruen { background: var(--gruen); } .ico.navy { background: var(--schiefer); }
   .txt { display: grid; gap: 0.1em; min-width: 0; line-height: 1.25; }
   .txt strong { font-weight: 800; font-size: 1em; letter-spacing: -0.01em; }
   .txt span { font-size: 0.93em; color: var(--grau); }
   time { font-size: 0.8em; color: var(--grau); padding-top: 0.15em; white-space: nowrap; }
 
-  .freigeben { margin-top: 0.6em; justify-self: start; min-height: max(2.5em, 44px); padding: 0 1.3em; border: 0; border-radius: 99px; background: var(--gelb); color: var(--navy); font: inherit; font-weight: 800; font-size: 0.98em; cursor: pointer; position: relative; }
+  .freigeben { margin-top: 0.6em; justify-self: start; min-height: max(2.5em, 44px); padding: 0 1.3em; border: 0; border-radius: 99px; background: var(--akzent); color: var(--schiefer); font: inherit; font-weight: 800; font-size: 0.98em; cursor: pointer; position: relative; }
   .freigeben:hover { filter: brightness(0.97); }
-  .freigeben::after { content: ""; position: absolute; inset: -0.3em; border-radius: 99px; border: 2px solid var(--gelb); opacity: 0; animation: puls 1.8s ease-out 4.4s 3; }
+  .freigeben::after { content: ""; position: absolute; inset: -0.3em; border-radius: 99px; border: 2px solid var(--akzent); opacity: 0; animation: puls 1.8s ease-out 4.4s 3; }
   /* Hinweis: Das Tippziel ist optisch kompakt, aber durch ::after und Zeilenhöhe mind. 44 px (bei Phone-Breite ≥ 260 px). */
 
   /* Erfolgszustand */
@@ -83,7 +83,7 @@
   .n3.fertig .txt strong { font-size: 1.1em; }
 
   .hinweis { margin: 1.4rem auto 0; text-align: center; color: var(--grau); font-size: 0.9375rem; min-height: 3em; }
-  .nochmal { background: none; border: 0; padding: 0 0 0 4px; min-height: 44px; font: inherit; font-weight: 700; color: var(--navy); text-decoration: underline; text-decoration-color: var(--gelb); text-decoration-thickness: 2px; text-underline-offset: 4px; cursor: pointer; }
+  .nochmal { background: none; border: 0; padding: 0 0 0 4px; min-height: 44px; font: inherit; font-weight: 700; color: var(--schiefer); text-decoration: underline; text-decoration-color: var(--akzent); text-decoration-thickness: 2px; text-underline-offset: 4px; cursor: pointer; }
 
   /* Benachrichtigungen erscheinen nacheinander (nur wenn Bewegung erlaubt ist, siehe global.css) */
   .n { animation: rein 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) var(--d) both; }

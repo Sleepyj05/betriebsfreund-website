@@ -46,8 +46,8 @@ const sym: Record<string, string> = { yes: "✓", mid: "~", no: "✕" };
   .vgl td { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid var(--linie); font-weight: 600; }
   .vgl td::before { content: attr(data-label); color: var(--grau); font-weight: 500; font-size: 0.9375rem; }
   .vgl td .s { display: none; }
-  .vgl td.wir { background: #fff4cf; margin: 0 -18px; padding-inline: 18px; border-radius: 0 0 var(--radius) var(--radius); border-top-color: transparent; }
-  .vgl .yes { color: #0b6b45; } .vgl .no { color: #b3262b; } .vgl .mid { color: #6b5a14; }
+  .vgl td.wir { background: #F6E7D8; margin: 0 -18px; padding-inline: 18px; border-radius: 0 0 var(--radius) var(--radius); border-top-color: transparent; }
+  .vgl .yes { color: #0b6b45; } .vgl .no { color: #b3262b; } .vgl .mid { color: #6B5528; }
   .fein { margin-top: 14px; font-size: 0.875rem; color: var(--grau); }
   @media (min-width: 900px) {
     .vgl thead { display: table-header-group; }
@@ -55,11 +55,11 @@ const sym: Record<string, string> = { yes: "✓", mid: "~", no: "✕" };
     .vgl th, .vgl td { display: table-cell; padding: 18px 16px; border-top: 1px solid var(--linie); text-align: left; vertical-align: middle; }
     .vgl td::before { content: none; }
     .vgl td .s { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; font-size: 0.8rem; font-weight: 800; margin-right: 8px; color: #fff; }
-    .vgl .yes .s { background: var(--gruen); } .vgl .no .s { background: var(--rot); } .vgl .mid .s { background: #8a7a2e; }
+    .vgl .yes .s { background: var(--gruen); } .vgl .no .s { background: var(--rot); } .vgl .mid .s { background: #8A7448; }
     .vgl thead th { border-top: 0; font-size: 0.9375rem; font-weight: 800; color: var(--grau); }
-    .vgl thead th.wir { background: var(--navy); color: var(--gelb); border-radius: 16px 16px 0 0; }
+    .vgl thead th.wir { background: var(--schiefer); color: var(--akzent); border-radius: 16px 16px 0 0; }
     .vgl th[scope="row"] { margin: 0; font-size: 1rem; }
-    .vgl td.wir { background: #fff4cf; margin: 0; padding-inline: 16px; border-radius: 0; border-top: 1px solid var(--linie); }
+    .vgl td.wir { background: #F6E7D8; margin: 0; padding-inline: 16px; border-radius: 0; border-top: 1px solid var(--linie); }
     .vgl tbody tr:last-child td.wir { border-radius: 0 0 16px 16px; }
   }
 </style>

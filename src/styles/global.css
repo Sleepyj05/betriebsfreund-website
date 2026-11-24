@@ -3,11 +3,11 @@
    Alle Farben und Maße als Tokens an EINER Stelle.
    ============================================================ */
 :root {
-  --navy: #13233f;
-  --navy-hell: #1c3157;
+  --schiefer: #232B33;
+  --schiefer-hell: #323C46;
   --papier: #f4f1ea;
   --karte: #ffffff;
-  --gelb: #ffc530;
+  --akzent: #E2A978;
   --gruen: #1fa971;
   --rot: #e5484d;
   --grau: #5e6678;
@@ -22,7 +22,7 @@
   --leiste-h: 76px; /* Höhe des festen Balkens am Handy */
 
   --schrift: "Inter Variable", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --schatten: 0 10px 18px -12px rgba(19, 35, 63, 0.4);
+  --schatten: 0 10px 18px -12px rgba(35, 43, 51, 0.4);
 }
 
 *,
@@ -38,7 +38,7 @@ html {
 body {
   margin: 0;
   background: var(--papier);
-  color: var(--navy);
+  color: var(--schiefer);
   font-family: var(--schrift);
   font-size: 1.0625rem;
   line-height: 1.55;
@@ -80,12 +80,12 @@ h3 {
 }
 
 :focus-visible {
-  outline: 3px solid var(--navy);
+  outline: 3px solid var(--schiefer);
   outline-offset: 3px;
   border-radius: 6px;
 }
 .dunkel :focus-visible {
-  outline-color: var(--gelb);
+  outline-color: var(--akzent);
 }
 [hidden] {
   display: none !important;
@@ -103,7 +103,7 @@ h3 {
   left: 12px;
   top: -60px;
   z-index: 100;
-  background: var(--navy);
+  background: var(--schiefer);
   color: #fff;
   padding: 10px 16px;
   border-radius: 10px;
@@ -128,15 +128,15 @@ h3 {
 
 /* Textmarker wie auf dem Flyer */
 .mark {
-  background: linear-gradient(transparent 60%, var(--gelb) 60%, var(--gelb) 92%, transparent 92%);
+  background: linear-gradient(transparent 60%, var(--akzent) 60%, var(--akzent) 92%, transparent 92%);
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
   padding-inline: 0.08em;
   margin-inline: -0.08em;
 }
 .dunkel .mark {
-  color: var(--navy);
-  background: var(--gelb);
+  color: var(--schiefer);
+  background: var(--akzent);
   padding: 0.02em 0.14em;
   border-radius: 4px;
 }
@@ -168,8 +168,8 @@ h3 {
   transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
 }
 .btn-gelb {
-  background: var(--gelb);
-  color: var(--navy);
+  background: var(--akzent);
+  color: var(--schiefer);
   
 }
 .btn-gelb:hover {
@@ -180,11 +180,11 @@ h3 {
 }
 .btn-rand {
   background: transparent;
-  color: var(--navy);
-  border-color: var(--navy);
+  color: var(--schiefer);
+  border-color: var(--schiefer);
 }
 .btn-rand:hover {
-  background: var(--navy);
+  background: var(--schiefer);
   color: #fff;
 }
 .dunkel .btn-rand {
@@ -193,7 +193,7 @@ h3 {
 }
 .dunkel .btn-rand:hover {
   background: #fff;
-  color: var(--navy);
+  color: var(--schiefer);
 }
 .btn-gross {
   min-height: 60px;
@@ -202,16 +202,16 @@ h3 {
 }
 .textlink {
   font-weight: 700;
-  color: var(--navy);
+  color: var(--schiefer);
   text-underline-offset: 4px;
   text-decoration-thickness: 2px;
-  text-decoration-color: var(--gelb);
+  text-decoration-color: var(--akzent);
   display: inline-flex;
   align-items: center;
   min-height: 44px;
 }
 .textlink:hover {
-  text-decoration-color: var(--navy);
+  text-decoration-color: var(--schiefer);
 }
 
 /* ---------- Weiches Einblenden beim Scrollen (nur mit JavaScript) ---------- */

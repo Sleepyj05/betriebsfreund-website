@@ -10,7 +10,7 @@ import { kontakt, telHref, demoLink } from "../config";
     <div class="hero-text">
       <p class="marke"><span class="marke-q" aria-hidden="true"></span>Schichtklar · die Dienstplan-App von Betriebsfreund</p>
       <h1 id="hero-titel">Mia ist krank.</h1>
-      <p class="unter">Sie erfahren es erst, <span class="mark">wenn Jonas die Schicht schon übernommen hat.</span></p>
+      <p class="unter">Die App findet Ersatz. <span class="mark">Sie entscheiden mit einem Tipp.</span></p>
       <p class="klein">Die Dienstplan-App für jeden Betrieb, von Gastro bis Handel.</p>
       <div class="aktionen">
         <a href="/#kontakt" class="btn btn-gelb btn-gross">Demo in 2 Minuten ansehen</a>
@@ -43,10 +43,10 @@ import { kontakt, telHref, demoLink } from "../config";
   .hero { padding-block: 28px 56px; overflow-x: clip; }
   .hero-in { display: grid; gap: 36px; }
   .marke { display: inline-flex; align-items: center; gap: 10px; background: var(--karte); border-radius: 99px; padding: 8px 16px 8px 12px; font-weight: 700; font-size: 0.875rem; margin-bottom: 20px; }
-  .marke-q { width: 12px; height: 12px; border-radius: 3px; background: var(--gelb); box-shadow: 0 0 0 2px var(--navy); }
+  .marke-q { width: 12px; height: 12px; border-radius: 3px; background: var(--akzent); box-shadow: 0 0 0 2px var(--schiefer); }
   h1 { font-size: clamp(3rem, 13.5vw, 5.25rem); line-height: 0.98; letter-spacing: -0.045em; }
   .unter { margin-top: 18px; font-size: clamp(1.375rem, 5.2vw, 2rem); font-weight: 700; letter-spacing: -0.025em; line-height: 1.22; color: var(--grau); }
-  .unter .mark { color: var(--navy); font-weight: 800; }
+  .unter .mark { color: var(--schiefer); font-weight: 800; }
   .klein { margin-top: 18px; color: var(--grau); font-size: 1rem; }
   .aktionen { margin-top: 26px; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
   .aktionen .btn { width: 100%; }
@@ -59,7 +59,7 @@ import { kontakt, telHref, demoLink } from "../config";
   .person { position: absolute; left: -18px; bottom: 74px; width: min(62vw, 330px); margin: 0; z-index: 2; pointer-events: none; }
   /* Unterkante weich ausblenden, damit das Foto nicht hart abgeschnitten wirkt */
   .person :global(img) { width: 100%; height: auto; -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%); mask-image: linear-gradient(to bottom, #000 78%, transparent 100%); }
-  .ki { position: absolute; left: 22px; bottom: 6px; background: var(--navy); color: #fff; font-weight: 700; font-size: 0.875rem; padding: 7px 14px; border-radius: 99px; pointer-events: auto; }
+  .ki { position: absolute; left: 22px; bottom: 6px; background: var(--schiefer); color: #fff; font-weight: 700; font-size: 0.875rem; padding: 7px 14px; border-radius: 99px; pointer-events: auto; }
 
   @media (min-width: 900px) {
     .hero { padding-block: 56px 96px; }
