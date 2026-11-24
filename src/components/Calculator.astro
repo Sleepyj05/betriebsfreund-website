@@ -1,69 +1,197 @@
 ---
-// Abschnitt 7: Rechner. Formel und Annahmen stehen in src/config.ts → rechner (dort dokumentiert, dort änderbar).
+// Rechner + dynamische Grafik: "Was kostet Sie der Dienstplan heute?"
+// Konzentrische dünne Ringe zeigen, wofür die Zeit draufgeht; in der Mitte steht die große Zahl (Euro, darunter Stunden).
+// Beim Darüberfahren (oder Antippen der Legende) zeigt die Mitte den Wert des einzelnen Rings.
+// Formel und Annahmen stehen in src/config.ts → rechner. Stundensatz-Startwert = Mindestlohn (vorsichtige Untergrenze).
 import { rechner as r } from "../config";
+import Foto from "./Foto.astro";
+import hand from "../assets/fotos/hand.jpg";
+
+const rate = r.stundensatz;
+const planH = ((r.standardMitarbeiter * r.planMinProMitarbeiterWoche) / 60) * r.wochenProMonat;
+const ausH = ((r.standardAusfaelle * r.minProAusfall) / 60) * r.wochenProMonat;
+const teile = [
+  { name: "Plan erstellen und verteilen", h: planH },
+  ...r.ausfallAufteilung.map((a) => ({ name: a.name, h: ausH * a.anteil })),
+];
+const gesamt = teile.reduce((s, t) => s + t.h, 0);
+const euro = (v: number) => new Intl.NumberFormat("de-DE", { maximumFractionDigits: 0 }).format(Math.round(v)) + " €";
+const farben = ["var(--tiefgruen)", "var(--erfolg)", "var(--mint-dunkel)", "var(--fehler)"];
+const radien = [142, 116, 90, 64];
+const schreibe = (h: number) => (h < 10 ? h.toFixed(1).replace(".", ",") : String(Math.round(h)));
 ---
-<section class="abschnitt" id="rechner" aria-labelledby="rechner-titel">
+<section class="abschnitt rechner-sec" id="rechner" aria-labelledby="rechner-titel">
+  <Foto bild={hand} ort="oben-rechts" alt="" />
   <div class="wrap">
-    <h2 id="rechner-titel" class="reveal">Was kostet Sie der Dienstplan <span class="mark">heute?</span></h2>
-    <p class="lead reveal">Schieben Sie die Regler auf Ihren Betrieb. Sie sehen, wie viel Zeit Planung, Anrufe und Abstimmung im Monat kosten.</p>
+    <p class="eyebrow reveal">Rechenbeispiel</p>
+    <h2 id="rechner-titel" class="reveal">Ihr Dienstplan kostet Sie mindestens <span class="gross" data-h2>{euro(gesamt * rate)}</span> <span class="im">im Monat.</span></h2>
+    <p class="lead reveal">So viel Zeit gehen für Plan, Anrufe und Absprachen drauf. Schieben Sie die Regler auf Ihren Betrieb. Als Wert Ihrer Stunde rechnen wir vorsichtig mit dem Mindestlohn.</p>
 
-    <div class="rechner reveal" data-rechner data-plan={r.planMinProMitarbeiterWoche} data-ausfall={r.minProAusfall} data-wochen={r.wochenProMonat}>
-      <div class="regler">
-        <label for="r-ma">Anzahl Mitarbeiter: <b data-out="ma">{r.standardMitarbeiter}</b></label>
-        <input id="r-ma" type="range" min="3" max="60" step="1" value={r.standardMitarbeiter} data-in="ma" />
-      </div>
-      <div class="regler">
-        <label for="r-au">Ausfälle oder Tausche pro Woche: <b data-out="au">{r.standardAusfaelle}</b></label>
-        <input id="r-au" type="range" min="0" max="15" step="1" value={r.standardAusfaelle} data-in="au" />
-      </div>
-      <div class="regler">
-        <label for="r-sa">Ihr Stundensatz: <b><span data-out="sa">{r.stundensatz}</span> €</b></label>
-        <input id="r-sa" type="range" min="10" max="80" step="1" value={r.stundensatz} data-in="sa" />
+    <div class="grid" data-rechner data-plan={r.planMinProMitarbeiterWoche} data-ausfall={r.minProAusfall} data-wochen={r.wochenProMonat}
+      data-anteile={JSON.stringify(r.ausfallAufteilung.map((a) => a.anteil))} data-namen={JSON.stringify(teile.map((t) => t.name))}>
+
+      <div class="karte-regler reveal reveal-l">
+        <div class="regler">
+          <label for="r-ma">Anzahl Mitarbeiter: <b data-out="ma">{r.standardMitarbeiter}</b></label>
+          <input id="r-ma" type="range" min="3" max="60" step="1" value={r.standardMitarbeiter} data-in="ma" />
+        </div>
+        <div class="regler">
+          <label for="r-au">Ausfälle oder Tausche pro Woche: <b data-out="au">{r.standardAusfaelle}</b></label>
+          <input id="r-au" type="range" min="0" max="15" step="1" value={r.standardAusfaelle} data-in="au" />
+        </div>
+        <div class="regler">
+          <label for="r-sa">Wert Ihrer Stunde: <b><span data-out="sa">{String(rate).replace(".", ",")}</span> €</b> <span class="klein">(Mindestlohn 2026: {String(r.mindestlohn).replace(".", ",")} €)</span></label>
+          <input id="r-sa" type="range" min={r.mindestlohn} max="80" step="0.1" value={rate} data-in="sa" />
+        </div>
+
+        <ul class="legende" aria-label="Wofür die Zeit draufgeht (Tippen für Details)">
+          {teile.map((t, i) => (
+            <li>
+              <button type="button" data-ring={i} aria-pressed="false">
+                <i style={`background:${farben[i]}`}></i>
+                <span class="n">{t.name}</span>
+                <b data-leg={i}>{schreibe(t.h)} Std.</b>
+              </button>
+            </li>
+          ))}
+        </ul>
+        <p class="fein">Grobe Schätzung, keine Messung. Angenommen: {r.planMinProMitarbeiterWoche} Min. Planung je Mitarbeiter und Woche, {r.minProAusfall} Min. je Ausfall oder Tausch, die Aufteilung auf die Tätigkeiten ist geschätzt. Ihr Betrieb kann abweichen.</p>
+        <a class="btn btn-primaer" href="/#kontakt">Zeit zurückholen: Demo anfragen</a>
       </div>
 
-      <div class="ergebnis dunkel" aria-live="polite">
-        <p class="e-zeile"><span class="zahl" data-res="std">–</span> <span>Stunden pro Monat für Planung und Abstimmung</span></p>
-        <p class="e-zeile"><span class="zahl signal" data-res="eur">–</span> <span>Kosten Ihrer Zeit pro Monat</span></p>
-      </div>
-      <p class="fein">Grobe Schätzung. Angenommen: {r.planMinProMitarbeiterWoche} Min. Planung je Mitarbeiter und Woche, {r.minProAusfall} Min. je Ausfall oder Tausch. Ihr Betrieb kann abweichen.</p>
-      <a class="btn btn-primaer" href="/#kontakt">Jetzt Demo anfragen</a>
+      <figure class="donut reveal reveal-z">
+        <svg viewBox="0 0 320 320" role="img" aria-label="Ringdiagramm: Wofür im Monat Zeit für den Dienstplan draufgeht. Die Einzelwerte stehen in der Liste links.">
+          {teile.map((t, i) => (
+            <g class="ring" data-ring={i} aria-hidden="true">
+              <circle class="spur" cx="160" cy="160" r={radien[i]} />
+              <circle class="bogen" cx="160" cy="160" r={radien[i]} pathLength="100" style={`stroke:${farben[i]};stroke-dasharray:${(t.h / gesamt) * 100} 100`} data-bogen={i} />
+              <circle class="treffer" cx="160" cy="160" r={radien[i]} />
+            </g>
+          ))}
+        </svg>
+        <figcaption class="mitte" aria-live="polite">
+          <span class="euro" data-mitte="eur">{euro(gesamt * rate)}</span>
+          <span class="sub" data-mitte="sub">≈ {schreibe(gesamt)} Std. im Monat</span>
+        </figcaption>
+      </figure>
     </div>
   </div>
 </section>
 
 <style>
-  .lead { margin-top: 14px; color: var(--grau); max-width: 52ch; font-size: 1.125rem; }
-  .rechner { margin-top: 32px; background: var(--creme); border-radius: 24px; padding: 26px 22px; display: grid; gap: 24px; max-width: 760px; }
-  .regler { display: grid; gap: 10px; }
+  .eyebrow { margin-bottom: 12px; }
+  h2 { max-width: 20ch; }
+  .gross { display: inline-block; background: var(--fehler-dunkel); color: var(--creme); padding: 0.02em 0.2em 0.08em; border-radius: 0.2em; transform: rotate(-1deg); font-size: 1.12em; margin-block: 0.06em; }
+  .im { white-space: nowrap; }
+  .lead { margin-top: 16px; color: var(--grau); max-width: 56ch; font-size: 1.125rem; }
+  .grid { margin-top: 36px; display: grid; gap: 32px; align-items: center; }
+  .karte-regler { background: var(--creme); border-radius: 24px; padding: 26px 22px; display: grid; gap: 22px; align-content: start; }
+  .regler { display: grid; gap: 8px; }
   label { font-weight: 600; }
   label b { font-weight: 800; }
+  .klein { font-weight: 500; color: var(--grau); font-size: 0.8125rem; }
   input[type="range"] { width: 100%; height: 44px; accent-color: var(--tiefgruen); cursor: pointer; background: transparent; }
-  .ergebnis { background: var(--tiefgruen); border-radius: 18px; padding: 22px; display: grid; gap: 14px; color: var(--creme); }
-  .e-zeile { display: grid; gap: 2px; }
-  .zahl { font-size: clamp(2.25rem, 9vw, 3.25rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
-  .signal { color: var(--mint); }
-  .e-zeile span:last-child { color: var(--auf-dunkel-leise); font-size: 0.9375rem; }
-  .fein { font-size: 0.875rem; color: var(--grau); }
-  .rechner .btn { justify-self: start; }
-  @media (min-width: 900px) { .rechner { padding: 40px; } }
+  .legende { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 6px; }
+  .legende button { width: 100%; display: grid; grid-template-columns: 14px 1fr auto; gap: 12px; align-items: center; min-height: 48px; padding: 6px 12px; border: 1.5px solid var(--sand-linie); border-radius: 12px; background: transparent; color: var(--tiefgruen); font: inherit; text-align: left; cursor: pointer; transition: background 0.2s ease, border-color 0.2s ease; }
+  .legende button:hover, .legende button[aria-pressed="true"] { background: var(--mint-hell); border-color: var(--tiefgruen); }
+  .legende i { width: 14px; height: 14px; border-radius: 50%; display: block; }
+  .legende .n { font-weight: 600; font-size: 0.9375rem; line-height: 1.25; }
+  .legende b { font-variant-numeric: tabular-nums; }
+  .fein { font-size: 0.8125rem; color: var(--grau); }
+  .karte-regler .btn { justify-self: start; }
+
+  .donut { margin: 0; position: relative; width: min(100%, 420px); justify-self: center; aspect-ratio: 1; }
+  .donut svg { width: 100%; height: 100%; overflow: visible; }
+  .ring { outline: none; cursor: pointer; }
+  .ring circle { fill: none; transform-origin: 160px 160px; }
+  .spur { stroke: var(--sand); stroke-width: 15; }
+  .bogen { stroke-width: 15; stroke-linecap: round; transform: rotate(-90deg); transition: stroke-dasharray 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.25s ease, stroke-width 0.25s ease; }
+  .treffer { stroke: transparent; stroke-width: 26; pointer-events: stroke; }
+  .ring:focus-visible .bogen { stroke-width: 20; }
+  .donut.aktiv .ring:not(.an) .bogen { opacity: 0.25; }
+  .ring.an .bogen { stroke-width: 21; }
+  .mitte { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; gap: 2px; padding: 22%; pointer-events: none; }
+  .euro { font-size: clamp(2.25rem, 9vw, 3.5rem); font-weight: 800; letter-spacing: -0.045em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .sub { font-size: 0.875rem; font-weight: 600; color: var(--grau); line-height: 1.25; }
+
+  @media (min-width: 960px) { .grid { grid-template-columns: 1fr 1fr; gap: 64px; } .karte-regler { padding: 36px; } .euro { font-size: 3.5rem; } }
 </style>
 
 <script>
-  // Rechnet live; nur Rechnen im Browser, nichts wird gesendet.
+  // Rechnet live, zeichnet die Ringe neu und zeigt beim Darüberfahren die Einzelwerte. Es wird nichts gesendet.
   document.querySelectorAll<HTMLElement>("[data-rechner]").forEach((box) => {
     const plan = Number(box.dataset.plan), ausfall = Number(box.dataset.ausfall), wochen = Number(box.dataset.wochen);
+    const anteile: number[] = JSON.parse(box.dataset.anteile!);
+    const namen: string[] = JSON.parse(box.dataset.namen!);
+    const donut = box.querySelector<HTMLElement>(".donut")!;
+    const sec = box.closest("section")!;
     const val = (k: string) => Number(box.querySelector<HTMLInputElement>(`[data-in="${k}"]`)!.value);
-    const out = (k: string, t: string) => (box.querySelector(`[data-out="${k}"]`)!.textContent = t);
-    const res = (k: string, t: string) => (box.querySelector(`[data-res="${k}"]`)!.textContent = t);
+    const set = (sel: string, t: string, root: ParentNode = box) => { const e = root.querySelector(sel); if (e) e.textContent = t; };
     const nf = new Intl.NumberFormat("de-DE", { maximumFractionDigits: 0 });
-    function rechne() {
-      const ma = val("ma"), au = val("au"), sa = val("sa");
-      const std = ((ma * plan) / 60 + (au * ausfall) / 60) * wochen;
-      out("ma", String(ma)); out("au", String(au)); out("sa", String(sa));
-      res("std", nf.format(Math.round(std)));
-      res("eur", nf.format(Math.round((std * sa) / 10) * 10) + " €");
+    const eur = (v: number) => nf.format(Math.round(v)) + " €";
+    const std = (h: number) => (h < 10 ? h.toFixed(1).replace(".", ",") : String(Math.round(h)));
+    const reduziert = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let teile: number[] = [], gesamt = 0, satz = 0, aktiv: number | null = null;
+    let angezeigt = 0, anim = 0;
+
+    // Zahl in der Mitte weich zählen lassen
+    function zeigeEuro(ziel: number) {
+      cancelAnimationFrame(anim);
+      const start = angezeigt, t0 = performance.now();
+      if (reduziert) { angezeigt = ziel; set('[data-mitte="eur"]', eur(ziel)); return; }
+      const schritt = (t: number) => {
+        const p = Math.min(1, (t - t0) / 450);
+        angezeigt = start + (ziel - start) * (1 - Math.pow(1 - p, 3));
+        set('[data-mitte="eur"]', eur(angezeigt));
+        if (p < 1) anim = requestAnimationFrame(schritt);
+      };
+      anim = requestAnimationFrame(schritt);
     }
+
+    function mitte() {
+      if (aktiv === null) {
+        zeigeEuro(gesamt * satz);
+        set('[data-mitte="sub"]', `≈ ${std(gesamt)} Std. im Monat`);
+      } else {
+        zeigeEuro(teile[aktiv] * satz);
+        set('[data-mitte="sub"]', `${std(teile[aktiv])} Std. · ${namen[aktiv]}`);
+      }
+      donut.classList.toggle("aktiv", aktiv !== null);
+      box.querySelectorAll<SVGElement>(".ring").forEach((g, i) => g.classList.toggle("an", i === aktiv));
+      box.querySelectorAll<HTMLElement>(".legende button").forEach((b, i) => b.setAttribute("aria-pressed", String(i === aktiv)));
+    }
+
+    function rechne() {
+      const ma = val("ma"), au = val("au"); satz = val("sa");
+      const planH = ((ma * plan) / 60) * wochen, ausH = ((au * ausfall) / 60) * wochen;
+      teile = [planH, ...anteile.map((a) => ausH * a)];
+      gesamt = teile.reduce((s, x) => s + x, 0);
+      set('[data-out="ma"]', String(ma)); set('[data-out="au"]', String(au)); set('[data-out="sa"]', String(satz.toFixed(1)).replace(".", ","));
+      teile.forEach((h, i) => {
+        const b = box.querySelector<SVGCircleElement>(`[data-bogen="${i}"]`)!;
+        const anteil = gesamt > 0 ? (h / gesamt) * 100 : 0;
+        b.style.strokeDasharray = `${Math.max(anteil, 0.001)} 100`;
+        set(`[data-leg="${i}"]`, `${std(h)} Std.`);
+      });
+      const h2 = sec.querySelector("[data-h2]"); if (h2) h2.textContent = eur(gesamt * satz);
+      mitte();
+    }
+
+    function waehle(i: number | null) { aktiv = i; mitte(); }
+    box.querySelectorAll<SVGElement>(".ring").forEach((g, i) => {
+      g.addEventListener("mouseenter", () => waehle(i));
+      g.addEventListener("mouseleave", () => waehle(null));
+      g.addEventListener("focus", () => waehle(i));
+      g.addEventListener("blur", () => waehle(null));
+      g.addEventListener("click", () => waehle(aktiv === i ? null : i));
+    });
+    box.querySelectorAll<HTMLElement>(".legende button").forEach((b, i) => {
+      b.addEventListener("mouseenter", () => waehle(i));
+      b.addEventListener("mouseleave", () => { if (b.getAttribute("aria-pressed") !== "true") waehle(null); });
+      b.addEventListener("click", () => waehle(aktiv === i ? null : i));
+    });
     box.querySelectorAll("input").forEach((i) => i.addEventListener("input", rechne));
+    angezeigt = 0;
     rechne();
   });
 </script>

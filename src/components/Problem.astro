@@ -1,6 +1,8 @@
 ---
 // Abschnitt 3: "Ja, das kenne ich"-Moment, aber lösungsorientiert: Jede Karte zeigt das Alltagsproblem UND gleich die Lösung.
 import Icon from "./Icon.astro";
+import Foto from "./Foto.astro";
+import kalender from "../assets/fotos/kalender.jpg";
 const karten = [
   { icon: "chat", problem: "Der Plan hängt als Foto in der WhatsApp-Gruppe und keiner findet die aktuelle Version.", loesung: "Ein Plan, immer aktuell, auf dem Handy jedes Mitarbeiters." },
   { icon: "phone", problem: "Krankmeldung um 6 Uhr. Zehn Anrufe. Keiner geht ran.", loesung: "Die App zeigt sofort, wer einspringen kann. Sie tippen nur auf „Freigeben“." },
@@ -8,6 +10,7 @@ const karten = [
 ];
 ---
 <section class="abschnitt" aria-labelledby="problem-titel">
+  <Foto bild={kalender} ort="rechts" deckkraft={0.32} />
   <div class="wrap">
     <h2 id="problem-titel" class="reveal">Kennen Sie das? <span class="mark">Dafür gibt es eine Lösung.</span></h2>
     <ul class="karten">

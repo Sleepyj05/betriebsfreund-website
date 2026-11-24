@@ -132,8 +132,15 @@ export const rechner = {
   /** Minuten pro Ausfall oder Tausch (Anrufe, Nachrichten, Abstimmen, Plan ändern) */
   minProAusfall: 30,
   wochenProMonat: 4.33,
-  /** Vorgeschlagener Stundensatz des Chefs in € */
-  stundensatz: 25,
+  /** Startwert Stundensatz in €: Mindestlohn als vorsichtige Untergrenze (2026: 13,90 €). Ihre Zeit ist meist mehr wert. */
+  stundensatz: 13.9,
+  mindestlohn: 13.9,
+  /** Aufteilung der Ausfall-Zeit auf drei Tätigkeiten (Summe = 1). Nur eine Schätzung für die Grafik. */
+  ausfallAufteilung: [
+    { name: "Anrufe und Nachrichten", anteil: 0.5 },
+    { name: "Plan umbauen und neu verteilen", anteil: 0.3 },
+    { name: "Nachfragen und Absprachen", anteil: 0.2 },
+  ],
   standardMitarbeiter: 10,
   standardAusfaelle: 3,
 };

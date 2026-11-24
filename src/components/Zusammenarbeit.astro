@@ -2,7 +2,8 @@
 // "So arbeiten wir zusammen": Zeitleiste mit drei Stationen (statt Karten) und Zusagen als Chips.
 // Lösungsorientiert, ohne persönliche Angaben, die erst vor Ort ergänzt werden.
 import Icon from "./Icon.astro";
-import Szene from "./Szene.astro";
+import Foto from "./Foto.astro";
+import plaene from "../assets/fotos/plaene.jpg";
 import { kontakt } from "../config";
 const wege = [
   { titel: "Gespräch", text: "Sie erzählen kurz, wie Ihr Betrieb läuft und wo es hakt. Dann zeige ich Ihnen in wenigen Minuten, wie es einfacher geht." },
@@ -17,7 +18,7 @@ const zusagen = [
 ];
 ---
 <section class="abschnitt" id="zusammenarbeit" aria-labelledby="zus-titel">
-  <Szene art="team" ton="hell" />
+  <Foto bild={plaene} ort="rechts" deckkraft={0.3} />
   <div class="wrap">
     <p class="eyebrow reveal">So arbeiten wir zusammen</p>
     <h2 id="zus-titel" class="reveal">Von der ersten Frage bis zum <span class="mark">laufenden Plan.</span></h2>
