@@ -6,6 +6,7 @@ import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import StickyBar from "../components/StickyBar.astro";
+import Welle from "../components/Welle.astro";
 import { produkt, marke, seite } from "../config";
 
 interface Props {
@@ -47,9 +48,20 @@ const kanonisch = new URL(Astro.url.pathname, seite.url).href;
     <a class="skip" href="#inhalt">Zum Inhalt springen</a>
     <Header />
     <main id="inhalt"><slot /></main>
+    <Welle farbe="var(--papier)" hinter="var(--tiefgruen)" />
     <Footer />
     {!ohneLeiste && <StickyBar />}
     <script>
+      // Sanfte Bewegung der Hintergrundformen beim Scrollen (data-par = Stärke). Aus bei "reduzierter Bewegung".
+      const par = [...document.querySelectorAll<HTMLElement>("[data-par]")];
+      if (par.length && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        let wartet = false;
+        addEventListener("scroll", () => {
+          if (wartet) return;
+          wartet = true;
+          requestAnimationFrame(() => { par.forEach((e) => (e.style.transform = `translateY(${scrollY * Number(e.dataset.par)}px)`)); wartet = false; });
+        }, { passive: true });
+      }
       // Elemente mit der Klasse "reveal" blenden beim Scrollen weich ein.
       const els = document.querySelectorAll<HTMLElement>(".reveal");
       if (!("IntersectionObserver" in window)) els.forEach((e) => e.classList.add("sichtbar"));

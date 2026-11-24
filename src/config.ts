@@ -52,7 +52,7 @@ export const preise = {
   /** Aktion für ALLE Pakete. Nach "bis" blendet sich das Angebot automatisch aus (echter Countdown, kein Neustart). */
   gruender: {
     zeitraum: "Dezember",
-    etikett: "Gründerpreis · nur bis 31.12.",
+    etikett: "Angebot bis Dezember",
     /** Ende des Angebots in deutscher Zeit. Dezember = Winterzeit = +01:00 */
     bis: "2026-12-31T23:59:59+01:00",
     kurzDatum: "31.12.",
@@ -147,6 +147,16 @@ export const weitereLeistungen = [
   { titel: "KI im Alltag", text: "Texte, Anfragen und Auswertungen schneller erledigen, mit KI-Werkzeugen, die zu Ihrem Betrieb passen. Verständlich erklärt und datensparsam." },
   { titel: "Zahlen statt Bauchgefühl", text: "Einfache Auswertungen: Wo laufen Stunden auf, wann ist viel los, was lohnt sich? Klar dargestellt, ohne Datenfriedhof." },
 ];
+
+/**
+ * KENNZAHLEN (Band unter dem Hero). Ehrlich: Die Zeitersparnis ist ein RECHENBEISPIEL, keine Messung.
+ * Sie wird aus den Annahmen des Rechners (oben) berechnet: Betrieb mit standardMitarbeiter und standardAusfaelle,
+ * davon entfällt der Anteil "ersparnisAnteil" (Anrufe, Abstimmung, Plan neu schreiben).
+ * Wenn Sie echte Erfahrungswerte von Kunden haben, hier anpassen.
+ */
+export const kennzahlen = {
+  ersparnisAnteil: 0.5,
+};
 
 /** Rechtlicher Platzhalter-Hinweis, der auf den Rechtsseiten erscheint */
 export const rechtHinweis = "[BITTE AUSFÜLLEN / RECHTLICH PRÜFEN LASSEN]";

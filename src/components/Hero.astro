@@ -20,7 +20,12 @@ import { kontakt, telHref, demoLink } from "../config";
     </div>
 
     <div class="hero-bild">
+      <span class="blob b1" aria-hidden="true" data-par="0.06"></span>
+      <span class="blob blob-sand b2" aria-hidden="true" data-par="-0.04"></span>
       <div class="handy"><PhoneMock /></div>
+      <span class="schweb s1" aria-hidden="true">✓ Ersatz gefunden</span>
+      <span class="schweb s2" aria-hidden="true">Urlaub genehmigt</span>
+      <span class="schweb s3" aria-hidden="true">Plan veröffentlicht</span>
       <figure class="person">
         <Picture
           src={person}
@@ -53,6 +58,13 @@ import { kontakt, telHref, demoLink } from "../config";
   .vertrauen { margin-top: 12px; color: var(--grau); font-size: 0.9375rem; }
 
   /* Bildbereich: Handy rechts, Person links unten – überlappend wie auf dem Flyer */
+  .hero { position: relative; }
+  .hero-bild .b1 { width: 78%; height: 62%; right: -6%; top: 6%; }
+  .hero-bild .b2 { width: 46%; height: 34%; left: 4%; bottom: 14%; }
+  .schweb { position: absolute; z-index: 3; background: var(--creme); color: var(--tiefgruen); border-radius: 99px; padding: 8px 14px; font-weight: 700; font-size: 0.8125rem; box-shadow: var(--schatten); border: 1.5px solid var(--sand-linie); animation: schweben 6s ease-in-out infinite; pointer-events: none; white-space: nowrap; }
+  .s1 { left: 18%; top: 33%; animation-delay: 0.6s; display: none; }
+  .s2 { left: 4%; top: 12%; animation-delay: 1.8s; display: none; }
+  .s3 { right: 8%; bottom: 17%; animation-delay: 3s; }
   .hero-bild { position: relative; --phone-w: min(256px, 68vw); display: grid; padding-bottom: 8px; }
   .handy { width: var(--phone-w); justify-self: end; position: relative; z-index: 1; margin: 4px 10px 0 0; transform: rotate(3deg); transform-origin: 50% 80%; }
   .handy :global(.hinweis) { transform: rotate(-3deg); }
@@ -69,6 +81,9 @@ import { kontakt, telHref, demoLink } from "../config";
     .aktionen .btn { width: auto; }
     .hero-bild { --phone-w: 270px; width: 100%; max-width: 480px; justify-self: end; }
     .person { width: 270px; left: 0; bottom: 76px; }
+    .s2 { display: block; left: 2%; }
+    .s1 { display: block; left: 8%; top: 34%; }
+    .s3 { right: -2%; }
     .ki { left: 14px; }
   }
 </style>

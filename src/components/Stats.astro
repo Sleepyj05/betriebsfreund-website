@@ -1,0 +1,66 @@
+---
+// Kennzahlen-Band direkt unter dem Hero. Zahlen zählen beim Einblenden hoch.
+// EHRLICH: Die Zeitersparnis ist ein RECHENBEISPIEL aus den Annahmen des Rechners (src/config.ts), keine Messung.
+import Icon from "./Icon.astro";
+import { rechner, kennzahlen } from "../config";
+const std = ((rechner.standardMitarbeiter * rechner.planMinProMitarbeiterWoche) / 60 + (rechner.standardAusfaelle * rechner.minProAusfall) / 60) * rechner.wochenProMonat;
+const gespart = Math.round(std * kennzahlen.ersparnisAnteil);
+const werte = [
+  { icon: "stopwatch", zahl: gespart, vor: "ca. ", nach: " Std.*", text: "weniger Planung und Abstimmung pro Monat" },
+  { icon: "bolt", zahl: 1, vor: "", nach: " Tipp", text: "bis zur Freigabe, wenn jemand ausfällt" },
+  { icon: "phone", zahl: 0, vor: "", nach: " Rundrufe", text: "bei Krankmeldung: Ersatz wird vorgeschlagen" },
+  { icon: "calendar", zahl: 24, vor: "", nach: " Std.", text: "bis zu meinem Rückruf (Mo–Fr)" },
+];
+---
+<section class="band" aria-label="Das bringt Ihnen die App">
+  <div class="wrap">
+    <ul class="werte">
+      {werte.map((w, i) => (
+        <li class="reveal reveal-z" style={`--d:${i * 0.08}s`}>
+          <span class="ico"><Icon name={w.icon} size={22} /></span>
+          <p class="zahl"><span>{w.vor}</span><span data-count={w.zahl}>{w.zahl}</span><span>{w.nach}</span></p>
+          <p class="text">{w.text}</p>
+        </li>
+      ))}
+    </ul>
+    <p class="fuss">* Rechenbeispiel: Betrieb mit {rechner.standardMitarbeiter} Mitarbeitern und {rechner.standardAusfaelle} Ausfällen pro Woche, angenommen {Math.round(kennzahlen.ersparnisAnteil * 100)} % der Zeit für Anrufe und Abstimmung entfallen. Keine Messung, Ihr Betrieb kann abweichen.</p>
+  </div>
+</section>
+
+<style>
+  .band { background: var(--sand); --grau: var(--grau-auf-sand); padding-block: 40px 36px; position: relative; }
+  .werte { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 24px 16px; }
+  .werte li { display: grid; gap: 6px; align-content: start; }
+  .ico { width: 40px; height: 40px; border-radius: 50%; background: var(--tiefgruen); color: var(--mint); display: grid; place-items: center; }
+  .zahl { font-size: clamp(1.75rem, 7vw, 2.75rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .text { color: var(--grau); font-size: 0.9375rem; line-height: 1.35; }
+  .fuss { margin-top: 24px; font-size: 0.8125rem; color: var(--grau); max-width: 80ch; }
+  @media (min-width: 900px) { .werte { grid-template-columns: repeat(4, 1fr); gap: 32px; } .band { padding-block: 56px 44px; } }
+</style>
+
+<script>
+  // Zahlen hochzählen, sobald sichtbar. Bei "reduzierter Bewegung" bleibt der Endwert stehen.
+  const reduziert = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const els = document.querySelectorAll<HTMLElement>("[data-count]");
+  if (!reduziert && "IntersectionObserver" in window) {
+    const io = new IntersectionObserver((list) => {
+      list.forEach((l) => {
+        if (!l.isIntersecting) return;
+        const el = l.target as HTMLElement;
+        io.unobserve(el);
+        const ziel = Number(el.dataset.count);
+        if (ziel === 0) return;
+        const t0 = performance.now();
+        const dauer = 1100;
+        const schritt = (t: number) => {
+          const p = Math.min(1, (t - t0) / dauer);
+          el.textContent = String(Math.round(ziel * (1 - Math.pow(1 - p, 3))));
+          if (p < 1) requestAnimationFrame(schritt);
+        };
+        el.textContent = "0";
+        requestAnimationFrame(schritt);
+      });
+    }, { threshold: 0.6 });
+    els.forEach((e) => io.observe(e));
+  }
+</script>

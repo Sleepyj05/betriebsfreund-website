@@ -1,0 +1,96 @@
+---
+// "Alles auf einem Überblick": Wochenplan als Grafik (HTML/CSS, erfundene Beispieldaten) mit Hinweisen zu echten App-Funktionen.
+// Nur Funktionen, die die App wirklich hat: Wochenplan, Krank mit Vertretung, Warnung bei Ruhezeit, Resturlaub, Teamkalender.
+import Icon from "./Icon.astro";
+const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
+// k = Küche (Mint), s = Service (Tiefgrün), b = Bar (Sand), x = krank (Rot), o = offen/Ersatz
+const plan: [string, string[]][] = [
+  ["Mia", ["s", "s", "x", "s", "x"]],
+  ["Jonas", ["k", "k", "k", "", "o"]],
+  ["Lena", ["", "s", "s", "b", "b"]],
+  ["Tom", ["b", "", "k", "k", "k"]],
+  ["Aylin", ["s", "b", "", "s", "s"]],
+];
+const bez: Record<string, string> = { k: "Küche", s: "Service", b: "Bar", x: "krank", o: "Ersatz" };
+const hinweise = [
+  { icon: "bolt", titel: "Ausfall? Ersatz in Sekunden", text: "Mia ist krank: Die App schlägt vor, wer einspringen kann und darf." },
+  { icon: "shield", titel: "Warnung, bevor es teuer wird", text: "Zu wenig Ruhezeit oder Minijob-Grenze? Sie sehen es direkt im Plan." },
+  { icon: "beach", titel: "Urlaub und Resturlaub", text: "Anträge, Teamkalender und Urlaubskonto an einer Stelle." },
+];
+---
+<section class="abschnitt" id="ueberblick" aria-labelledby="ueb-titel">
+  <div class="wrap grid">
+    <div class="kopf">
+      <p class="eyebrow reveal">Alles auf einen Blick</p>
+      <h2 id="ueb-titel" class="reveal">Ihr ganzer Betrieb auf <span class="mark">einer Seite.</span></h2>
+      <p class="lead reveal">Plan, Urlaub, Krankmeldungen und Stunden an einem Ort. Ihr Team schaut selbst nach, statt Sie zu fragen.</p>
+      <ul class="hinweise">
+        {hinweise.map((h, i) => (
+          <li class="reveal reveal-l" style={`--d:${i * 0.1}s`}>
+            <span class="ico"><Icon name={h.icon} size={22} /></span>
+            <div><strong>{h.titel}</strong><span>{h.text}</span></div>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="fenster reveal reveal-r" role="img" aria-label="Beispiel eines Wochenplans mit Schichten für fünf Personen. Die Daten sind erfunden.">
+      <div class="leiste"><i></i><i></i><i></i><b>Wochenplan · KW 49</b></div>
+      <div class="tabelle" aria-hidden="true">
+        <div class="zeile kopfzeile"><span></span>{tage.map((t, i) => <span class:list={["tag", { mob: i > 2 }]}>{t}</span>)}</div>
+        {plan.map(([name, zellen], r) => (
+          <div class="zeile">
+            <span class="name"><em>{name[0]}</em>{name}</span>
+            {zellen.map((z, i) => (
+              <span class:list={["zelle", { mob: i > 2 }]}>
+                {z && <span class={`chip c-${z}`} style={`--d:${0.3 + (r * 5 + i) * 0.045}s`}>{bez[z]}</span>}
+              </span>
+            ))}
+          </div>
+        ))}
+      </div>
+      <div class="unten" aria-hidden="true">
+        <span class="pill ok">✓ 7 von 9 Schichten besetzt</span>
+        <span class="pill warn">! Fr 17–23 Uhr: Ersatz gefunden</span>
+      </div>
+    </div>
+  </div>
+  <p class="fuss wrap">Beispieldaten, erfunden. Abbildung vereinfacht.</p>
+</section>
+
+<style>
+  .grid { display: grid; gap: 36px; align-items: center; }
+  .lead { margin-top: 16px; color: var(--grau); font-size: 1.125rem; max-width: 46ch; }
+  .eyebrow { margin-bottom: 12px; }
+  .hinweise { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 16px; }
+  .hinweise li { display: grid; grid-template-columns: 44px 1fr; gap: 14px; align-items: start; }
+  .ico { width: 44px; height: 44px; border-radius: 12px; background: var(--tiefgruen); color: var(--mint); display: grid; place-items: center; }
+  .hinweise strong { display: block; }
+  .hinweise span:not(.ico) { color: var(--grau); }
+
+  .fenster { background: var(--creme); border-radius: 22px; overflow: hidden; box-shadow: var(--schatten); border: 1.5px solid var(--sand-linie); }
+  .leiste { display: flex; align-items: center; gap: 6px; padding: 12px 16px; background: var(--sand); }
+  .leiste i { width: 10px; height: 10px; border-radius: 50%; background: var(--sand-linie); display: block; }
+  .leiste b { margin-left: 10px; font-size: 0.8125rem; color: var(--grau-auf-sand); }
+  .tabelle { padding: 12px 12px 4px; display: grid; gap: 6px; }
+  .zeile { display: grid; grid-template-columns: 74px repeat(5, 1fr); gap: 6px; align-items: center; }
+  .tag { text-align: center; font-size: 0.75rem; font-weight: 800; color: var(--grau); text-transform: uppercase; letter-spacing: 0.08em; }
+  .name { display: flex; align-items: center; gap: 6px; font-size: 0.8125rem; font-weight: 700; }
+  .name em { font-style: normal; width: 22px; height: 22px; border-radius: 50%; background: var(--mint); color: var(--tiefgruen); display: grid; place-items: center; font-size: 0.6875rem; font-weight: 800; }
+  .zelle { min-height: 34px; display: grid; }
+  .chip { display: grid; place-items: center; border-radius: 8px; font-size: 0.6875rem; font-weight: 700; min-height: 34px; padding: 0 2px; animation: aufpoppen 0.4s ease var(--d) both; }
+  .c-k { background: var(--mint); color: var(--tiefgruen); }
+  .c-s { background: var(--tiefgruen-hell); color: var(--creme); }
+  .c-b { background: var(--sand); color: var(--tiefgruen); }
+  .c-x { background: var(--fehler-dunkel); color: var(--creme); }
+  .c-o { background: var(--creme); color: var(--erfolg-dunkel); outline: 2px dashed var(--erfolg); outline-offset: -2px; }
+  .unten { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 14px 16px; }
+  .pill { font-size: 0.75rem; font-weight: 700; padding: 6px 12px; border-radius: 99px; }
+  .pill.ok { background: var(--mint-hell); color: var(--erfolg-dunkel); }
+  .pill.warn { background: var(--sand); color: var(--tiefgruen); }
+  .mob { display: none; }
+  .zeile { grid-template-columns: 70px repeat(3, 1fr); }
+  .fuss { margin-top: 18px; font-size: 0.8125rem; color: var(--grau); }
+  @media (min-width: 560px) { .mob { display: grid; } .zeile { grid-template-columns: 74px repeat(5, 1fr); } .tag.mob { display: block; } }
+  @media (min-width: 960px) { .grid { grid-template-columns: 0.9fr 1.1fr; gap: 64px; } .chip { font-size: 0.75rem; min-height: 38px; } .zelle { min-height: 38px; } }
+</style>

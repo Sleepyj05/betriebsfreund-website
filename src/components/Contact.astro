@@ -112,7 +112,7 @@ import { kontakt, telHref, whatsappHref, mailHref, demoLink, demoLinkExtern } fr
 </section>
 
 <script>
-  // Kommt der Besucher über "Gründerpreis sichern" (?paket=plus), wird das Paket vorgewählt.
+  // Kommt der Besucher über "Angebot sichern" (?paket=plus), wird das Paket vorgewählt.
   const sel = document.querySelector<HTMLSelectElement>("#f-paket");
   const p = new URLSearchParams(location.search).get("paket");
   if (sel && p && [...sel.options].some((o) => o.value === p)) sel.value = p;

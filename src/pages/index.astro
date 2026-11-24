@@ -10,6 +10,9 @@ import Calculator from "../components/Calculator.astro";
 import Comparison from "../components/Comparison.astro";
 import Pricing from "../components/Pricing.astro";
 import Services from "../components/Services.astro";
+import Stats from "../components/Stats.astro";
+import Overview from "../components/Overview.astro";
+import Welle from "../components/Welle.astro";
 import Zusammenarbeit from "../components/Zusammenarbeit.astro";
 import Testimonials from "../components/Testimonials.astro";
 import Faq from "../components/Faq.astro";
@@ -43,14 +46,22 @@ const schema = [
 ---
 <Base>
   <Hero />
+  <Welle farbe="var(--papier)" hinter="var(--sand)" />
+  <Stats />
+  <Welle farbe="var(--sand)" hinter="var(--papier)" />
   <Problem />
+  <Welle farbe="var(--papier)" hinter="var(--sand)" />
   <Steps />
+  <Welle farbe="var(--sand)" hinter="var(--papier)" />
+  <Overview />
   <Features />
   <ForWho />
   <Calculator />
   <Comparison />
   <Pricing />
+  <Welle farbe="var(--papier)" hinter="var(--tiefgruen)" />
   <Services />
+  <Welle farbe="var(--tiefgruen)" hinter="var(--papier)" />
   <Zusammenarbeit />
   <Testimonials />
   <Faq />

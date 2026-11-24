@@ -1,0 +1,12 @@
+---
+// Wellenkante zwischen zwei Bereichen. "farbe" = Farbe des Bereichs, der OBEN liegt; "flip" dreht die Welle.
+// Benutzt currentColor über die CSS-Variable, keine festen Farben.
+interface Props { farbe?: string; flip?: boolean; hinter?: string }
+const { farbe = "var(--papier)", flip = false, hinter = "var(--tiefgruen)" } = Astro.props;
+---
+<svg class="welle" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true" style={`background:${hinter};transform:${flip ? "scaleY(-1)" : "none"}`}>
+  <path d="M0 0h1440v36c-120 34-240 44-360 30S840 20 600 26 180 62 0 40z" style={`fill:${farbe}`} />
+</svg>
+<style>
+  svg { display: block; width: 100%; height: clamp(28px, 5vw, 64px); margin-bottom: -1px; }
+</style>

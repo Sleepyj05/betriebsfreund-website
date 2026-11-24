@@ -24,12 +24,14 @@
   --auf-dunkel-leise: #D4DBD2;  /* Zweittext auf Tiefgrün */
   --linie-dunkel: color-mix(in srgb, var(--creme) 18%, transparent); /* Linien auf Tiefgrün */
   --handy-rahmen: #14352D;      /* Rahmen des Handy-Mockups */
+  --angebot: #FFA29A;           /* Angebot / Aktionspreis (Korallrot, auf Tiefgrün gut lesbar) */
+  --angebot-dunkel: #B83A3A;    /* Angebot als Text auf hellem Grund */
 
   --radius: 20px;
   --radius-klein: 12px;
   --max: 1120px;
   --rand: 20px; /* seitlicher Abstand am Handy */
-  --abschnitt: clamp(64px, 11vw, 120px);
+  --abschnitt: clamp(56px, 9vw, 100px);
   --leiste-h: 88px; /* Höhe des festen Balkens am Handy */
 
   --schrift: "Inter Variable", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -242,6 +244,28 @@ h3 {
   opacity: 1;
   transform: none;
 }
+
+
+/* ---------- Bewegung und Leben (alles nur Transform/Opacity, bei "reduzierte Bewegung" aus) ---------- */
+.js .reveal-l { transform: translateX(-28px); }
+.js .reveal-r { transform: translateX(28px); }
+.js .reveal-z { transform: scale(0.94); }
+.js .reveal-l.sichtbar, .js .reveal-r.sichtbar, .js .reveal-z.sichtbar { transform: none; }
+
+/* Karten heben sich beim Darüberfahren leicht an */
+.hebt { transition: transform 0.25s ease, background 0.25s ease; }
+.hebt:hover { transform: translateY(-4px); }
+
+/* Weiche Farbflächen im Hintergrund (organische Formen) */
+.blob { position: absolute; z-index: -1; border-radius: 58% 42% 55% 45% / 48% 56% 44% 52%; background: var(--mint-hell); pointer-events: none; }
+.blob-sand { background: var(--sand); }
+
+/* Wellenkante zwischen Bereichen */
+.welle { display: block; width: 100%; height: clamp(28px, 5vw, 64px); }
+
+@keyframes schweben { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+@keyframes wandern { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes aufpoppen { from { opacity: 0; transform: scale(0.7); } to { opacity: 1; transform: none; } }
 
 @media (prefers-reduced-motion: reduce) {
   html {

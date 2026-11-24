@@ -1,18 +1,8 @@
 ---
-// Abschnitt 5: Funktionen. Nur Dinge, die die App wirklich kann (geprüft gegen den Code im App-Repo, Stand 24.11.2026).
+// Abschnitt 5: Funktionen als abwechslungsreiches Raster ("Bento"): große Karten mit kleiner Grafik, kleine Karten mit Symbol.
+// Nur Dinge, die die App wirklich kann (geprüft gegen den Code im App-Repo, Stand 24.11.2026).
 // Darunter Reiter "Für Chefs" / "Für Mitarbeiter" (Tastatur-bedienbar, ohne Bibliothek).
 import Icon from "./Icon.astro";
-const funktionen = [
-  { icon: "calendar", titel: "Dienstplan auf dem Handy", text: "Jeder sieht seine nächste Schicht in Sekunden, ohne App-Store." },
-  { icon: "swap", titel: "Schichttausch mit Freigabe", text: "Kollegen tauschen untereinander, Sie geben mit einem Tipp frei." },
-  { icon: "bolt", titel: "Krankmeldung mit Vertretung", text: "Die App zeigt sofort, wer einspringen kann und darf." },
-  { icon: "beach", titel: "Urlaub und Teamkalender", text: "Anträge, Resturlaub und wer wann fehlt auf einen Blick." },
-  { icon: "stopwatch", titel: "Zeiterfassung", text: "Ein- und Ausstempeln am Handy, mit Stundenkonto." },
-  { icon: "shield", titel: "Regeln automatisch geprüft", text: "Warnung bei Ruhezeit, Pausen, Höchstarbeitszeit und Minijob-Grenze." },
-  { icon: "phone", titel: "Anruf- und WhatsApp-Knopf", text: "Kollegen erreichen Sie mit einem Tipp, wenn sie ihre Nummer freigeben." },
-  { icon: "download", titel: "Plan mitnehmen", text: "Drucken oder als PDF, Tabelle zum Export, Kalender-Abo fürs Handy." },
-  { icon: "lock", titel: "Sicher und in Deutschland", text: "Server in Frankfurt, optional Zwei-Faktor-Anmeldung." },
-];
 const chefs = [
   "Plan per Knopfdruck vorschlagen lassen und nur noch anpassen",
   "Krank, Urlaub und Tausch an einer Stelle entscheiden",
@@ -27,17 +17,52 @@ const team = [
 <section class="abschnitt" id="funktionen" aria-labelledby="funk-titel">
   <div class="wrap">
     <h2 id="funk-titel" class="reveal">Alles, was Ihr Dienstplan braucht. <span class="mark">Nichts, was nervt.</span></h2>
-    <ul class="raster">
-      {funktionen.map((f, i) => (
-        <li class="reveal" style={`--d:${(i % 3) * 0.08}s`}>
-          <span class="ico"><Icon name={f.icon} /></span>
-          <h3>{f.titel}</h3>
-          <p>{f.text}</p>
-        </li>
-      ))}
-    </ul>
 
-    <div class="reiter reveal" data-reiter>
+    <div class="bento">
+      <!-- Große dunkle Karte mit Grafik: Krankmeldung mit Vertretung -->
+      <article class="b b-gross dunkel reveal reveal-l hebt">
+        <span class="ico"><Icon name="bolt" /></span>
+        <h3>Krankmeldung mit Vertretung</h3>
+        <p>Die App zeigt sofort, wer einspringen kann und darf. Sie tippen nur auf „Freigeben“.</p>
+        <ul class="kand" aria-hidden="true">
+          <li><em>J</em><span>Jonas</span><b class="gut">passt</b></li>
+          <li><em>L</em><span>Lena</span><b class="gut">passt</b></li>
+          <li><em>T</em><span>Tom</span><b class="warn">Ruhezeit 9 Std.</b></li>
+        </ul>
+        <p class="frei" aria-hidden="true"><span>Jonas übernimmt Fr 17–23 Uhr</span><b>✓ Freigeben</b></p>
+      </article>
+
+      <!-- Breite helle Karte mit Grafik: Regelprüfung -->
+      <article class="b b-breit b-mint reveal reveal-r hebt">
+        <span class="ico"><Icon name="shield" /></span>
+        <h3>Regeln automatisch geprüft</h3>
+        <p>Warnung bei Ruhezeit, Pausen, Höchstarbeitszeit und Minijob-Grenze, bevor es ein Problem wird.</p>
+        <div class="balken" aria-hidden="true">
+          <div class="bar"><i style="width: 82%"></i></div>
+          <span>Beispiel: Minijob-Grenze zu 82 % erreicht</span>
+        </div>
+      </article>
+
+      <article class="b reveal reveal-z hebt"><span class="ico"><Icon name="calendar" /></span><h3>Dienstplan auf dem Handy</h3><p>Jeder sieht seine nächste Schicht in Sekunden, ohne App-Store.</p></article>
+      <article class="b b-sand reveal reveal-z hebt" style="--d:0.08s"><span class="ico"><Icon name="swap" /></span><h3>Schichttausch mit Freigabe</h3><p>Kollegen tauschen untereinander, Sie geben mit einem Tipp frei.</p></article>
+
+      <!-- Karte mit Mini-Kalender -->
+      <article class="b b-kal reveal reveal-z hebt" style="--d:0.16s">
+        <span class="ico"><Icon name="beach" /></span>
+        <h3>Urlaub und Teamkalender</h3>
+        <p>Anträge, Resturlaub und wer wann fehlt auf einen Blick.</p>
+        <div class="kal" aria-hidden="true">
+          {Array.from({ length: 14 }).map((_, i) => <i class:list={{ u: [2, 3, 4, 9].includes(i), f: i === 12 }}></i>)}
+        </div>
+      </article>
+
+      <article class="b reveal reveal-z hebt"><span class="ico"><Icon name="stopwatch" /></span><h3>Zeiterfassung</h3><p>Ein- und Ausstempeln am Handy, mit Stundenkonto.</p></article>
+      <article class="b b-dunkel dunkel reveal reveal-z hebt" style="--d:0.08s"><span class="ico"><Icon name="phone" /></span><h3>Anruf- und WhatsApp-Knopf</h3><p>Kollegen erreichen Sie mit einem Tipp, wenn sie ihre Nummer freigeben.</p></article>
+      <article class="b reveal reveal-z hebt" style="--d:0.16s"><span class="ico"><Icon name="download" /></span><h3>Plan mitnehmen</h3><p>Drucken oder als PDF, Tabelle zum Export, Kalender-Abo fürs Handy.</p></article>
+      <article class="b b-mint reveal reveal-z hebt" style="--d:0.24s"><span class="ico"><Icon name="lock" /></span><h3>Sicher und in Deutschland</h3><p>Server in Frankfurt, optional Zwei-Faktor-Anmeldung.</p></article>
+    </div>
+
+    <div class="reiter reveal dunkel" data-reiter>
       <div role="tablist" aria-label="Für wen ist welcher Nutzen?" class="tabs">
         <button role="tab" id="tab-chef" aria-selected="true" aria-controls="p-chef" type="button">Für Chefs</button>
         <button role="tab" id="tab-team" aria-selected="false" aria-controls="p-team" tabindex="-1" type="button">Für Mitarbeiter</button>
@@ -54,10 +79,37 @@ const team = [
 </section>
 
 <style>
-  .raster { list-style: none; margin: 36px 0 0; padding: 0; display: grid; gap: 14px; }
-  .raster li { background: var(--creme); border-radius: var(--radius); padding: 24px; display: grid; gap: 8px; align-content: start; }
-  .ico { width: 52px; height: 52px; border-radius: 14px; background: var(--tiefgruen); color: var(--mint); display: grid; place-items: center; margin-bottom: 6px; }
-  p { color: var(--grau); }
+  .bento { margin-top: 36px; display: grid; gap: 14px; grid-template-columns: 1fr; }
+  .b { background: var(--creme); border-radius: var(--radius); padding: 24px; display: grid; gap: 8px; align-content: start; }
+  .b p { color: var(--grau); }
+  .ico { width: 52px; height: 52px; border-radius: 14px; background: var(--tiefgruen); color: var(--creme); display: grid; place-items: center; margin-bottom: 6px; transition: transform 0.3s ease; }
+  .b:hover .ico { transform: rotate(-8deg) scale(1.06); }
+  .b-sand { background: var(--sand); --grau: var(--grau-auf-sand); }
+  .b-mint { background: var(--mint-hell); }
+  .b-dunkel, .b-gross { background: var(--tiefgruen); color: var(--creme); }
+  .b-dunkel p, .b-gross p { color: var(--auf-dunkel-leise); }
+  .b-dunkel .ico, .b-gross .ico { background: var(--mint); color: var(--tiefgruen); }
+
+  /* Mini-Grafiken */
+  .kand { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 8px; }
+  .kand li { display: grid; grid-template-columns: 30px 1fr auto; gap: 10px; align-items: center; background: var(--tiefgruen-hell); border-radius: 12px; padding: 8px 12px 8px 8px; }
+  .kand em { font-style: normal; width: 30px; height: 30px; border-radius: 50%; background: var(--creme); color: var(--tiefgruen); display: grid; place-items: center; font-weight: 800; font-size: 0.8125rem; }
+  .kand b { font-size: 0.75rem; padding: 4px 10px; border-radius: 99px; }
+  .kand .gut { background: var(--mint); color: var(--tiefgruen); }
+  .kand .warn { background: var(--creme); color: var(--fehler-dunkel); }
+  .frei { margin-top: 18px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 12px 12px 16px; border-radius: 14px; background: var(--creme); color: var(--tiefgruen); font-weight: 700; font-size: 0.875rem; }
+  .b-gross .frei { color: var(--tiefgruen); }
+  .frei b { background: var(--mint); padding: 8px 16px; border-radius: 99px; }
+  .balken { margin-top: 12px; display: grid; gap: 8px; }
+  .bar { height: 12px; border-radius: 99px; background: var(--creme); overflow: hidden; }
+  .bar i { display: block; height: 100%; border-radius: 99px; background: var(--tiefgruen); transform-origin: left; animation: fuellen 1.4s ease 0.3s both; }
+  .balken span { font-size: 0.8125rem; font-weight: 700; color: var(--tiefgruen); }
+  .kal { margin-top: 12px; display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
+  .kal i { aspect-ratio: 1; border-radius: 6px; background: var(--sand); display: block; }
+  .kal i.u { background: var(--mint); }
+  .kal i.f { background: var(--tiefgruen); }
+  @keyframes fuellen { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
   .reiter { margin-top: 40px; background: var(--tiefgruen); color: var(--creme); border-radius: 24px; padding: 8px 8px 28px; }
   .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; background: var(--tiefgruen-hell); border-radius: 18px; padding: 6px; }
   .tabs button { min-height: 52px; border: 0; border-radius: 14px; background: transparent; color: var(--auf-dunkel-leise); font: inherit; font-weight: 800; cursor: pointer; }
@@ -67,8 +119,14 @@ const team = [
   [role="tabpanel"] li { display: grid; grid-template-columns: 26px 1fr; gap: 10px; font-size: 1.0625rem; }
   [role="tabpanel"] li::before { content: "✓"; width: 24px; height: 24px; border-radius: 50%; background: var(--erfolg-flaeche); color: var(--creme); display: grid; place-items: center; font-weight: 800; font-size: 0.8rem; margin-top: 1px; }
   .weiter { margin-top: 32px; }
-  @media (min-width: 700px) { .raster { grid-template-columns: repeat(2, 1fr); } }
-  @media (min-width: 1000px) { .raster { grid-template-columns: repeat(3, 1fr); gap: 20px; } [role="tabpanel"] ul { grid-template-columns: repeat(3, 1fr); } .reiter { padding-bottom: 36px; } }
+
+  @media (min-width: 640px) { .bento { grid-template-columns: repeat(2, 1fr); } .b-gross, .b-breit { grid-column: span 2; } }
+  @media (min-width: 1000px) {
+    .bento { grid-template-columns: repeat(4, 1fr); gap: 18px; }
+    .b-gross { grid-column: span 2; grid-row: span 2; padding: 32px; }
+    .b-breit { grid-column: span 2; }
+    [role="tabpanel"] ul { grid-template-columns: repeat(3, 1fr); } .reiter { padding-bottom: 36px; }
+  }
 </style>
 
 <script>

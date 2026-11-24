@@ -17,7 +17,7 @@ const alle = preise.pakete;
   data-bis={g.bis}>
   <div class:list={["wrap", { kompakt }]}>
     {!kompakt && <h2 id="preise-titel" class="reveal preis-h2">Ein Preis. Für Ihren <span class="mark">ganzen Betrieb.</span></h2>}
-    {!kompakt && <p class="lead reveal">Zwei Pakete, beide monatlich kündbar. Im Dezember zum Gründerpreis.</p>}
+    {!kompakt && <p class="lead reveal">Zwei Pakete, beide monatlich kündbar. Im Dezember mit Angebotspreis.</p>}
 
     <div class="pakete">
       {alle.map((p, i) => (
@@ -28,8 +28,9 @@ const alle = preise.pakete;
 
           <div data-gruender hidden={!gruenderAktivBeimBau}>
             <p class="etikett">{g.etikett}</p>
-            <p class="gross">{g.zeitraum} für <span class="betrag">{p.gruender}</span></p>
-            <p class="danach">danach <strong data-regulaer-preis>{p.regulaer}</strong> {preise.zusatz}</p>
+            <p class="alt"><span class="sr-only">Statt </span><s>{p.regulaer}<span aria-hidden="true">*</span></s><span class="sr-only"> regulär</span></p>
+            <p class="gross"><span class="betrag" data-angebot>{p.gruender}</span> <span class="pro">im Dezember</span></p>
+            <p class="danach"><span aria-hidden="true">*</span> Ab Januar <strong data-regulaer-preis>{p.regulaer}</strong> {preise.zusatz}</p>
           </div>
           <div data-regulaer-block hidden={gruenderAktivBeimBau}>
             <p class="gross"><span class="betrag" data-regulaer-gross>{p.regulaer}</span> <span class="pro">pro Monat</span></p>
@@ -42,7 +43,7 @@ const alle = preise.pakete;
           </ul>
 
           <a href={`/?paket=${p.id}#kontakt`} class="btn btn-primaer btn-gross voll">
-            <span data-gruender hidden={!gruenderAktivBeimBau}>Gründerpreis sichern</span>
+            <span data-gruender hidden={!gruenderAktivBeimBau}>Angebot sichern</span>
             <span data-regulaer-block hidden={gruenderAktivBeimBau}>Paket anfragen</span>
           </a>
         </article>
@@ -50,8 +51,8 @@ const alle = preise.pakete;
     </div>
 
     <div class="countdown" data-gruender hidden={!gruenderAktivBeimBau}>
-      <p class="cd-titel">Gründerpreis endet am {g.kurzDatum} um 23:59 Uhr, noch:</p>
-      <div class="cd" role="timer" aria-label="Verbleibende Zeit bis zum Ende des Gründerpreises">
+      <p class="cd-titel">Angebot endet am {g.kurzDatum} um 23:59 Uhr, noch:</p>
+      <div class="cd" role="timer" aria-label="Verbleibende Zeit bis zum Ende des Angebots">
         <div><b data-cd="t">–</b><span>Tage</span></div>
         <div><b data-cd="h">–</b><span>Std.</span></div>
         <div><b data-cd="m">–</b><span>Min.</span></div>
@@ -59,7 +60,7 @@ const alle = preise.pakete;
       </div>
     </div>
 
-    <p class="klein">{steuerHinweis[preise.steuer]}</p>
+    <p class="klein"><span aria-hidden="true">*</span> Regulärer Preis ab Januar. {steuerHinweis[preise.steuer]}</p>
   </div>
 </section>
 
@@ -72,9 +73,12 @@ const alle = preise.pakete;
   .karte.top { outline: 4px solid var(--mint); outline-offset: -4px; }
   .p-name { font-size: 1.5rem; color: var(--creme); }
   .p-sub { color: var(--auf-dunkel-leise); margin-bottom: 14px; min-height: 2.8em; }
-  .etikett { display: inline-block; background: var(--mint); color: var(--tiefgruen); font-weight: 800; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 7px 12px; border-radius: 99px; }
+  .etikett { display: inline-block; background: var(--angebot); color: var(--tiefgruen); font-weight: 800; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 7px 12px; border-radius: 99px; }
   .gross { margin-top: 16px; font-size: clamp(2rem, 9vw, 2.75rem); font-weight: 800; letter-spacing: -0.045em; line-height: 1.02; }
-  .betrag { color: var(--mint); }
+  .betrag { color: var(--angebot); }
+  .alt { margin-top: 18px; font-size: 1.375rem; font-weight: 700; color: var(--auf-dunkel-leise); }
+  .alt s { text-decoration-thickness: 2.5px; text-decoration-color: var(--angebot); }
+  .alt + .gross { margin-top: 2px; }
   .pro { font-size: 0.4em; letter-spacing: -0.01em; font-weight: 700; color: var(--auf-dunkel-leise); }
   .danach { margin-top: 10px; color: var(--auf-dunkel-leise); }
   .danach strong { color: var(--creme); }
@@ -87,7 +91,7 @@ const alle = preise.pakete;
   .cd-titel { color: var(--tiefgruen); font-weight: 700; }
   .cd { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 12px; }
   .cd div { background: var(--tiefgruen); border-radius: 14px; padding: 12px 4px 10px; }
-  .cd b { display: block; font-size: 1.75rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1; font-variant-numeric: tabular-nums; color: var(--mint); }
+  .cd b { display: block; font-size: 1.75rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1; font-variant-numeric: tabular-nums; color: var(--angebot); }
   .cd span { display: block; margin-top: 6px; font-size: 0.75rem; color: var(--auf-dunkel-leise); text-transform: uppercase; letter-spacing: 0.08em; }
   .klein { margin-top: 22px; font-size: 0.875rem; color: var(--grau); text-align: center; }
   @media (min-width: 900px) {

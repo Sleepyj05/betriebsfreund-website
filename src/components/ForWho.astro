@@ -1,29 +1,44 @@
 ---
-// Abschnitt 6: Für wen.
+// Abschnitt 6: Für wen. Zwei laufende Bänder mit Branchen (gegenläufig). Bei "reduzierter Bewegung" stehen sie still und umbrechen.
 import Icon from "./Icon.astro";
-const branchen = [
-  ["restaurant", "Restaurant und Bar"], ["cafe", "Café und Bäckerei"], ["shop", "Einzelhandel und Supermarkt"],
-  ["gym", "Fitnessstudio"], ["film", "Kino und Freizeit"], ["hotel", "Hotel"],
-  ["heart", "Pflege- und Sozialdienste"], ["sparkle", "Reinigung"], ["bike", "Lieferdienste"],
-];
+const a = [["restaurant", "Restaurant und Bar"], ["cafe", "Café und Bäckerei"], ["shop", "Einzelhandel und Supermarkt"], ["gym", "Fitnessstudio"], ["film", "Kino und Freizeit"]];
+const b = [["hotel", "Hotel"], ["heart", "Pflege- und Sozialdienste"], ["sparkle", "Reinigung"], ["bike", "Lieferdienste"], ["restaurant", "Gastronomie"]];
 ---
 <section class="abschnitt fuer" aria-labelledby="fuer-titel">
   <div class="wrap">
     <h2 id="fuer-titel" class="reveal">Für jeden Betrieb <span class="mark">mit Schichten.</span></h2>
-    <ul class="reihe">
-      {branchen.map(([i, t], n) => (
-        <li class="reveal" style={`--d:${(n % 3) * 0.07}s`}><span class="ico"><Icon name={i} size={30} /></span><span>{t}</span></li>
-      ))}
-    </ul>
-    <p class="hinweis reveal">Ab 3 Mitarbeitern lohnt es sich.</p>
   </div>
+
+  <div class="baender reveal">
+    <p class="sr-only">Branchen: Restaurant und Bar, Café und Bäckerei, Einzelhandel und Supermarkt, Fitnessstudio, Kino und Freizeit, Hotel, Pflege- und Sozialdienste, Reinigung, Lieferdienste.</p>
+    {[a, b].map((reihe, r) => (
+      <div class:list={["band", { rueck: r === 1 }]} aria-hidden="true">
+        <ul class="spur">
+          {[...reihe, ...reihe].map(([i, t]) => (
+            <li class:list={{ alt: r === 1 }}><Icon name={i} size={22} /><span>{t}</span></li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+
+  <div class="wrap"><p class="hinweis reveal">Ab 3 Mitarbeitern lohnt es sich.</p></div>
 </section>
 
 <style>
-  .reihe { list-style: none; margin: 36px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  .reihe li { background: var(--creme); border-radius: var(--radius); padding: 18px 16px; display: grid; gap: 12px; justify-items: start; font-weight: 700; line-height: 1.25; }
-  .ico { color: var(--tiefgruen); width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--mint); display: grid; place-items: center; }
-  .hinweis { margin-top: 28px; font-weight: 800; font-size: 1.25rem; letter-spacing: -0.02em; }
-  @media (min-width: 700px) { .reihe { grid-template-columns: repeat(3, 1fr); gap: 16px; } }
-  @media (min-width: 1000px) { .reihe { grid-template-columns: repeat(5, 1fr); } }
+  .fuer { overflow-x: clip; }
+  .baender { margin-top: 36px; display: grid; gap: 14px; }
+  .band { overflow: hidden; mask-image: linear-gradient(to right, transparent, var(--tiefgruen) 8%, var(--tiefgruen) 92%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, var(--tiefgruen) 8%, var(--tiefgruen) 92%, transparent); }
+  .spur { list-style: none; margin: 0; padding: 0; display: flex; gap: 12px; width: max-content; animation: wandern 38s linear infinite; }
+  .rueck .spur { animation-direction: reverse; animation-duration: 44s; }
+  .spur li { display: inline-flex; align-items: center; gap: 10px; background: var(--creme); border: 1.5px solid var(--sand-linie); border-radius: 99px; padding: 14px 24px 14px 18px; font-weight: 700; white-space: nowrap; }
+  .spur li.alt { background: var(--mint-hell); border-color: transparent; }
+  .band:hover .spur { animation-play-state: paused; }
+  .hinweis { margin-top: 32px; font-weight: 800; font-size: 1.375rem; letter-spacing: -0.02em; }
+  @media (prefers-reduced-motion: reduce) {
+    .baender { padding-inline: var(--rand); }
+    .band { mask-image: none; -webkit-mask-image: none; }
+    .spur { width: auto; flex-wrap: wrap; animation: none; }
+    .spur li:nth-child(n + 6) { display: none; }
+  }
 </style>
