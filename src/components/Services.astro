@@ -2,9 +2,11 @@
 // "Mehr als Dienstplan": weitere Leistungen der Marke (Inhalt in src/config.ts → weitereLeistungen, Entwurf).
 import { marke, weitereLeistungen } from "../config";
 import Icon from "./Icon.astro";
+import Szene from "./Szene.astro";
 const icons = ["wrench", "bolt", "chart"];
 ---
 <section class="abschnitt dunkel mehr" id="leistungen" aria-labelledby="mehr-titel">
+  <Szene art="cafe" ton="dunkel" />
   <div class="wrap">
     <p class="eyebrow">Mehr als Dienstplan</p>
     <h2 id="mehr-titel" class="reveal">Der Dienstplan ist der Anfang. <span class="mark">Danach wird es leichter.</span></h2>

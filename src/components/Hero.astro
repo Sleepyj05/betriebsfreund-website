@@ -3,9 +3,11 @@
 import { Picture } from "astro:assets";
 import person from "../assets/person.png";
 import PhoneMock from "./PhoneMock.astro";
+import Szene from "./Szene.astro";
 import { kontakt, telHref, demoLink } from "../config";
 ---
 <section class="hero" aria-labelledby="hero-titel">
+  <Szene art="laden" ton="hell" />
   <div class="wrap hero-in">
     <div class="hero-text">
       <p class="marke"><span class="marke-q" aria-hidden="true"></span>Schichtklar · die Dienstplan-App von Betriebsfreund</p>
@@ -58,7 +60,7 @@ import { kontakt, telHref, demoLink } from "../config";
   .vertrauen { margin-top: 12px; color: var(--grau); font-size: 0.9375rem; }
 
   /* Bildbereich: Handy rechts, Person links unten – überlappend wie auf dem Flyer */
-  .hero { position: relative; }
+  .hero { position: relative; isolation: isolate; }
   .hero-bild .b1 { width: 78%; height: 62%; right: -6%; top: 6%; }
   .hero-bild .b2 { width: 46%; height: 34%; left: 4%; bottom: 14%; }
   .schweb { position: absolute; z-index: 3; background: var(--creme); color: var(--tiefgruen); border-radius: 99px; padding: 8px 14px; font-weight: 700; font-size: 0.8125rem; box-shadow: var(--schatten); border: 1.5px solid var(--sand-linie); animation: schweben 6s ease-in-out infinite; pointer-events: none; white-space: nowrap; }

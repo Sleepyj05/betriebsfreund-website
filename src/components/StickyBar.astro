@@ -12,5 +12,16 @@ import { telHref, kontakt } from "../config";
 <style>
   .leiste { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; display: grid; grid-template-columns: 1.4fr 1fr; gap: 10px; padding: 10px var(--rand) calc(10px + env(safe-area-inset-bottom)); background: var(--tiefgruen); border-top: 1px solid var(--linie-dunkel); }
   .leiste .btn { min-height: 56px; padding: 0 12px; }
+  .leiste { transition: transform 0.3s ease; }
+  .leiste.weg { transform: translateY(110%); }
   @media (min-width: 900px) { .leiste { display: none; } }
 </style>
+
+<script>
+  // Der feste Balken verschwindet, sobald der Kontaktbereich im Bild ist (dort gibt es schon Formular und Telefon).
+  const leiste = document.querySelector<HTMLElement>(".leiste");
+  const kontakt = document.querySelector("#kontakt");
+  if (leiste && kontakt && "IntersectionObserver" in window) {
+    new IntersectionObserver(([e]) => leiste.classList.toggle("weg", e.isIntersecting), { threshold: 0.15 }).observe(kontakt);
+  }
+</script>

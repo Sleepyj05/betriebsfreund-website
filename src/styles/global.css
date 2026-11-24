@@ -134,6 +134,8 @@ h3 {
 }
 .abschnitt {
   padding-block: var(--abschnitt);
+  position: relative;
+  isolation: isolate;
   /* Bereiche unterhalb des sichtbaren Bereichs werden erst beim Scrollen berechnet → schnellerer Start */
   content-visibility: auto;
   contain-intrinsic-size: auto 640px;

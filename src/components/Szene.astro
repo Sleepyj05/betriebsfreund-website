@@ -1,0 +1,79 @@
+---
+// Dekorative Hintergrund-Szenen (eigene Vektorgrafiken, themenbezogen: Café, Laden, Straße mit Betrieben, Team, Lieferdienst).
+// Nur Farb-Tokens, kein Fremdmaterial, wenige KB. "ton" = hell (auf Beige) oder dunkel (auf Tiefgrün).
+// Wo echte Fotos gewünscht sind: Dateien in AUSFUELLEN/bilder legen und die Szene durch ein <img> ersetzen.
+interface Props { art: "cafe" | "laden" | "strasse" | "team" | "lieferung"; ton?: "hell" | "dunkel"; klasse?: string }
+const { art, ton = "hell", klasse = "" } = Astro.props;
+---
+<svg class:list={["szene", ton, klasse]} viewBox="0 0 1200 420" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+  {art === "cafe" && (
+    <g>
+      <rect class="b" x="700" y="70" width="380" height="210" rx="20" />
+      <rect class="c" x="718" y="88" width="168" height="174" rx="10" /><rect class="c" x="898" y="88" width="164" height="174" rx="10" />
+      <rect class="b" x="590" y="80" width="96" height="130" rx="8" /><rect class="c" x="602" y="96" width="72" height="8" rx="4" /><rect class="c" x="602" y="116" width="54" height="8" rx="4" /><rect class="c" x="602" y="136" width="64" height="8" rx="4" />
+      <path d="M790 0v66M900 0v66M1010 0v66" stroke-width="4" style="fill:none;stroke:var(--b)" />
+      <path class="a" d="M760 98a30 30 0 0 1 60 0zM870 98a30 30 0 0 1 60 0zM980 98a30 30 0 0 1 60 0z" />
+      <rect class="a" x="520" y="296" width="680" height="124" />
+      <rect class="c" x="520" y="284" width="680" height="16" rx="6" />
+      <rect class="b" x="610" y="226" width="130" height="58" rx="10" /><rect class="c" x="624" y="238" width="30" height="30" rx="15" /><rect class="c" x="668" y="236" width="56" height="10" rx="5" />
+      <path class="c" d="M790 284v-30h36v30zM850 284v-30h36v30zM910 284v-30h36v30z" /><path class="b" d="M826 262h10a8 8 0 0 1 0 16h-10zM886 262h10a8 8 0 0 1 0 16h-10z" />
+      <rect class="c" x="1110" y="226" width="44" height="58" rx="8" /><path class="b" d="M1132 226c-30-30-30-70 0-94 30 24 30 64 0 94zM1132 226c-46-4-62-34-52-62 34 4 56 26 52 62zM1132 226c46-4 62-34 52-62-34 4-56 26-52 62z" />
+      <circle class="b" cx="300" cy="290" r="64" /><rect class="c" x="292" y="300" width="16" height="120" /><circle class="a" cx="300" cy="290" r="52" />
+      <path class="b" d="M200 420v-80h30v80zM370 420v-80h30v80z" /><rect class="b" x="196" y="324" width="42" height="14" rx="7" /><rect class="b" x="362" y="324" width="42" height="14" rx="7" />
+    </g>
+  )}
+  {art === "laden" && (
+    <g>
+      <rect class="b" x="560" y="40" width="560" height="380" rx="24" />
+      <rect class="c" x="590" y="84" width="500" height="10" rx="5" /><rect class="c" x="590" y="190" width="500" height="10" rx="5" /><rect class="c" x="590" y="296" width="500" height="10" rx="5" />
+      <g class="a"><rect x="606" y="42" width="54" height="42" rx="6" /><rect x="676" y="54" width="40" height="30" rx="6" /><rect x="732" y="38" width="62" height="46" rx="6" /><rect x="814" y="50" width="48" height="34" rx="6" /><rect x="880" y="40" width="58" height="44" rx="6" /><rect x="956" y="56" width="44" height="28" rx="6" /><rect x="1020" y="44" width="56" height="40" rx="6" /></g>
+      <g class="a"><rect x="606" y="148" width="64" height="42" rx="6" /><rect x="688" y="136" width="44" height="54" rx="6" /><rect x="752" y="152" width="60" height="38" rx="6" /><rect x="830" y="140" width="52" height="50" rx="6" /><rect x="900" y="154" width="66" height="36" rx="6" /><rect x="986" y="142" width="48" height="48" rx="6" /></g>
+      <g class="a"><rect x="610" y="256" width="50" height="40" rx="6" /><rect x="680" y="246" width="66" height="50" rx="6" /><rect x="768" y="260" width="46" height="36" rx="6" /><rect x="836" y="250" width="60" height="46" rx="6" /><rect x="920" y="262" width="54" height="34" rx="6" /></g>
+      <path class="c" d="M420 420l30-110h120l30 110z" /><path d="M440 310a60 60 0 0 1 120 0" stroke-width="10" style="fill:none;stroke:var(--b)" />
+      <rect class="b" x="1040" y="330" width="90" height="26" rx="6" /><path class="a" d="M1040 330l14-26h62l14 26z" />
+    </g>
+  )}
+  {art === "strasse" && (
+    <g>
+      <rect class="a" x="40" y="150" width="170" height="270" /><path class="b" d="M30 150l15-46h160l15 46z" /><rect class="c" x="66" y="184" width="40" height="52" rx="6" /><rect class="c" x="144" y="184" width="40" height="52" rx="6" /><rect class="b" x="92" y="310" width="66" height="110" rx="8" />
+      <rect class="b" x="230" y="90" width="150" height="330" /><rect class="c" x="252" y="120" width="30" height="40" rx="5" /><rect class="c" x="328" y="120" width="30" height="40" rx="5" /><rect class="c" x="252" y="190" width="30" height="40" rx="5" /><rect class="c" x="328" y="190" width="30" height="40" rx="5" /><rect class="a" x="286" y="318" width="44" height="102" rx="6" />
+      <rect class="a" x="400" y="180" width="200" height="240" /><path class="c" d="M390 180l20-52h180l20 52z" /><path d="M410 128v52M450 128v52M490 128v52M530 128v52M570 128v52" stroke-width="10" style="fill:none;stroke:var(--b)" /><rect class="c" x="430" y="236" width="140" height="110" rx="10" />
+      <rect class="b" x="620" y="120" width="170" height="300" /><circle class="c" cx="705" cy="190" r="34" /><rect class="a" x="670" y="320" width="70" height="100" rx="8" />
+      <rect class="a" x="810" y="200" width="190" height="220" /><path class="b" d="M800 200l22-48h146l22 48z" /><rect class="c" x="836" y="238" width="50" height="64" rx="6" /><rect class="c" x="918" y="238" width="50" height="64" rx="6" /><rect class="b" x="880" y="330" width="62" height="90" rx="8" />
+      <rect class="b" x="1020" y="140" width="150" height="280" /><rect class="c" x="1046" y="170" width="34" height="44" rx="5" /><rect class="c" x="1110" y="170" width="34" height="44" rx="5" /><rect class="c" x="1046" y="240" width="34" height="44" rx="5" /><rect class="c" x="1110" y="240" width="34" height="44" rx="5" />
+    </g>
+  )}
+  {art === "team" && (
+    <g>
+      <rect class="a" x="480" y="300" width="620" height="22" rx="10" /><rect class="b" x="520" y="322" width="16" height="98" /><rect class="b" x="1040" y="322" width="16" height="98" />
+      <rect class="c" x="640" y="230" width="150" height="70" rx="10" /><rect class="a" x="654" y="244" width="30" height="42" rx="4" /><rect class="a" x="694" y="244" width="30" height="42" rx="4" /><rect class="a" x="734" y="244" width="40" height="18" rx="4" />
+      <circle class="a" cx="560" cy="170" r="34" /><path class="b" d="M500 300a60 70 0 0 1 120 0z" />
+      <circle class="b" cx="700" cy="140" r="38" /><path class="a" d="M632 232a68 78 0 0 1 136 0z" />
+      <circle class="a" cx="860" cy="150" r="34" /><path class="c" d="M800 300a60 74 0 0 1 120 0z" />
+      <circle class="b" cx="990" cy="176" r="32" /><path class="a" d="M934 300a56 66 0 0 1 112 0z" />
+      <circle class="c" cx="300" cy="150" r="70" /><path d="M300 150V100M300 150l36 22" stroke-width="8" stroke-linecap="round" style="fill:none;stroke:var(--a)" />
+      <rect class="b" x="140" y="240" width="170" height="130" rx="14" /><path d="M160 280h130M160 320h130M200 256v108M250 256v108" stroke-width="6" style="fill:none;stroke:var(--c)" />
+    </g>
+  )}
+  {art === "lieferung" && (
+    <g>
+      <rect class="b" x="0" y="372" width="1200" height="48" />
+      <path d="M0 372h1200" style="fill:none;stroke:var(--a)" stroke-width="6" stroke-dasharray="40 30" />
+      <circle cx="560" cy="330" r="44" fill="none" stroke-width="10" style="stroke:var(--a)" /><circle cx="800" cy="330" r="44" fill="none" stroke-width="10" style="stroke:var(--a)" />
+      <path d="M560 330l60-110h100l80 110M620 220l-14-30h-34M720 220l-60 110M740 190h40" fill="none" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" style="stroke:var(--b)" />
+      <rect class="c" x="740" y="120" width="110" height="80" rx="10" /><path d="M740 156h110M795 120v80" stroke-width="8" style="fill:none;stroke:var(--a)" />
+      <rect class="a" x="140" y="250" width="200" height="130" rx="10" /><path d="M240 250v130M140 300h200" stroke-width="8" style="fill:none;stroke:var(--c)" />
+      <rect class="b" x="360" y="296" width="120" height="84" rx="10" /><rect class="a" x="1000" y="150" width="160" height="230" rx="12" /><rect class="c" x="1024" y="178" width="112" height="64" rx="8" /><rect class="c" x="1024" y="262" width="112" height="14" rx="7" /><rect class="c" x="1024" y="288" width="80" height="14" rx="7" />
+    </g>
+  )}
+</svg>
+
+<style>
+  .szene { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: min(62%, 520px); z-index: -1; pointer-events: none; }
+  /* helle Variante (auf Beige): nur sehr helle Töne, damit Text darüber gut lesbar bleibt */
+  .szene.hell { --a: var(--mint-hell); --b: var(--sand); --c: var(--creme); opacity: 0.85; }
+  /* dunkle Variante (auf Tiefgrün): nur wenig heller als der Grund */
+  .szene.dunkel { --a: var(--tiefgruen-hell); --b: color-mix(in srgb, var(--tiefgruen-hell) 55%, var(--tiefgruen)); --c: color-mix(in srgb, var(--creme) 9%, var(--tiefgruen-hell)); opacity: 0.8; }
+  :global(.fuss) .szene { opacity: 0.5; }
+  .a { fill: var(--a); } .b { fill: var(--b); } .c { fill: var(--c); }
+</style>

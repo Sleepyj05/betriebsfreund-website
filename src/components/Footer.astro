@@ -1,10 +1,12 @@
 ---
 // Fußzeile mit Rechtslinks. Jahr wird automatisch gesetzt.
 import Logo from "./Logo.astro";
+import Szene from "./Szene.astro";
 import { marke, kontakt } from "../config";
 const jahr = new Date().getFullYear();
 ---
 <footer class="fuss dunkel">
+  <Szene art="strasse" ton="dunkel" />
   <div class="wrap fuss-in">
     <div>
       <Logo />
@@ -24,7 +26,7 @@ const jahr = new Date().getFullYear();
   </div>
 </footer>
 <style>
-  .fuss { background: var(--tiefgruen); color: var(--creme); padding-block: 56px 28px; }
+  .fuss { position: relative; isolation: isolate; overflow: hidden; background: var(--tiefgruen); color: var(--creme); padding-block: 56px 28px; }
   .fuss-in { display: grid; gap: 32px; }
   .fuss-zeile { color: var(--auf-dunkel-leise); margin-top: 12px; max-width: 34ch; }
   .fuss-links { display: flex; flex-wrap: wrap; gap: 4px 24px; align-content: start; }

@@ -1,8 +1,10 @@
 ---
 // Kontakt / Demo anfragen: Formular (Netlify Forms, Honeypot gegen Spam) + direkte Kontaktwege.
+import Szene from "./Szene.astro";
 import { kontakt, telHref, whatsappHref, mailHref, demoLink, demoLinkExtern } from "../config";
 ---
 <section class="abschnitt kontakt" id="kontakt" aria-labelledby="kontakt-titel">
+  <Szene art="lieferung" ton="hell" />
   <div class="wrap">
     <h2 id="kontakt-titel" class="reveal">Sehen Sie es sich <span class="mark">in 2 Minuten</span> an.</h2>
     <p class="lead reveal">Ich melde mich {kontakt.antwortFrist} bei Ihnen. Oder Sie rufen einfach an.</p>
