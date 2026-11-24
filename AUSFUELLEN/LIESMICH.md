@@ -3,7 +3,6 @@
 Alles an einem Ort. Haken setzen, wenn erledigt. Danach neu bauen lassen (Änderung speichern, committen, pushen; Netlify macht den Rest).
 
 ## 1. Ordner „AUSFUELLEN“ (einfach Dateien ablegen / Text ändern)
-- (Foto und Über-mich-Text: bewusst weggelassen, Sie machen das vor Ort. Der Bereich ist ausgeblendet; zum Einschalten `<About />` in `src/pages/index.astro` wieder einfügen.)
 - [ ] `av-vertrag/` – Ihren geprüften AV-Vertrag als PDF
 
 ## 2. Datei `src/config.ts` (Telefon, Preise, Texte)
