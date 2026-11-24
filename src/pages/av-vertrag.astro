@@ -1,0 +1,13 @@
+---
+import Recht from "../layouts/Recht.astro";
+import { kontakt, mailHref } from "../config";
+---
+<Recht titel="Auftragsverarbeitungsvertrag (AV-Vertrag)">
+  <p>Wenn Sie die Dienstplan-App für Ihren Betrieb nutzen, verarbeite ich Daten Ihrer Mitarbeiter in Ihrem Auftrag. Dafür schließen wir einen Auftragsverarbeitungsvertrag (AVV) nach Art. 28 DSGVO. Er ist im Preis enthalten.</p>
+
+  <h2>Vertrag anfordern</h2>
+  <p>Den Vertrag erhalten Sie auf Anfrage per E-Mail an <a href={mailHref}>{kontakt.email}</a> oder telefonisch unter {kontakt.telefon}.</p>
+
+  <h2>PDF-Download</h2>
+  <p><span class="ph">[PDF HIER VERLINKEN, sobald der geprüfte Vertrag vorliegt – Datei in den Ordner public/ legen und den Link hier eintragen]</span></p>
+</Recht>

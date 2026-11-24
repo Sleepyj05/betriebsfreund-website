@@ -1,0 +1,130 @@
+---
+// Kontakt / Demo anfragen: Formular (Netlify Forms, Honeypot gegen Spam) + direkte Kontaktwege.
+import { kontakt, telHref, whatsappHref, mailHref, demoLink, demoLinkExtern } from "../config";
+---
+<section class="abschnitt kontakt" id="kontakt" aria-labelledby="kontakt-titel">
+  <div class="wrap">
+    <h2 id="kontakt-titel" class="reveal">Sehen Sie es sich <span class="mark">in 2 Minuten</span> an.</h2>
+    <p class="lead reveal">Ich melde mich {kontakt.antwortFrist} bei Ihnen. Oder Sie rufen einfach an.</p>
+
+    <div class="spalten">
+      <form class="form reveal" name="demo-anfrage" method="POST" action="/danke" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="demo-anfrage" />
+        <p class="honig" aria-hidden="true"><label>Bitte nicht ausfüllen: <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+
+        <div class="feld">
+          <label for="f-name">Ihr Name</label>
+          <input id="f-name" name="name" type="text" required autocomplete="name" />
+        </div>
+        <div class="feld">
+          <label for="f-betrieb">Ihr Betrieb</label>
+          <input id="f-betrieb" name="betrieb" type="text" required autocomplete="organization" />
+        </div>
+        <div class="zwei">
+          <div class="feld">
+            <label for="f-branche">Branche</label>
+            <select id="f-branche" name="branche" required>
+              <option value="" disabled selected>Bitte wählen</option>
+              <option>Restaurant / Bar</option>
+              <option>Café / Bäckerei</option>
+              <option>Einzelhandel / Supermarkt</option>
+              <option>Fitnessstudio</option>
+              <option>Kino / Freizeit</option>
+              <option>Hotel</option>
+              <option>Pflege / Sozialdienst</option>
+              <option>Reinigung</option>
+              <option>Lieferdienst</option>
+              <option>Sonstiges</option>
+            </select>
+          </div>
+          <div class="feld">
+            <label for="f-anzahl">Mitarbeiter</label>
+            <select id="f-anzahl" name="mitarbeiter" required>
+              <option value="" disabled selected>Bitte wählen</option>
+              <option>1–5</option>
+              <option>6–10</option>
+              <option>11–25</option>
+              <option>26–50</option>
+              <option>Mehr als 50</option>
+            </select>
+          </div>
+        </div>
+        <div class="feld">
+          <label for="f-tel">Telefon</label>
+          <input id="f-tel" name="telefon" type="tel" required autocomplete="tel" inputmode="tel" />
+        </div>
+        <div class="feld">
+          <label for="f-mail">E-Mail <span class="opt">(optional)</span></label>
+          <input id="f-mail" name="email" type="email" autocomplete="email" />
+        </div>
+        <div class="feld">
+          <label for="f-zeit">Wann soll ich zurückrufen?</label>
+          <select id="f-zeit" name="wunschzeit">
+            <option>Egal, ich bin flexibel</option>
+            <option>Vormittags (9–12 Uhr)</option>
+            <option>Mittags (12–14 Uhr)</option>
+            <option>Nachmittags (14–16 Uhr)</option>
+          </select>
+        </div>
+        <label class="check">
+          <input type="checkbox" name="datenschutz" required />
+          <span>Ich habe die <a href="/datenschutz" target="_blank" rel="noopener">Datenschutzerklärung</a> gelesen und bin einverstanden, dass Sie mich zur Anfrage kontaktieren.</span>
+        </label>
+        <button type="submit" class="btn btn-gelb btn-gross voll">Demo anfragen</button>
+        <p class="fein">Kostenlos und unverbindlich. Ihre Angaben werden nur für den Rückruf verwendet.</p>
+      </form>
+
+      <aside class="direkt reveal" style="--d:0.1s" aria-label="Direkter Kontakt">
+        <p class="eyebrow">Direkt erreichbar</p>
+        <p class="name">{kontakt.vorname}</p>
+        <p class="zeiten">{kontakt.zeiten} · {kontakt.ort}</p>
+        <a class="tel" href={telHref}>{kontakt.telefon}</a>
+        <div class="knoepfe">
+          <a class="btn btn-gelb" href={telHref}>Anrufen</a>
+          <a class="btn btn-rand wa" href={whatsappHref} target="_blank" rel="noopener">WhatsApp schreiben</a>
+        </div>
+        <a class="mail" href={mailHref}>{kontakt.email}</a>
+        <hr />
+        <p class="selbst">Lieber erst selbst ausprobieren?</p>
+        <a class="btn btn-rand" href={demoLink} {...(demoLinkExtern ? { target: "_blank", rel: "noopener" } : {})}>
+          {demoLinkExtern ? "Demo selbst ausprobieren" : "Demo-Zugang anfragen"}
+        </a>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<style>
+  .kontakt { scroll-margin-top: 70px; }
+  .lead { margin-top: 16px; color: var(--grau); font-size: 1.125rem; max-width: 46ch; }
+  .spalten { margin-top: 40px; display: grid; gap: 28px; }
+  .form, .direkt { background: var(--karte); border-radius: 24px; padding: 26px 22px; box-shadow: 0 1px 0 var(--linie); display: grid; gap: 18px; align-content: start; }
+  .honig { position: absolute; left: -9999px; }
+  .feld { display: grid; gap: 7px; }
+  .zwei { display: grid; gap: 18px; }
+  label { font-weight: 700; font-size: 0.9375rem; }
+  .opt { font-weight: 500; color: var(--grau); }
+  input[type="text"], input[type="tel"], input[type="email"], select { width: 100%; min-height: 52px; padding: 0 14px; font: inherit; font-size: 1rem; color: var(--navy); background: var(--papier); border: 2px solid transparent; border-radius: 12px; }
+  input:hover, select:hover { border-color: var(--linie); }
+  input:focus-visible, select:focus-visible { outline: none; border-color: var(--navy); background: #fff; }
+  .check { display: grid; grid-template-columns: 26px 1fr; gap: 12px; align-items: start; font-weight: 500; font-size: 0.9375rem; color: var(--grau); }
+  .check input { width: 24px; height: 24px; margin: 1px 0 0; accent-color: var(--navy); }
+  .check a { color: var(--navy); font-weight: 700; }
+  .voll { width: 100%; }
+  .fein { font-size: 0.8125rem; color: var(--grau); text-align: center; }
+
+  .name { font-size: 2rem; font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+  .zeiten { color: var(--grau); margin-top: -10px; }
+  .tel { font-size: clamp(1.5rem, 6.6vw, 2rem); font-weight: 800; letter-spacing: -0.03em; text-decoration: none; }
+  .tel:hover { text-decoration: underline; text-decoration-color: var(--gelb); text-decoration-thickness: 3px; }
+  .knoepfe { display: grid; gap: 10px; }
+  .mail { font-weight: 600; word-break: break-all; min-height: 44px; display: inline-flex; align-items: center; }
+  hr { border: 0; border-top: 1px solid var(--linie); width: 100%; margin: 0; }
+  .selbst { font-weight: 700; margin-bottom: -6px; }
+
+  @media (min-width: 640px) { .zwei { grid-template-columns: 1fr 1fr; } .knoepfe { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 900px) {
+    .spalten { grid-template-columns: 1.25fr 0.85fr; gap: 32px; align-items: start; }
+    .form, .direkt { padding: 36px; }
+  }
+</style>

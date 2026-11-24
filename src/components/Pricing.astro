@@ -1,0 +1,129 @@
+---
+// Preiskarte mit echtem Countdown bis zum Ende des Gründerpreises (Datum in src/config.ts → preise.gruender.bis).
+// Nach Ablauf blendet sich der Gründerpreis automatisch aus; es erscheint der reguläre Preis (und ab dem
+// Startdatum, falls aktiviert, der Neukundenpreis). Der Countdown startet NIE neu – er rechnet nur gegen das feste Datum.
+import { preise, steuerHinweis, gruenderAktivBeimBau } from "../config";
+
+interface Props {
+  /** kompakte Variante ohne Überschrift (z. B. auf /demo) */
+  kompakt?: boolean;
+  /** Link des Hauptbuttons */
+  ziel?: string;
+}
+const { kompakt = false, ziel = "/#kontakt" } = Astro.props;
+const g = preise.gruender;
+const leistungen = [
+  "Alle Funktionen der App",
+  preise.maxMitarbeiter ? `Bis zu ${preise.maxMitarbeiter} Mitarbeiter` : "Alle Mitarbeiter Ihres Betriebs",
+  "Persönliche Einrichtung durch mich",
+  "Support per Telefon und WhatsApp",
+  "Daten in Deutschland (Frankfurt)",
+];
+---
+<section class:list={["preis-abschnitt", { abschnitt: !kompakt }]} id={kompakt ? undefined : "preise"} aria-labelledby={kompakt ? undefined : "preise-titel"}
+  data-bis={g.bis} data-regulaer={preise.regulaer.betrag}
+  data-neukunde={preise.neukunde.aktiv ? preise.neukunde.betrag : ""} data-neukunde-ab={preise.neukunde.ab}>
+  <div class:list={["wrap", "preis-grid", { kompakt }]}>
+    {!kompakt && <h2 id="preise-titel" class="reveal preis-h2">Ein Preis. Für Ihren <span class="mark">ganzen Betrieb.</span></h2>}
+
+    <div class="karte dunkel reveal">
+      <!-- Gründerpreis: wird nach Ablauf ausgeblendet -->
+      <div data-gruender hidden={!gruenderAktivBeimBau}>
+        <p class="etikett">{g.etikett}</p>
+        <p class="gross">{g.zeitraum} für <span class="betrag">{g.betrag}</span></p>
+        <p class="danach">danach <strong data-regulaer-preis>{preise.regulaer.betrag}</strong> {preise.regulaer.zusatz}</p>
+      </div>
+      <!-- Regulärer Preis: erscheint nach Ablauf -->
+      <div data-regulaer-block hidden={gruenderAktivBeimBau}>
+        <p class="etikett etikett-neutral">Ihr Preis</p>
+        <p class="gross"><span class="betrag" data-regulaer-gross>{preise.regulaer.betrag}</span> <span class="pro">pro Monat</span></p>
+        <p class="danach">monatlich kündbar · keine Mindestlaufzeit</p>
+      </div>
+
+      <ul class="haken">
+        {leistungen.map((l) => <li>{l}</li>)}
+      </ul>
+
+      <a href={ziel} class="btn btn-gelb btn-gross voll" data-cta>
+        <span data-gruender hidden={!gruenderAktivBeimBau}>Jetzt Gründerpreis sichern</span>
+        <span data-regulaer-block hidden={gruenderAktivBeimBau}>Demo anfragen</span>
+      </a>
+
+      <div class="countdown" data-gruender hidden={!gruenderAktivBeimBau}>
+        <p class="cd-titel">Gründerpreis endet am {g.kurzDatum} um 23:59 Uhr – noch:</p>
+        <div class="cd" role="timer" aria-label="Verbleibende Zeit bis zum Ende des Gründerpreises">
+          <div><b data-cd="t">–</b><span>Tage</span></div>
+          <div><b data-cd="h">–</b><span>Std.</span></div>
+          <div><b data-cd="m">–</b><span>Min.</span></div>
+          <div><b data-cd="s">–</b><span>Sek.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <p class="klein">{steuerHinweis[preise.steuer]}</p>
+  </div>
+</section>
+
+<style>
+  .preis-abschnitt { scroll-margin-top: 70px; }
+  .preis-grid { display: grid; gap: 28px; }
+  .preis-grid.kompakt { justify-items: center; }
+  .preis-h2 { max-width: 14ch; margin-bottom: 8px; }
+  .klein { grid-column: 1 / -1; }
+  .karte { background: var(--navy); color: #fff; border-radius: 28px; padding: 32px 24px; max-width: 640px; width: 100%; box-shadow: var(--schatten); }
+  .etikett { display: inline-block; background: var(--gelb); color: var(--navy); font-weight: 800; font-size: 0.8125rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 8px 14px; border-radius: 99px; }
+  .etikett-neutral { background: rgba(255, 255, 255, 0.14); color: #fff; }
+  .gross { margin-top: 20px; font-size: clamp(2.25rem, 10vw, 3.5rem); font-weight: 800; letter-spacing: -0.045em; line-height: 1.02; }
+  .betrag { color: var(--gelb); }
+  .pro { font-size: 0.4em; letter-spacing: -0.01em; font-weight: 700; color: #c9d0de; }
+  .danach { margin-top: 12px; color: #c9d0de; }
+  .danach strong { color: #fff; }
+  .haken { list-style: none; margin: 28px 0; padding: 24px 0 0; border-top: 1px solid rgba(255, 255, 255, 0.16); display: grid; gap: 12px; }
+  .haken li { display: grid; grid-template-columns: 26px 1fr; gap: 10px; align-items: start; }
+  .haken li::before { content: "✓"; width: 24px; height: 24px; border-radius: 50%; background: var(--gruen); color: #fff; display: grid; place-items: center; font-weight: 800; font-size: 0.8125rem; margin-top: 1px; }
+  .voll { width: 100%; }
+  .countdown { margin-top: 26px; text-align: center; }
+  .cd-titel { color: #c9d0de; font-size: 0.9375rem; }
+  .cd { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 14px; }
+  .cd div { background: var(--navy-hell); border-radius: 14px; padding: 12px 4px 10px; }
+  .cd b { display: block; font-size: 1.75rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1; font-variant-numeric: tabular-nums; color: var(--gelb); }
+  .cd span { display: block; margin-top: 6px; font-size: 0.75rem; color: #b3bccd; text-transform: uppercase; letter-spacing: 0.08em; }
+  .klein { font-size: 0.875rem; color: var(--grau); }
+  [hidden] { display: none !important; }
+  @media (min-width: 900px) {
+    .karte { padding: 44px 48px; }
+    .preis-grid:not(.kompakt) { grid-template-columns: 0.8fr 1.2fr; gap: 28px 72px; align-items: center; }
+    .preis-grid:not(.kompakt) .klein { grid-column: 2; margin-top: -4px; }
+  }
+</style>
+
+<script>
+  // Echter Countdown gegen das feste Enddatum aus der Config. Nach Ablauf wird der Gründerpreis ausgeblendet.
+  document.querySelectorAll<HTMLElement>(".preis-abschnitt").forEach((box) => {
+    const bis = Date.parse(box.dataset.bis!);
+    const neukunde = box.dataset.neukunde;
+    const neukundeAb = Date.parse(box.dataset.neukundeAb || "");
+    const feld = (k: string) => box.querySelector<HTMLElement>(`[data-cd="${k}"]`);
+    const zwei = (n: number) => String(n).padStart(2, "0");
+
+    function tick() {
+      const jetzt = Date.now();
+      const rest = bis - jetzt;
+      if (rest <= 0) {
+        box.querySelectorAll<HTMLElement>("[data-gruender]").forEach((e) => (e.hidden = true));
+        box.querySelectorAll<HTMLElement>("[data-regulaer-block]").forEach((e) => (e.hidden = false));
+        if (neukunde && jetzt >= neukundeAb) {
+          box.querySelectorAll<HTMLElement>("[data-regulaer-gross],[data-regulaer-preis]").forEach((e) => (e.textContent = neukunde));
+        }
+        return;
+      }
+      const s = Math.floor(rest / 1000);
+      feld("t")!.textContent = String(Math.floor(s / 86400));
+      feld("h")!.textContent = zwei(Math.floor((s % 86400) / 3600));
+      feld("m")!.textContent = zwei(Math.floor((s % 3600) / 60));
+      feld("s")!.textContent = zwei(s % 60);
+      setTimeout(tick, 1000 - (Date.now() % 1000));
+    }
+    tick();
+  });
+</script>

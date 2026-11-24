@@ -1,0 +1,35 @@
+---
+// Fußzeile mit Rechtslinks. Jahr wird automatisch gesetzt.
+import Logo from "./Logo.astro";
+import { produkt, kontakt } from "../config";
+const jahr = new Date().getFullYear();
+---
+<footer class="fuss dunkel">
+  <div class="wrap fuss-in">
+    <div>
+      <Logo />
+      <p class="fuss-zeile">{produkt.name} – die Dienstplan-App für Betriebe mit Schichten. Persönlich aus {kontakt.ort}.</p>
+    </div>
+    <nav aria-label="Rechtliches und Kontakt" class="fuss-links">
+      <a href="/impressum">Impressum</a>
+      <a href="/datenschutz">Datenschutz</a>
+      <a href="/agb">AGB</a>
+      <a href="/av-vertrag">AV-Vertrag</a>
+      <a href="/#kontakt">Kontakt</a>
+    </nav>
+  </div>
+  <div class="wrap fuss-unten">
+    <span>© {jahr} {produkt.name}</span>
+    <span>Das Bild der Person auf dieser Seite ist KI-generiert.</span>
+  </div>
+</footer>
+<style>
+  .fuss { background: var(--navy); color: #fff; padding-block: 56px 28px; }
+  .fuss-in { display: grid; gap: 32px; }
+  .fuss-zeile { color: #c9d0de; margin-top: 12px; max-width: 34ch; }
+  .fuss-links { display: flex; flex-wrap: wrap; gap: 4px 24px; align-content: start; }
+  .fuss-links a { min-height: 44px; display: inline-flex; align-items: center; text-decoration: none; font-weight: 600; }
+  .fuss-links a:hover { text-decoration: underline; text-decoration-color: var(--gelb); text-underline-offset: 5px; }
+  .fuss-unten { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 24px; margin-top: 36px; padding-top: 22px; border-top: 1px solid rgba(255, 255, 255, 0.15); color: #b3bccd; font-size: 0.875rem; }
+  @media (min-width: 900px) { .fuss-in { grid-template-columns: 1fr auto; } .fuss-links { max-width: 420px; justify-content: flex-end; } }
+</style>

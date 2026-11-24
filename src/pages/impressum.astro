@@ -1,0 +1,21 @@
+---
+import Recht from "../layouts/Recht.astro";
+import { kontakt } from "../config";
+---
+<Recht titel="Impressum">
+  <h2>Angaben gemäß § 5 DDG</h2>
+  <p><span class="ph">[VOLLSTÄNDIGER NAME, ggf. Firma und Rechtsform]</span><br />
+  {kontakt.anschrift} <span class="ph">[BITTE PRÜFEN: ladungsfähige Anschrift, kein Platzhalter]</span></p>
+
+  <h2>Kontakt</h2>
+  <p>Telefon: {kontakt.telefon}<br />E-Mail: {kontakt.email}</p>
+
+  <h2>Umsatzsteuer</h2>
+  <p><span class="ph">[Umsatzsteuer-ID falls vorhanden – ODER Hinweis auf Kleinunternehmerregelung nach § 19 UStG]</span></p>
+
+  <h2>Verantwortlich für den Inhalt</h2>
+  <p><span class="ph">[Name und Anschrift, falls nach § 18 Abs. 2 MStV erforderlich]</span></p>
+
+  <h2>Streitbeilegung</h2>
+  <p><span class="ph">[Hinweis zur Verbraucherstreitbeilegung – rechtlich prüfen lassen, ob und wie erforderlich]</span></p>
+</Recht>

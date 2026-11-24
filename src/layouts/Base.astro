@@ -1,0 +1,61 @@
+---
+// Grundgerüst jeder Seite: Kopf, Schrift (selbst gehostet), SEO-Basics, Scroll-Animation, Fuß.
+import "@fontsource-variable/inter/wght.css";
+import interLatin from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import StickyBar from "../components/StickyBar.astro";
+import { produkt, seite } from "../config";
+
+interface Props {
+  titel?: string;
+  beschreibung?: string;
+  /** Seite aus Suchmaschinen heraushalten (z. B. Danke-Seite) */
+  noindex?: boolean;
+  /** Fester Balken am Handy ausblenden */
+  ohneLeiste?: boolean;
+}
+const { titel = produkt.titel, beschreibung = produkt.beschreibung, noindex = false, ohneLeiste = false } = Astro.props;
+const kanonisch = new URL(Astro.url.pathname, seite.url).href;
+---
+<!doctype html>
+<html lang={seite.sprache}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titel}</title>
+    <meta name="description" content={beschreibung} />
+    <meta name="theme-color" content="#F4F1EA" />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <link rel="canonical" href={kanonisch} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href={interLatin} as="font" type="font/woff2" crossorigin />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:site_name" content={produkt.name} />
+    <meta property="og:title" content={titel} />
+    <meta property="og:description" content={beschreibung} />
+    <meta property="og:url" content={kanonisch} />
+    <script is:inline>document.documentElement.classList.add("js");</script>
+  </head>
+  <body>
+    <a class="skip" href="#inhalt">Zum Inhalt springen</a>
+    <Header />
+    <main id="inhalt"><slot /></main>
+    <Footer />
+    {!ohneLeiste && <StickyBar />}
+    <script>
+      // Elemente mit der Klasse "reveal" blenden beim Scrollen weich ein.
+      const els = document.querySelectorAll<HTMLElement>(".reveal");
+      if (!("IntersectionObserver" in window)) els.forEach((e) => e.classList.add("sichtbar"));
+      else {
+        const io = new IntersectionObserver(
+          (list) => list.forEach((l) => { if (l.isIntersecting) { l.target.classList.add("sichtbar"); io.unobserve(l.target); } }),
+          { rootMargin: "0px 0px -8% 0px", threshold: 0.08 },
+        );
+        els.forEach((e) => io.observe(e));
+      }
+    </script>
+  </body>
+</html>

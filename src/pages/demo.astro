@@ -1,0 +1,40 @@
+---
+// Kurzseite für den QR-Code vom Flyer. Bewusst schlank (kein Personenbild) → lädt am Handy sehr schnell.
+import Base from "../layouts/Base.astro";
+import PhoneMock from "../components/PhoneMock.astro";
+import Pricing from "../components/Pricing.astro";
+import { demoLink, demoLinkExtern, telHref, kontakt } from "../config";
+---
+<Base titel="Willkommen vom Flyer | Schichtklar Demo" beschreibung="Sehen Sie in 2 Minuten, wie Ihr Dienstplan ab morgen läuft." noindex>
+  <section class="demo">
+    <div class="wrap demo-in">
+      <p class="eyebrow">Willkommen!</p>
+      <h1>Sie kommen vom <span class="mark">Flyer.</span></h1>
+      <p class="lead">So läuft eine Krankmeldung ab morgen. Probieren Sie es gleich am Handy aus.</p>
+
+      <div class="handy" style="--phone-w: min(236px, 64vw)"><PhoneMock /></div>
+
+      <div class="knoepfe">
+        <a class="btn btn-gelb btn-gross" href={demoLink} {...(demoLinkExtern ? { target: "_blank", rel: "noopener" } : {})}>
+          {demoLinkExtern ? "Demo selbst ausprobieren" : "Demo anfragen"}
+        </a>
+        <a class="btn btn-rand btn-gross" href="/#kontakt">Rückruf anfordern</a>
+        <a class="textlink" href={telHref}>oder direkt anrufen: {kontakt.telefon}</a>
+      </div>
+    </div>
+  </section>
+  <Pricing kompakt ziel="/#kontakt" />
+  <div class="abstand"></div>
+</Base>
+
+<style>
+  .demo { padding-block: 28px 56px; }
+  .demo-in { text-align: center; display: grid; justify-items: center; }
+  h1 { font-size: clamp(2.5rem, 11vw, 4.5rem); margin-top: 8px; }
+  .lead { margin-top: 14px; color: var(--grau); max-width: 36ch; font-size: 1.125rem; }
+  .handy { margin-block: 36px 8px; width: 100%; transform: rotate(2deg); }
+  .handy :global(.hinweis) { transform: rotate(-2deg); }
+  .knoepfe { display: grid; gap: 12px; width: 100%; max-width: 420px; justify-items: center; margin-top: 10px; }
+  .knoepfe .btn { width: 100%; }
+  .abstand { height: 56px; }
+</style>

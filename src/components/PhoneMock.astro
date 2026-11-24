@@ -1,0 +1,131 @@
+---
+// Handy-Mockup in reinem HTML/CSS (kein Bild). Sperrbildschirm "06:14, Freitag" mit drei Benachrichtigungen,
+// die nacheinander erscheinen. Tippen auf "Freigeben" → Erfolgsmeldung. Das ist der Aha-Moment der Seite.
+// Ohne JavaScript bleibt alles sichtbar; mit "reduzierter Bewegung" gibt es keine Animation.
+---
+<div class="phone-wrap">
+  <div class="phone" role="group" aria-label="Beispiel: So sieht Ihr Handy am Freitagmorgen aus" data-phone>
+    <div class="phone-notch" aria-hidden="true"></div>
+    <div class="screen">
+      <p class="zeit">06:14</p>
+      <p class="tag">Freitag</p>
+
+      <ul class="meldungen">
+        <li class="n n1" style="--d: 0.7s">
+          <span class="ico rot" aria-hidden="true">!</span>
+          <div class="txt"><strong>Mia: krank gemeldet</strong><span>Fr 17–23 Uhr ist offen</span></div>
+          <time>06:02</time>
+        </li>
+        <li class="n n2" style="--d: 1.8s">
+          <span class="ico gruen" aria-hidden="true">✓</span>
+          <div class="txt"><strong>Jonas übernimmt</strong><span>Schicht Fr 17–23 Uhr</span></div>
+          <time>06:09</time>
+        </li>
+        <li class="n n3" style="--d: 3s" data-karte>
+          <span class="ico navy" aria-hidden="true">S</span>
+          <div class="txt">
+            <strong data-titel>Freigeben?</strong>
+            <span data-text>Alle Regeln erfüllt</span>
+            <button type="button" class="freigeben" data-freigeben><span aria-hidden="true">✓</span> Freigeben</button>
+          </div>
+          <time data-zeit>jetzt</time>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <p class="hinweis" aria-live="polite" data-hinweis>
+    <span data-hint-start>Tippen Sie auf „Freigeben“ – probieren Sie es aus.</span>
+    <span data-hint-ende hidden>Genau so einfach ist es. <button type="button" class="nochmal" data-nochmal>Nochmal ansehen</button></span>
+  </p>
+</div>
+
+<style>
+  .phone-wrap { --w: 100%; width: 100%; }
+  /* Alle Größen im Handy in "em": Die Schriftgröße steuert die Gesamtgröße (siehe --phone-w in der Elternseite). */
+  .phone {
+    font-size: calc(var(--phone-w, 280px) / 21);
+    width: var(--phone-w, 280px);
+    aspect-ratio: 9 / 18.6;
+    margin-inline: auto;
+    position: relative;
+    border-radius: 3.1em;
+    border: 0.62em solid #0a1428;
+    background: linear-gradient(170deg, var(--navy-hell) 0%, var(--navy) 100%);
+    box-shadow: var(--schatten);
+    overflow: hidden;
+    text-align: left;
+    color: #fff;
+  }
+  .phone-notch { position: absolute; top: 0.75em; left: 50%; translate: -50% 0; width: 6.2em; height: 1.7em; border-radius: 1em; background: #0a1428; z-index: 2; }
+  .screen { padding: 3.2em 0.9em 1em; }
+  .zeit { margin: 0; text-align: center; font-size: 4.2em; font-weight: 300; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .tag { margin: 0.5em 0 2em; text-align: center; font-size: 1em; color: #c3cde0; }
+  .meldungen { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.7em; }
+
+  .n { display: grid; grid-template-columns: auto 1fr auto; gap: 0.75em; align-items: start; background: rgba(255, 255, 255, 0.96); color: var(--navy); border-radius: 1.1em; padding: 0.85em 0.9em;  }
+  .ico { width: 2.1em; height: 2.1em; border-radius: 0.6em; display: grid; place-items: center; font-weight: 800; font-size: 1em; color: #fff; flex: none; }
+  .ico.rot { background: var(--rot); } .ico.gruen { background: var(--gruen); } .ico.navy { background: var(--navy); }
+  .txt { display: grid; gap: 0.1em; min-width: 0; line-height: 1.25; }
+  .txt strong { font-weight: 800; font-size: 1em; letter-spacing: -0.01em; }
+  .txt span { font-size: 0.93em; color: var(--grau); }
+  time { font-size: 0.8em; color: var(--grau); padding-top: 0.15em; white-space: nowrap; }
+
+  .freigeben { margin-top: 0.6em; justify-self: start; min-height: max(2.5em, 44px); padding: 0 1.3em; border: 0; border-radius: 99px; background: var(--gelb); color: var(--navy); font: inherit; font-weight: 800; font-size: 0.98em; cursor: pointer; position: relative; }
+  .freigeben:hover { filter: brightness(0.97); }
+  .freigeben::after { content: ""; position: absolute; inset: -0.3em; border-radius: 99px; border: 2px solid var(--gelb); opacity: 0; animation: puls 1.8s ease-out 4.4s 3; }
+  /* Hinweis: Das Tippziel ist optisch kompakt, aber durch ::after und Zeilenhöhe mind. 44 px (bei Phone-Breite ≥ 260 px). */
+
+  /* Erfolgszustand */
+  .n3.fertig { background: var(--gruen); color: #fff; }
+  .n3.fertig .txt span, .n3.fertig time { color: #e6fff4; }
+  .n3.fertig .ico { background: #fff; color: var(--gruen); }
+  .n3.fertig .freigeben { display: none; }
+  .n3.fertig .txt strong { font-size: 1.1em; }
+
+  .hinweis { margin: 1.4rem auto 0; text-align: center; color: var(--grau); font-size: 0.9375rem; min-height: 3em; }
+  .nochmal { background: none; border: 0; padding: 0 0 0 4px; min-height: 44px; font: inherit; font-weight: 700; color: var(--navy); text-decoration: underline; text-decoration-color: var(--gelb); text-decoration-thickness: 2px; text-underline-offset: 4px; cursor: pointer; }
+
+  /* Benachrichtigungen erscheinen nacheinander (nur wenn Bewegung erlaubt ist, siehe global.css) */
+  .n { animation: rein 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) var(--d) both; }
+  .phone.neu .n { animation: none; }
+
+  @keyframes rein { from { opacity: 0; transform: translateY(-14px) scale(0.97); } to { opacity: 1; transform: none; } }
+  @keyframes puls { 0% { opacity: 0.9; transform: scale(0.96); } 100% { opacity: 0; transform: scale(1.18); } }
+</style>
+
+<script>
+  // Interaktion: "Freigeben" antippen → Karte wird grün. "Nochmal ansehen" spielt alles neu ab.
+  document.querySelectorAll<HTMLElement>("[data-phone]").forEach((phone) => {
+    const wrap = phone.parentElement as HTMLElement;
+    const karte = phone.querySelector<HTMLElement>("[data-karte]")!;
+    const titel = karte.querySelector<HTMLElement>("[data-titel]")!;
+    const text = karte.querySelector<HTMLElement>("[data-text]")!;
+    const zeit = karte.querySelector<HTMLElement>("[data-zeit]")!;
+    const ico = karte.querySelector<HTMLElement>(".ico")!;
+    const start = wrap.querySelector<HTMLElement>("[data-hint-start]")!;
+    const ende = wrap.querySelector<HTMLElement>("[data-hint-ende]")!;
+    const original = { titel: titel.textContent, text: text.textContent, ico: ico.textContent };
+
+    wrap.querySelector("[data-freigeben]")!.addEventListener("click", () => {
+      karte.classList.add("fertig");
+      titel.textContent = "Erledigt.";
+      text.textContent = "Ohne einen Anruf.";
+      zeit.textContent = "jetzt";
+      ico.textContent = "✓";
+      start.hidden = true;
+      ende.hidden = false;
+    });
+    wrap.querySelector("[data-nochmal]")!.addEventListener("click", () => {
+      karte.classList.remove("fertig");
+      titel.textContent = original.titel;
+      text.textContent = original.text;
+      ico.textContent = original.ico;
+      start.hidden = false;
+      ende.hidden = true;
+      // Animation neu starten
+      phone.classList.add("neu");
+      void phone.offsetWidth;
+      phone.classList.remove("neu");
+    });
+  });
+</script>

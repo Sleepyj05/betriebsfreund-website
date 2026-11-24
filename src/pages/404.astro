@@ -1,0 +1,20 @@
+---
+// Fehlerseite im selben Design.
+import Base from "../layouts/Base.astro";
+---
+<Base titel="Seite nicht gefunden | Schichtklar" noindex>
+  <section class="fehler abschnitt">
+    <div class="wrap">
+      <p class="eyebrow">Fehler 404</p>
+      <h1>Diese Seite gibt es <span class="mark">nicht.</span></h1>
+      <p class="lead">Vielleicht hat sich die Adresse geändert. Auf der Startseite finden Sie alles Wichtige.</p>
+      <p><a class="btn btn-gelb btn-gross" href="/">Zurück zur Startseite</a></p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .fehler { min-height: 60vh; }
+  h1 { font-size: clamp(2.5rem, 10vw, 4.5rem); margin-block: 10px 18px; max-width: 14ch; }
+  .lead { color: var(--grau); font-size: 1.1875rem; max-width: 40ch; margin-bottom: 28px; }
+</style>
