@@ -8,6 +8,7 @@ import { kontakt, telHref, demoLink } from "../config";
 <section class="hero" aria-labelledby="hero-titel">
   <div class="wrap hero-in">
     <div class="hero-text">
+      <p class="marke"><span class="marke-q" aria-hidden="true"></span>Schichtklar · die Dienstplan-App von Ablaufklar</p>
       <h1 id="hero-titel">Mia ist krank.</h1>
       <p class="unter">Sie erfahren es erst, <span class="mark">wenn Jonas die Schicht schon übernommen hat.</span></p>
       <p class="klein">Die Dienstplan-App für jeden Betrieb, von Gastro bis Handel.</p>
@@ -41,6 +42,8 @@ import { kontakt, telHref, demoLink } from "../config";
 <style>
   .hero { padding-block: 28px 56px; overflow-x: clip; }
   .hero-in { display: grid; gap: 36px; }
+  .marke { display: inline-flex; align-items: center; gap: 10px; background: var(--karte); border-radius: 99px; padding: 8px 16px 8px 12px; font-weight: 700; font-size: 0.875rem; margin-bottom: 20px; }
+  .marke-q { width: 12px; height: 12px; border-radius: 3px; background: var(--gelb); box-shadow: 0 0 0 2px var(--navy); }
   h1 { font-size: clamp(3rem, 13.5vw, 5.25rem); line-height: 0.98; letter-spacing: -0.045em; }
   .unter { margin-top: 18px; font-size: clamp(1.375rem, 5.2vw, 2rem); font-weight: 700; letter-spacing: -0.025em; line-height: 1.22; color: var(--grau); }
   .unter .mark { color: var(--navy); font-weight: 800; }

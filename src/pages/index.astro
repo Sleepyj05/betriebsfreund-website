@@ -1,15 +1,59 @@
 ---
-// Startseite. Phase 1: Hero, So funktioniert's, Preise, Kontakt.
-// (Phase 2/3 ergänzen: Problem, Funktionen, Für wen, Rechner, Vergleich, Über mich, FAQ.)
+// Startseite, Reihenfolge wie im Konzept. Schema.org-Daten (SoftwareApplication, LocalBusiness) stehen unten.
 import Base from "../layouts/Base.astro";
 import Hero from "../components/Hero.astro";
+import Problem from "../components/Problem.astro";
 import Steps from "../components/Steps.astro";
+import Features from "../components/Features.astro";
+import ForWho from "../components/ForWho.astro";
+import Calculator from "../components/Calculator.astro";
+import Comparison from "../components/Comparison.astro";
 import Pricing from "../components/Pricing.astro";
+import Services from "../components/Services.astro";
+import About from "../components/About.astro";
+import Testimonials from "../components/Testimonials.astro";
+import Faq from "../components/Faq.astro";
 import Contact from "../components/Contact.astro";
+import { marke, produkt, seite, kontakt, preise } from "../config";
+
+const schema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: produkt.name,
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web",
+    inLanguage: "de",
+    description: "Dienstplan-App für Betriebe mit Schichten: Krankmeldung, Schichttausch, Urlaub und automatische Regelprüfung.",
+    offers: { "@type": "Offer", price: preise.regulaer.betrag.replace(/[^\d,]/g, "").replace(",", "."), priceCurrency: "EUR" },
+    provider: { "@type": "Organization", name: marke.name },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": ["Organization", "LocalBusiness"],
+    name: marke.name,
+    url: seite.url,
+    telephone: kontakt.telefon,
+    email: kontakt.email,
+    address: { "@type": "PostalAddress", addressLocality: kontakt.ort, addressCountry: "DE" },
+    areaServed: kontakt.ort,
+    description: marke.slogan,
+  },
+];
 ---
 <Base>
   <Hero />
+  <Problem />
   <Steps />
+  <Features />
+  <ForWho />
+  <Calculator />
+  <Comparison />
   <Pricing />
+  <Services />
+  <About />
+  <Testimonials />
+  <Faq />
   <Contact />
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
 </Base>

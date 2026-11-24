@@ -1,0 +1,65 @@
+---
+// Abschnitt 8: Ehrlicher Vergleich. Keine Konkurrenten beim Namen, nur allgemein und vorsichtig formuliert.
+// Jede Zelle hat Symbol UND Wort (nicht nur Farbe) → barrierearm.
+import { produkt } from "../config";
+const zeilen = [
+  { f: "Tausch ohne Anrufe", a: ["no", "Nein"], b: ["mid", "Meist ja"], c: ["yes", "Ja"] },
+  { f: "Regeln automatisch geprüft", a: ["no", "Nein"], b: ["mid", "Oft ja"], c: ["yes", "Ja, als Warnung"] },
+  { f: "Preis pro Mitarbeiter", a: ["yes", "Nein, kostenlos"], b: ["mid", "Meist ja"], c: ["yes", "Nein, ein Preis"] },
+  { f: "Jahresvertrag nötig", a: ["yes", "Nein"], b: ["mid", "Oft ja"], c: ["yes", "Nein, monatlich kündbar"] },
+  { f: "Persönliche Einrichtung", a: ["no", "Nein"], b: ["mid", "Selten"], c: ["yes", "Ja, durch mich"] },
+  { f: "Server in Deutschland", a: ["mid", "Je nach Dienst"], b: ["mid", "Unterschiedlich"], c: ["yes", "Ja, Frankfurt"] },
+];
+const sym: Record<string, string> = { yes: "✓", mid: "~", no: "✕" };
+---
+<section class="abschnitt" id="vergleich" aria-labelledby="vgl-titel">
+  <div class="wrap">
+    <h2 id="vgl-titel" class="reveal">Ehrlich verglichen: <span class="mark">Was passt zu Ihnen?</span></h2>
+    <p class="lead reveal">Zettel und WhatsApp reichen für ein sehr kleines Team. Große Tools sind stark, aber oft teuer und kompliziert. Dazwischen liegt {produkt.name}.</p>
+
+    <table class="vgl reveal">
+      <caption class="sr-only">Vergleich von Zettel, WhatsApp und Excel, großen Dienstplan-Tools und {produkt.name}</caption>
+      <thead>
+        <tr><th scope="col"><span class="sr-only">Merkmal</span></th><th scope="col">Zettel / WhatsApp / Excel</th><th scope="col">Große Dienstplan-Tools</th><th scope="col" class="wir">{produkt.name}</th></tr>
+      </thead>
+      <tbody>
+        {zeilen.map((z) => (
+          <tr>
+            <th scope="row">{z.f}</th>
+            {[z.a, z.b, z.c].map((c, i) => (
+              <td class={`${c[0]} ${i === 2 ? "wir" : ""}`} data-label={["Zettel / WhatsApp / Excel", "Große Tools", produkt.name][i]}><span class="s" aria-hidden="true">{sym[c[0]]}</span> {c[1]}</td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    <p class="fein">Allgemeine Einschätzung typischer Angebote, keine Aussage über einzelne Anbieter. Angaben ohne Gewähr.</p>
+  </div>
+</section>
+
+<style>
+  .lead { margin-top: 14px; color: var(--grau); max-width: 60ch; font-size: 1.125rem; }
+  .vgl { margin-top: 32px; width: 100%; border-collapse: separate; border-spacing: 0; }
+  .vgl thead { display: none; }
+  .vgl tr { display: block; background: var(--karte); border-radius: var(--radius); padding: 18px 18px 8px; margin-bottom: 12px; }
+  .vgl th[scope="row"] { display: block; text-align: left; font-size: 1.125rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 10px; }
+  .vgl td { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid var(--linie); font-weight: 600; }
+  .vgl td::before { content: attr(data-label); color: var(--grau); font-weight: 500; font-size: 0.9375rem; }
+  .vgl td .s { display: none; }
+  .vgl td.wir { background: #fff4cf; margin: 0 -18px; padding-inline: 18px; border-radius: 0 0 var(--radius) var(--radius); border-top-color: transparent; }
+  .vgl .yes { color: #0b6b45; } .vgl .no { color: #b3262b; } .vgl .mid { color: #6b5a14; }
+  .fein { margin-top: 14px; font-size: 0.875rem; color: var(--grau); }
+  @media (min-width: 900px) {
+    .vgl thead { display: table-header-group; }
+    .vgl tr { display: table-row; background: none; padding: 0; margin: 0; }
+    .vgl th, .vgl td { display: table-cell; padding: 18px 16px; border-top: 1px solid var(--linie); text-align: left; vertical-align: middle; }
+    .vgl td::before { content: none; }
+    .vgl td .s { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; font-size: 0.8rem; font-weight: 800; margin-right: 8px; color: #fff; }
+    .vgl .yes .s { background: var(--gruen); } .vgl .no .s { background: var(--rot); } .vgl .mid .s { background: #8a7a2e; }
+    .vgl thead th { border-top: 0; font-size: 0.9375rem; font-weight: 800; color: var(--grau); }
+    .vgl thead th.wir { background: var(--navy); color: var(--gelb); border-radius: 16px 16px 0 0; }
+    .vgl th[scope="row"] { margin: 0; font-size: 1rem; }
+    .vgl td.wir { background: #fff4cf; margin: 0; padding-inline: 16px; border-radius: 0; border-top: 1px solid var(--linie); }
+    .vgl tbody tr:last-child td.wir { border-radius: 0 0 16px 16px; }
+  }
+</style>

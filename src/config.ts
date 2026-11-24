@@ -7,19 +7,25 @@
  * Stellen mit [ECKIGEN KLAMMERN] sind Platzhalter, die Sie selbst ausfüllen müssen.
  */
 
+/** MARKE (Dach): der Name der Firma/Website. "Abläufe klar" – passt zu Dienstplan, KI und Optimierung. */
+export const marke = {
+  name: "Ablaufklar",
+  slogan: "Weniger Chaos im Betrieb. Dienstplan, KI und Optimierung aus Köln.",
+};
+
+/** PRODUKT: die Dienstplan-App. Heißt weiter "Schichtklar" (steht so auf dem Flyer). */
 export const produkt = {
-  /** Produktname (Platzhalter) – erscheint im Logo, in Titeln und Texten */
   name: "Schichtklar",
-  /** Untertitel für Titel-Tag und Suchmaschinen */
-  titel: "Dienstplan-App für jeden Betrieb | Schichtklar Köln",
+  /** Titel-Tag der Startseite */
+  titel: "Ablaufklar Köln | Dienstplan, KI und Optimierung für Betriebe",
   /** Beschreibung für Google und Link-Vorschauen (max. 155 Zeichen) */
   beschreibung:
-    "Dienstplan-App für Gastro, Handel und mehr: Krankmeldung, Schichttausch und Ersatz ohne Telefonkette. Gründerpreis im Dezember. Persönliche Einrichtung in Köln.",
+    "Ablaufklar aus Köln: Dienstplan-App Schichtklar, KI im Alltag und einfachere Abläufe für Gastro, Handel und Dienstleister. Persönlich, verständlich.",
 };
 
 export const seite = {
   /** Endgültige Adresse der Website (ohne Schrägstrich am Ende). Auch in astro.config.mjs anpassen! */
-  url: "https://schichtklar.de",
+  url: "https://ablaufklar.de",
   sprache: "de",
 };
 
@@ -29,8 +35,8 @@ export const kontakt = {
   telefon: "0221 123 456 78",
   /** WhatsApp-Nummer nur mit Ziffern, mit Ländervorwahl ohne + und ohne Null (49 = Deutschland) */
   whatsapp: "4922112345678",
-  whatsappText: "Hallo Daniel, ich interessiere mich für Schichtklar.",
-  email: "kontakt@schichtklar.de", // [BITTE AUSFÜLLEN] echte E-Mail-Adresse
+  whatsappText: "Hallo Daniel, ich interessiere mich für Ablaufklar.",
+  email: "kontakt@ablaufklar.de", // [BITTE AUSFÜLLEN] echte E-Mail-Adresse
   zeiten: "Mo–Fr, 9–16 Uhr",
   ort: "Köln",
   /** Vollständige Anschrift (für Impressum und Footer) – Platzhalter aus dem Flyer */
@@ -40,7 +46,7 @@ export const kontakt = {
 };
 
 /** Link zum Demo-Modus der App. Leer lassen, solange es ihn nicht gibt → Button führt dann zum Formular. */
-export const demoUrl = ""; // z. B. "https://app.schichtklar.de" ([BITTE AUSFÜLLEN])
+export const demoUrl = ""; // z. B. "https://app.ablaufklar.de" ([BITTE AUSFÜLLEN])
 
 export const preise = {
   /** Aktionspreis. Nach "bis" blendet sich das Angebot automatisch aus (echter Countdown, kein Neustart). */
@@ -76,6 +82,37 @@ export const steuerHinweis = {
  * Bitte nur echte, freigegebene Zitate eintragen.
  */
 export const kundenstimmen: { text: string; name: string; betrieb: string }[] = [];
+
+/**
+ * RECHNER "Was kostet Sie der Dienstplan heute?" – Annahmen und Formel (grobe Schätzung, bewusst vorsichtig):
+ *
+ *   Stunden pro Monat = (Mitarbeiter × planMinProMitarbeiterWoche / 60
+ *                       + AusfälleProWoche × minProAusfall / 60) × wochenProMonat
+ *   Kosten pro Monat  = Stunden pro Monat × Stundensatz
+ *
+ * Beispiel (Standardwerte): 10 Mitarbeiter, 3 Ausfälle/Woche → (10×12/60 + 3×30/60) × 4,33 ≈ 15 Std. ≈ 380 €
+ */
+export const rechner = {
+  /** Minuten pro Mitarbeiter und Woche für Plan erstellen, anpassen, verteilen und Rückfragen */
+  planMinProMitarbeiterWoche: 12,
+  /** Minuten pro Ausfall oder Tausch (Anrufe, Nachrichten, Abstimmen, Plan ändern) */
+  minProAusfall: 30,
+  wochenProMonat: 4.33,
+  /** Vorgeschlagener Stundensatz des Chefs in € */
+  stundensatz: 25,
+  standardMitarbeiter: 10,
+  standardAusfaelle: 3,
+};
+
+/**
+ * Weitere Leistungen neben dem Dienstplan (Bereich "Mehr als Dienstplan").
+ * [BITTE PRÜFEN] Das ist ein Entwurf – bitte nur eintragen, was Sie wirklich anbieten wollen.
+ */
+export const weitereLeistungen = [
+  { titel: "Abläufe aufräumen", text: "Wir schauen gemeinsam, wo im Alltag Zeit versickert: doppelte Listen, Zettel, endlose Nachrichten. Dann machen wir es einfacher." },
+  { titel: "KI im Alltag", text: "Texte, Anfragen und Auswertungen schneller erledigen, mit KI-Werkzeugen, die zu Ihrem Betrieb passen. Verständlich erklärt und datensparsam." },
+  { titel: "Zahlen statt Bauchgefühl", text: "Einfache Auswertungen: Wo laufen Stunden auf, wann ist viel los, was lohnt sich? Klar dargestellt, ohne Datenfriedhof." },
+];
 
 /** Rechtlicher Platzhalter-Hinweis, der auf den Rechtsseiten erscheint */
 export const rechtHinweis = "[BITTE AUSFÜLLEN / RECHTLICH PRÜFEN LASSEN]";

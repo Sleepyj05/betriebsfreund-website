@@ -36,3 +36,10 @@ npm run build      # fertige Seite im Ordner dist/
 - Rechtsseiten (Impressum, Datenschutz, AGB, AV-Vertrag) sind **Vorlagen mit Platzhaltern** und müssen vor dem Livegang ausgefüllt und geprüft werden.
 - Der Countdown rechnet gegen das feste Datum in der Config. Danach zeigt die Seite automatisch den regulären Preis.
 - Das Personenbild ist KI-generiert; der Hinweis steht sichtbar am Bild und im Footer.
+
+## Name und Marke
+
+- **Ablaufklar** ist die Dach-Marke (Dienstplan, KI, Optimierung). **Schichtklar** bleibt der Name der Dienstplan-App (steht so auf dem Flyer). Beides in `src/config.ts` (`marke`, `produkt`).
+- Vorschaubild für WhatsApp/Google: `public/og.png`, erzeugt aus `tools/og.html` (mit Chrome: `chrome --headless --window-size=1200,630 --screenshot=public/og.png tools/og.html`).
+- Über-mich-Foto: Platzhalter in `src/components/About.astro`, Texte in [ECKIGEN KLAMMERN] selbst ausfüllen.
+- Kundenstimmen: `kundenstimmen` in `src/config.ts` füllen, dann erscheint der Bereich automatisch.

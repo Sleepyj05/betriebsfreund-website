@@ -1,0 +1,35 @@
+---
+// "Mehr als Dienstplan": weitere Leistungen der Marke (Inhalt in src/config.ts → weitereLeistungen, Entwurf).
+import { marke, weitereLeistungen } from "../config";
+import Icon from "./Icon.astro";
+const icons = ["wrench", "bolt", "chart"];
+---
+<section class="abschnitt dunkel mehr" id="leistungen" aria-labelledby="mehr-titel">
+  <div class="wrap">
+    <p class="eyebrow">Mehr als Dienstplan</p>
+    <h2 id="mehr-titel" class="reveal">Der Dienstplan ist der Anfang. <span class="mark">Danach wird es leichter.</span></h2>
+    <p class="lead reveal">{marke.name} hilft kleinen Betrieben, den Alltag einfacher zu machen: weniger Zettel, weniger Nachfragen, mehr Zeit für Gäste und Kunden. Persönlich und verständlich.</p>
+    <ul class="karten">
+      {weitereLeistungen.map((l, i) => (
+        <li class="reveal" style={`--d:${i * 0.1}s`}>
+          <span class="ico"><Icon name={icons[i % icons.length]} /></span>
+          <h3>{l.titel}</h3>
+          <p>{l.text}</p>
+        </li>
+      ))}
+    </ul>
+    <p class="aktion reveal"><a class="btn btn-gelb btn-gross" href="/#kontakt">Kostenloses Gespräch vereinbaren</a></p>
+  </div>
+</section>
+
+<style>
+  .mehr { background: var(--navy); color: #fff; }
+  .eyebrow { color: var(--gelb); margin-bottom: 14px; }
+  .lead { margin-top: 18px; color: #c9d0de; max-width: 58ch; font-size: 1.125rem; }
+  .karten { list-style: none; margin: 36px 0 0; padding: 0; display: grid; gap: 14px; }
+  .karten li { background: var(--navy-hell); border-radius: var(--radius); padding: 26px; display: grid; gap: 10px; align-content: start; }
+  .ico { width: 52px; height: 52px; border-radius: 14px; background: var(--gelb); color: var(--navy); display: grid; place-items: center; margin-bottom: 6px; }
+  p { color: #c9d0de; }
+  .aktion { margin-top: 32px; }
+  @media (min-width: 900px) { .karten { grid-template-columns: repeat(3, 1fr); gap: 20px; } }
+</style>

@@ -1,0 +1,48 @@
+---
+// Abschnitt 12: FAQ als Akkordeon (natives <details>, funktioniert ohne JavaScript) + schema.org FAQPage.
+// Antworten nur so, wie die App es kann. Stellen mit [PRÜFEN] bitte bestätigen oder ändern, dann Klammer entfernen.
+import { preise } from "../config";
+const grenze = preise.maxMitarbeiter ? `bis zu ${preise.maxMitarbeiter} Mitarbeiter` : "[PRÜFEN: Obergrenze festlegen]";
+const fragen = [
+  { f: "Brauchen meine Mitarbeiter eine App aus dem App Store?", a: "Nein. Die App läuft im Browser und lässt sich mit einem Tipp auf den Startbildschirm des Handys legen. Es gibt nichts zu installieren und keinen Store-Account." },
+  { f: "Wo liegen die Daten?", a: "Auf Servern in Frankfurt am Main. Die DSGVO wird beachtet, einen Auftragsverarbeitungsvertrag bekommen Sie dazu. [PRÜFEN: Vertrag rechtlich final geprüft?]" },
+  { f: "Wie schnell bin ich startklar?", a: "Ich richte alles mit Ihnen gemeinsam ein, Team und Schichten eingetragen und die Mitarbeiter eingeladen. Meist geht das am selben Tag. [PRÜFEN: Zusage bestätigen]" },
+  { f: "Was passiert nach dem Dezember?", a: `Danach kostet Schichtklar ${preise.regulaer.betrag} pro Monat. Der Vertrag ist monatlich kündbar, es gibt keine Mindestlaufzeit.` },
+  { f: "Was ist, wenn ein Mitarbeiter kein Smartphone hat?", a: "Dann drucken Sie den Plan als PDF aus und hängen ihn auf. Er lässt sich außerdem in einen Kalender übernehmen." },
+  { f: "Für wie viele Mitarbeiter ist das gedacht?", a: `Ab 3 Mitarbeitern lohnt es sich. Im Preis enthalten sind ${grenze}.` },
+  { f: "Kann ich kündigen und meine Daten mitnehmen?", a: "Ja. Sie können jederzeit zum Monatsende kündigen. Plan und Teamdaten lassen sich als Tabelle exportieren, jede Person kann außerdem ihre eigenen Daten herunterladen." },
+  { f: "Prüft die App wirklich das Arbeitszeitgesetz?", a: "Ja, als Hinweis und Warnung: Die App meldet zum Beispiel zu kurze Ruhezeiten, fehlende Pausen, zu lange Tage und die Minijob-Grenze. Die Verantwortung für den Plan bleibt aber beim Arbeitgeber. Die App ersetzt keine Rechtsberatung." },
+];
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: fragen.map((x) => ({ "@type": "Question", name: x.f, acceptedAnswer: { "@type": "Answer", text: x.a } })),
+};
+---
+<section class="abschnitt" id="faq" aria-labelledby="faq-titel">
+  <div class="wrap schmal">
+    <h2 id="faq-titel" class="reveal">Häufige <span class="mark">Fragen.</span></h2>
+    <div class="liste">
+      {fragen.map((x) => (
+        <details class="reveal">
+          <summary>{x.f}</summary>
+          <p>{x.a}</p>
+        </details>
+      ))}
+    </div>
+    <p class="weiter reveal">Noch eine Frage? <a class="textlink" href="/#kontakt">Fragen Sie mich direkt.</a></p>
+  </div>
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+</section>
+
+<style>
+  .schmal { max-width: 820px; }
+  .liste { margin-top: 32px; border-top: 1px solid var(--linie); }
+  details { border-bottom: 1px solid var(--linie); }
+  summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 64px; padding-block: 14px; font-weight: 700; font-size: 1.125rem; letter-spacing: -0.01em; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; flex: none; width: 36px; height: 36px; border-radius: 50%; background: var(--navy); color: var(--gelb); display: grid; place-items: center; font-size: 1.4rem; font-weight: 700; line-height: 1; }
+  details[open] summary::after { content: "–"; }
+  details p { color: #2b3a55; padding: 0 52px 22px 0; max-width: 62ch; }
+  .weiter { margin-top: 24px; color: var(--grau); }
+</style>

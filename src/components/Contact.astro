@@ -20,6 +20,15 @@ import { kontakt, telHref, whatsappHref, mailHref, demoLink, demoLinkExtern } fr
           <label for="f-betrieb">Ihr Betrieb</label>
           <input id="f-betrieb" name="betrieb" type="text" required autocomplete="organization" />
         </div>
+        <div class="feld">
+          <label for="f-interesse">Wofür interessieren Sie sich?</label>
+          <select id="f-interesse" name="interesse" required>
+            <option>Dienstplan-App (Schichtklar)</option>
+            <option>KI und Optimierung im Betrieb</option>
+            <option>Beides</option>
+            <option>Weiß ich noch nicht</option>
+          </select>
+        </div>
         <div class="zwei">
           <div class="feld">
             <label for="f-branche">Branche</label>
@@ -115,7 +124,7 @@ import { kontakt, telHref, whatsappHref, mailHref, demoLink, demoLinkExtern } fr
 
   .name { font-size: 2rem; font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
   .zeiten { color: var(--grau); margin-top: -10px; }
-  .tel { font-size: clamp(1.5rem, 6.6vw, 2rem); font-weight: 800; letter-spacing: -0.03em; text-decoration: none; }
+  .tel { display: inline-flex; align-items: center; min-height: 44px; font-size: clamp(1.5rem, 6.6vw, 2rem); font-weight: 800; letter-spacing: -0.03em; text-decoration: none; }
   .tel:hover { text-decoration: underline; text-decoration-color: var(--gelb); text-decoration-thickness: 3px; }
   .knoepfe { display: grid; gap: 10px; }
   .mail { font-weight: 600; word-break: break-all; min-height: 44px; display: inline-flex; align-items: center; }

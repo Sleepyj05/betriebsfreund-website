@@ -1,0 +1,94 @@
+---
+// Abschnitt 5: Funktionen. Nur Dinge, die die App wirklich kann (geprüft gegen den Code im App-Repo, Stand 24.11.2026).
+// Darunter Reiter "Für Chefs" / "Für Mitarbeiter" (Tastatur-bedienbar, ohne Bibliothek).
+import Icon from "./Icon.astro";
+const funktionen = [
+  { icon: "calendar", titel: "Dienstplan auf dem Handy", text: "Jeder sieht seine nächste Schicht in Sekunden, ohne App-Store." },
+  { icon: "swap", titel: "Schichttausch mit Freigabe", text: "Kollegen tauschen untereinander, Sie geben mit einem Tipp frei." },
+  { icon: "bolt", titel: "Krankmeldung mit Vertretung", text: "Die App zeigt sofort, wer einspringen kann und darf." },
+  { icon: "beach", titel: "Urlaub und Teamkalender", text: "Anträge, Resturlaub und wer wann fehlt auf einen Blick." },
+  { icon: "stopwatch", titel: "Zeiterfassung", text: "Ein- und Ausstempeln am Handy, mit Stundenkonto." },
+  { icon: "shield", titel: "Regeln automatisch geprüft", text: "Warnung bei Ruhezeit, Pausen, Höchstarbeitszeit und Minijob-Grenze." },
+  { icon: "phone", titel: "Anruf- und WhatsApp-Knopf", text: "Kollegen erreichen Sie mit einem Tipp, wenn sie ihre Nummer freigeben." },
+  { icon: "download", titel: "Plan mitnehmen", text: "Drucken oder als PDF, Tabelle zum Export, Kalender-Abo fürs Handy." },
+  { icon: "lock", titel: "Sicher und in Deutschland", text: "Server in Frankfurt, optional Zwei-Faktor-Anmeldung." },
+];
+const chefs = [
+  "Plan per Knopfdruck vorschlagen lassen und nur noch anpassen",
+  "Krank, Urlaub und Tausch an einer Stelle entscheiden",
+  "Sofort sehen, wer fehlt, und Ersatz vorgeschlagen bekommen",
+];
+const team = [
+  "Nächste Schicht in Sekunden finden, auch unterwegs",
+  "Krank melden, Urlaub beantragen oder tauschen per Tipp",
+  "Änderungen sofort erfahren statt nachfragen müssen",
+];
+---
+<section class="abschnitt" id="funktionen" aria-labelledby="funk-titel">
+  <div class="wrap">
+    <h2 id="funk-titel" class="reveal">Alles, was Ihr Dienstplan braucht. <span class="mark">Nichts, was nervt.</span></h2>
+    <ul class="raster">
+      {funktionen.map((f, i) => (
+        <li class="reveal" style={`--d:${(i % 3) * 0.08}s`}>
+          <span class="ico"><Icon name={f.icon} /></span>
+          <h3>{f.titel}</h3>
+          <p>{f.text}</p>
+        </li>
+      ))}
+    </ul>
+
+    <div class="reiter reveal" data-reiter>
+      <div role="tablist" aria-label="Für wen ist welcher Nutzen?" class="tabs">
+        <button role="tab" id="tab-chef" aria-selected="true" aria-controls="p-chef" type="button">Für Chefs</button>
+        <button role="tab" id="tab-team" aria-selected="false" aria-controls="p-team" tabindex="-1" type="button">Für Mitarbeiter</button>
+      </div>
+      <div role="tabpanel" id="p-chef" aria-labelledby="tab-chef">
+        <ul>{chefs.map((c) => <li>{c}</li>)}</ul>
+      </div>
+      <div role="tabpanel" id="p-team" aria-labelledby="tab-team" hidden>
+        <ul>{team.map((c) => <li>{c}</li>)}</ul>
+      </div>
+    </div>
+    <p class="weiter"><a class="btn btn-gelb" href="/#kontakt">Demo anfragen</a></p>
+  </div>
+</section>
+
+<style>
+  .raster { list-style: none; margin: 36px 0 0; padding: 0; display: grid; gap: 14px; }
+  .raster li { background: var(--karte); border-radius: var(--radius); padding: 24px; display: grid; gap: 8px; align-content: start; }
+  .ico { width: 52px; height: 52px; border-radius: 14px; background: var(--navy); color: var(--gelb); display: grid; place-items: center; margin-bottom: 6px; }
+  p { color: var(--grau); }
+  .reiter { margin-top: 40px; background: var(--navy); color: #fff; border-radius: 24px; padding: 8px 8px 28px; }
+  .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; background: var(--navy-hell); border-radius: 18px; padding: 6px; }
+  .tabs button { min-height: 52px; border: 0; border-radius: 14px; background: transparent; color: #c9d0de; font: inherit; font-weight: 800; cursor: pointer; }
+  .tabs button[aria-selected="true"] { background: var(--gelb); color: var(--navy); }
+  .tabs button:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+  [role="tabpanel"] ul { list-style: none; margin: 24px 16px 0; padding: 0; display: grid; gap: 14px; }
+  [role="tabpanel"] li { display: grid; grid-template-columns: 26px 1fr; gap: 10px; font-size: 1.0625rem; }
+  [role="tabpanel"] li::before { content: "✓"; width: 24px; height: 24px; border-radius: 50%; background: var(--gruen); display: grid; place-items: center; font-weight: 800; font-size: 0.8rem; margin-top: 1px; }
+  .weiter { margin-top: 32px; }
+  @media (min-width: 700px) { .raster { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1000px) { .raster { grid-template-columns: repeat(3, 1fr); gap: 20px; } [role="tabpanel"] ul { grid-template-columns: repeat(3, 1fr); } .reiter { padding-bottom: 36px; } }
+</style>
+
+<script>
+  // Reiter: Klick und Pfeiltasten, Zustand für Screenreader (aria-selected).
+  document.querySelectorAll<HTMLElement>("[data-reiter]").forEach((box) => {
+    const tabs = [...box.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+    const show = (t: HTMLButtonElement, fokus = false) => {
+      tabs.forEach((x) => {
+        const an = x === t;
+        x.setAttribute("aria-selected", String(an));
+        x.tabIndex = an ? 0 : -1;
+        box.querySelector<HTMLElement>("#" + x.getAttribute("aria-controls"))!.hidden = !an;
+      });
+      if (fokus) t.focus();
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener("click", () => show(t));
+      t.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight" || e.key === "ArrowLeft") show(tabs[(i + (e.key === "ArrowRight" ? 1 : tabs.length - 1)) % tabs.length], true);
+      });
+    });
+  });
+</script>

@@ -69,7 +69,6 @@ h3 {
 }
 p {
   margin: 0;
-  text-wrap: pretty;
 }
 h2 {
   font-size: clamp(2rem, 6.4vw, 3.5rem);
@@ -122,6 +121,9 @@ h3 {
 }
 .abschnitt {
   padding-block: var(--abschnitt);
+  /* Bereiche unterhalb des sichtbaren Bereichs werden erst beim Scrollen berechnet → schnellerer Start */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 640px;
 }
 
 /* Textmarker wie auf dem Flyer */

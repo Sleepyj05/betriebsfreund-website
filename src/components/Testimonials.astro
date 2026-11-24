@@ -1,0 +1,38 @@
+---
+// Abschnitt 11: Kundenstimmen. Fertige Komponente, aber AUSGEBLENDET, solange src/config.ts → kundenstimmen leer ist.
+// Keine erfundenen Bewertungen, Logos oder Nutzerzahlen. Stattdessen vorerst der Starthinweis.
+import { kundenstimmen } from "../config";
+const hat = kundenstimmen.length > 0;
+---
+<section class="abschnitt" aria-labelledby="stimmen-titel">
+  <div class="wrap">
+    {hat ? (
+      <>
+        <h2 id="stimmen-titel" class="reveal">Das sagen <span class="mark">Betriebe.</span></h2>
+        <ul class="liste">
+          {kundenstimmen.map((k) => (
+            <li class="reveal"><blockquote>„{k.text}“</blockquote><p class="wer"><strong>{k.name}</strong>, {k.betrieb}</p></li>
+          ))}
+        </ul>
+      </>
+    ) : (
+      <div class="start reveal">
+        <h2 id="stimmen-titel">Wir starten gerade in Köln.</h2>
+        <p>Werden Sie einer der ersten Betriebe und sichern Sie sich den Gründerpreis.</p>
+        <a class="btn btn-gelb" href="/#kontakt">Gründerpreis sichern</a>
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .start { background: var(--gelb); color: var(--navy); border-radius: 28px; padding: 36px 26px; display: grid; gap: 14px; justify-items: start; }
+  .start h2 { font-size: clamp(1.75rem, 6vw, 2.75rem); }
+  .start p { font-size: 1.1875rem; font-weight: 600; max-width: 46ch; }
+  .start .btn { background: var(--navy); color: #fff; box-shadow: none; }
+  .liste { list-style: none; padding: 0; margin: 32px 0 0; display: grid; gap: 16px; }
+  .liste li { background: var(--karte); border-radius: var(--radius); padding: 26px; }
+  blockquote { margin: 0; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.01em; }
+  .wer { margin-top: 14px; color: var(--grau); }
+  @media (min-width: 900px) { .start { padding: 56px; } .liste { grid-template-columns: repeat(3, 1fr); } }
+</style>

@@ -1,0 +1,29 @@
+---
+// Abschnitt 6: Für wen.
+import Icon from "./Icon.astro";
+const branchen = [
+  ["restaurant", "Restaurant und Bar"], ["cafe", "Café und Bäckerei"], ["shop", "Einzelhandel und Supermarkt"],
+  ["gym", "Fitnessstudio"], ["film", "Kino und Freizeit"], ["hotel", "Hotel"],
+  ["heart", "Pflege- und Sozialdienste"], ["sparkle", "Reinigung"], ["bike", "Lieferdienste"],
+];
+---
+<section class="abschnitt fuer" aria-labelledby="fuer-titel">
+  <div class="wrap">
+    <h2 id="fuer-titel" class="reveal">Für jeden Betrieb <span class="mark">mit Schichten.</span></h2>
+    <ul class="reihe">
+      {branchen.map(([i, t], n) => (
+        <li class="reveal" style={`--d:${(n % 3) * 0.07}s`}><span class="ico"><Icon name={i} size={30} /></span><span>{t}</span></li>
+      ))}
+    </ul>
+    <p class="hinweis reveal">Ab 3 Mitarbeitern lohnt es sich.</p>
+  </div>
+</section>
+
+<style>
+  .reihe { list-style: none; margin: 36px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .reihe li { background: var(--karte); border-radius: var(--radius); padding: 18px 16px; display: grid; gap: 12px; justify-items: start; font-weight: 700; line-height: 1.25; }
+  .ico { color: var(--navy); width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--gelb); display: grid; place-items: center; }
+  .hinweis { margin-top: 28px; font-weight: 800; font-size: 1.25rem; letter-spacing: -0.02em; }
+  @media (min-width: 700px) { .reihe { grid-template-columns: repeat(3, 1fr); gap: 16px; } }
+  @media (min-width: 1000px) { .reihe { grid-template-columns: repeat(5, 1fr); } }
+</style>

@@ -1,14 +1,14 @@
 ---
 // Fußzeile mit Rechtslinks. Jahr wird automatisch gesetzt.
 import Logo from "./Logo.astro";
-import { produkt, kontakt } from "../config";
+import { marke, kontakt } from "../config";
 const jahr = new Date().getFullYear();
 ---
 <footer class="fuss dunkel">
   <div class="wrap fuss-in">
     <div>
       <Logo />
-      <p class="fuss-zeile">{produkt.name} – die Dienstplan-App für Betriebe mit Schichten. Persönlich aus {kontakt.ort}.</p>
+      <p class="fuss-zeile">{marke.name} – Dienstplan, KI und Optimierung für Betriebe. Persönlich aus {kontakt.ort}.</p>
     </div>
     <nav aria-label="Rechtliches und Kontakt" class="fuss-links">
       <a href="/impressum">Impressum</a>
@@ -19,7 +19,7 @@ const jahr = new Date().getFullYear();
     </nav>
   </div>
   <div class="wrap fuss-unten">
-    <span>© {jahr} {produkt.name}</span>
+    <span>© {jahr} {marke.name}</span>
     <span>Das Bild der Person auf dieser Seite ist KI-generiert.</span>
   </div>
 </footer>

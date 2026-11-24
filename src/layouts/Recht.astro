@@ -7,7 +7,7 @@ import { rechtHinweis } from "../config";
 interface Props { titel: string; beschreibung?: string }
 const { titel, beschreibung } = Astro.props;
 ---
-<Base titel={`${titel} | Schichtklar`} beschreibung={beschreibung ?? `${titel} von Schichtklar`}>
+<Base titel={`${titel} | Ablaufklar`} beschreibung={beschreibung ?? `${titel} von Ablaufklar`}>
   <article class="abschnitt recht">
     <div class="wrap">
       <h1>{titel}</h1>
