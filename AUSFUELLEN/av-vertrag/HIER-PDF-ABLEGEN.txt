@@ -1,0 +1,3 @@
+Legen Sie hier den geprüften Auftragsverarbeitungsvertrag als PDF ab (beliebiger Dateiname, z. B. av-vertrag.pdf).
+Dann erscheint auf der Seite /av-vertrag automatisch ein Download-Link.
+Diese Textdatei kann liegen bleiben.

@@ -49,23 +49,57 @@ export const kontakt = {
 export const demoUrl = ""; // z. B. "https://app.betriebsfreund.de" ([BITTE AUSFÜLLEN])
 
 export const preise = {
-  /** Aktionspreis. Nach "bis" blendet sich das Angebot automatisch aus (echter Countdown, kein Neustart). */
+  /** Aktion für ALLE Pakete. Nach "bis" blendet sich das Angebot automatisch aus (echter Countdown, kein Neustart). */
   gruender: {
-    betrag: "5,55 €",
     zeitraum: "Dezember",
     etikett: "Gründerpreis · nur bis 31.12.",
     /** Ende des Angebots in deutscher Zeit. Dezember = Winterzeit = +01:00 */
     bis: "2026-12-31T23:59:59+01:00",
     kurzDatum: "31.12.",
   },
-  /** Regulärer Preis nach dem Gründerpreis */
-  regulaer: { betrag: "49 €", zusatz: "pro Monat · monatlich kündbar" },
   /**
-   * Späterer Neukundenpreis (vorbereitet, noch NICHT sichtbar).
-   * Ab dem Startdatum zeigt die Seite automatisch diesen Preis statt des regulären.
-   * Zum Aktivieren: "aktiv" auf true setzen.
+   * Die Pakete. Reihenfolge = Reihenfolge auf der Seite.
+   * - gruender: Preis im Aktionszeitraum, regulaer: Preis danach.
+   * - neukunde: späterer Preis ab Startdatum (vorbereitet; null = nicht benutzen).
+   * - leistungen: die Häkchen-Liste. [BITTE PRÜFEN] Nur Zusagen eintragen, die Sie sicher halten können.
    */
-  neukunde: { aktiv: false, betrag: "59 €", ab: "2027-02-01T00:00:00+01:00" },
+  pakete: [
+    {
+      id: "basis",
+      name: "Basis",
+      untertitel: "Der Dienstplan für Ihren Betrieb",
+      gruender: "5,55 €",
+      regulaer: "49 €",
+      neukunde: { betrag: "59 €", ab: "2027-02-01T00:00:00+01:00", aktiv: false },
+      hervorgehoben: false,
+      leistungen: [
+        "Alle Funktionen der App",
+        "Alle Mitarbeiter Ihres Betriebs",
+        "Persönliche Einrichtung durch mich",
+        "Support per Telefon und WhatsApp",
+        "Daten in Deutschland (Frankfurt)",
+      ],
+    },
+    {
+      id: "plus",
+      name: "Plus",
+      untertitel: "Dienstplan und Hilfe, damit der Betrieb leichter läuft",
+      gruender: "11,11 €",
+      regulaer: "89 €",
+      neukunde: { betrag: "", ab: "", aktiv: false },
+      hervorgehoben: true,
+      /** Entwurf: "Alles aus Basis" kommt automatisch dazu. [BITTE PRÜFEN] */
+      leistungen: [
+        "Monatliches Gespräch (30 Min.): Was läuft gut, was lässt sich vereinfachen?",
+        "Hilfe beim Einsatz von KI im Alltag (z. B. Texte, Aushänge, Auswertungen)",
+        "Persönlich eingerichtete Vorlagen für Schichten und Bereiche",
+        "Bevorzugter Support: Antwort am selben Werktag",
+        "Neue Wünsche zuerst: Sie sagen mir, was fehlt",
+      ],
+    },
+  ],
+  /** Zusatz hinter dem Preis */
+  zusatz: "pro Monat · monatlich kündbar",
   /** Obergrenze Mitarbeiter im Preis. null = keine Grenze nennen. [BITTE FESTLEGEN] */
   maxMitarbeiter: null as number | null,
   /** "kleinunternehmer" → „Gemäß § 19 UStG …“, "mwst" → „Alle Preise zzgl. MwSt.“ */

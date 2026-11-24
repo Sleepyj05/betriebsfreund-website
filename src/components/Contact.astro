@@ -21,6 +21,14 @@ import { kontakt, telHref, whatsappHref, mailHref, demoLink, demoLinkExtern } fr
           <input id="f-betrieb" name="betrieb" type="text" required autocomplete="organization" />
         </div>
         <div class="feld">
+          <label for="f-paket">Welches Paket interessiert Sie?</label>
+          <select id="f-paket" name="paket">
+            <option value="">Noch unsicher, beraten Sie mich</option>
+            <option value="basis">Basis (Dienstplan)</option>
+            <option value="plus">Plus (Dienstplan und laufende Hilfe)</option>
+          </select>
+        </div>
+        <div class="feld">
           <label for="f-interesse">Wofür interessieren Sie sich?</label>
           <select id="f-interesse" name="interesse" required>
             <option>Dienstplan-App (Schichtklar)</option>
@@ -102,6 +110,13 @@ import { kontakt, telHref, whatsappHref, mailHref, demoLink, demoLinkExtern } fr
     </div>
   </div>
 </section>
+
+<script>
+  // Kommt der Besucher über "Gründerpreis sichern" (?paket=plus), wird das Paket vorgewählt.
+  const sel = document.querySelector<HTMLSelectElement>("#f-paket");
+  const p = new URLSearchParams(location.search).get("paket");
+  if (sel && p && [...sel.options].some((o) => o.value === p)) sel.value = p;
+</script>
 
 <style>
   .kontakt { scroll-margin-top: 70px; }

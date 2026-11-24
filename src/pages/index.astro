@@ -25,7 +25,7 @@ const schema = [
     operatingSystem: "Web",
     inLanguage: "de",
     description: "Dienstplan-App für Betriebe mit Schichten: Krankmeldung, Schichttausch, Urlaub und automatische Regelprüfung.",
-    offers: { "@type": "Offer", price: preise.regulaer.betrag.replace(/[^\d,]/g, "").replace(",", "."), priceCurrency: "EUR" },
+    offers: preise.pakete.map((p) => ({ "@type": "Offer", name: p.name, price: p.regulaer.replace(/[^\d,]/g, "").replace(",", "."), priceCurrency: "EUR" })),
     provider: { "@type": "Organization", name: marke.name },
   },
   {

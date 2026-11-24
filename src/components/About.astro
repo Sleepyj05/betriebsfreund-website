@@ -1,19 +1,27 @@
 ---
-// Abschnitt 10: Über mich. ENTWURF: Stellen in [ECKIGEN KLAMMERN] bitte selbst ausfüllen. Keine erfundene Lebensgeschichte.
+// Abschnitt 10: Über mich. Text kommt aus AUSFUELLEN/ueber-mich.txt, Foto aus AUSFUELLEN/foto/daniel.jpg.
+// Fehlt das Foto, zeigt die Seite einen deutlich markierten Platzhalter. Keine erfundene Lebensgeschichte.
+import { Image } from "astro:assets";
 import { kontakt, marke } from "../config";
+import rohtext from "../../AUSFUELLEN/ueber-mich.txt?raw";
+const fotos = Object.values(import.meta.glob("../../AUSFUELLEN/foto/*.{jpg,jpeg,png,webp}", { eager: true, import: "default" })) as ImageMetadata[];
+const foto = fotos[0];
+const absaetze = rohtext.split(/\r?\n\s*\r?\n/).map((t) => t.trim()).filter(Boolean);
 ---
 <section class="abschnitt" id="ueber-mich" aria-labelledby="ueber-titel">
   <div class="wrap grid">
-    <!-- PLATZHALTER: echtes Foto als src/assets/daniel.jpg ablegen und hier einbinden (siehe README) -->
-    <div class="foto reveal" role="img" aria-label="Platzhalter für ein Foto von Daniel">
-      <span class="tag">[FOTO AUSTAUSCHEN]</span>
-      <span class="init" aria-hidden="true">D</span>
-    </div>
+    {foto ? (
+      <div class="foto echt reveal"><Image src={foto} alt={`${kontakt.vorname}, Gründer von ${marke.name}`} width={640} loading="lazy" /></div>
+    ) : (
+      <div class="foto reveal" role="img" aria-label="Platzhalter für ein Foto von Daniel">
+        <span class="tag">[FOTO AUSTAUSCHEN]</span>
+        <span class="init" aria-hidden="true">D</span>
+      </div>
+    )}
     <div class="text">
       <h2 id="ueber-titel" class="reveal">Hinter {marke.name} steckt kein Konzern, <span class="mark">sondern ich.</span></h2>
-      <p class="reveal"><strong>{kontakt.vorname}, {kontakt.ort}.</strong> Ich baue {marke.name}, weil [BITTE AUSFÜLLEN: Warum bauen Sie das? Ein ehrlicher Satz, z. B. was Sie in Betrieben beobachtet haben].</p>
-      <p class="reveal">[BITTE AUSFÜLLEN: Ein Satz zu Ihrem Hintergrund, nur Wahres.]</p>
-      <p class="reveal">Sie sprechen immer direkt mit mir. Ich richte alles mit Ihnen ein und bin per Telefon und WhatsApp erreichbar.</p>
+      <p class="ort reveal"><strong>{kontakt.vorname}, {kontakt.ort}</strong></p>
+      {absaetze.map((t) => <p class="reveal">{t}</p>)}
     </div>
   </div>
 </section>
@@ -21,6 +29,9 @@ import { kontakt, marke } from "../config";
 <style>
   .grid { display: grid; gap: 32px; align-items: center; }
   .foto { position: relative; width: min(100%, 320px); aspect-ratio: 4 / 5; border-radius: 28px; background: var(--karte-grau); border: 3px dashed var(--grau); display: grid; place-items: center; overflow: hidden; }
+  .foto.echt { border: 0; background: none; }
+  .foto.echt :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .ort { font-size: 1.25rem; }
   .init { font-size: 9rem; font-weight: 800; color: #d3cfc3; letter-spacing: -0.05em; }
   .tag { position: absolute; top: 14px; left: 14px; background: var(--gelb); color: var(--navy); font-weight: 800; font-size: 0.8125rem; padding: 6px 12px; border-radius: 99px; z-index: 1; }
   .text { display: grid; gap: 16px; max-width: 58ch; }

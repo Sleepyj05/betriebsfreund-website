@@ -1,6 +1,8 @@
 ---
 import Recht from "../layouts/Recht.astro";
 import { kontakt, mailHref } from "../config";
+const pdfs = Object.values(import.meta.glob("../../AUSFUELLEN/av-vertrag/*.pdf", { eager: true, query: "?url", import: "default" })) as string[];
+const pdf = pdfs[0];
 ---
 <Recht titel="Auftragsverarbeitungsvertrag (AV-Vertrag)">
   <p>Wenn Sie die Dienstplan-App für Ihren Betrieb nutzen, verarbeite ich Daten Ihrer Mitarbeiter in Ihrem Auftrag. Dafür schließen wir einen Auftragsverarbeitungsvertrag (AVV) nach Art. 28 DSGVO. Er ist im Preis enthalten.</p>
@@ -9,5 +11,5 @@ import { kontakt, mailHref } from "../config";
   <p>Den Vertrag erhalten Sie auf Anfrage per E-Mail an <a href={mailHref}>{kontakt.email}</a> oder telefonisch unter {kontakt.telefon}.</p>
 
   <h2>PDF-Download</h2>
-  <p><span class="ph">[PDF HIER VERLINKEN, sobald der geprüfte Vertrag vorliegt – Datei in den Ordner public/ legen und den Link hier eintragen]</span></p>
+  {pdf ? <p><a class="btn btn-gelb" href={pdf} download>AV-Vertrag als PDF herunterladen</a></p> : <p><span class="ph">[PDF HIER ABLEGEN: Ordner AUSFUELLEN/av-vertrag, dann erscheint der Download-Link automatisch]</span></p>}
 </Recht>

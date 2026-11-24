@@ -1,0 +1,4 @@
+Legen Sie hier ein Foto von sich ab, Dateiname: daniel.jpg (auch .png oder .webp geht).
+Am besten: Hochformat (4:5), freundlich, gutes Licht, mindestens 800 Pixel breit.
+Sobald die Datei hier liegt, ersetzt sie automatisch den Platzhalter auf der Seite.
+Diese Textdatei kann liegen bleiben.
