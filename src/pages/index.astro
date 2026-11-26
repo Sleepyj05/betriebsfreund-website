@@ -130,8 +130,9 @@ const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
 
   <section class="sektion" id="rechner" aria-labelledby="r-t">
     <div class="wrap">
-      <span class="kicker reveal">Rechner</span>
-      <h2 id="r-t" class="reveal">Was kostet Sie der Plan <span class="grad">heute?</span></h2>
+      <span class="kicker reveal">Der Preis von Chaos</span>
+      <h2 id="r-t" class="reveal">Jeden Monat verbrennen Sie Geld <span class="grad">mit Zettelwirtschaft.</span></h2>
+      <p class="lead reveal" style="margin-top:16px">Stellen Sie Ihren Betrieb ein und sehen Sie, was Anrufe, Umplanen und Nachfragen Sie wirklich kosten.</p>
       <div class="rechner reveal">
         <div class="regler">
           <div><label for="r-ma">Mitarbeiter <output id="o-ma">{std.standardMitarbeiter}</output></label><input id="r-ma" type="range" min="3" max="60" value={std.standardMitarbeiter} /></div>
@@ -139,11 +140,11 @@ const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
           <div><label for="r-sa">Stundensatz in € <output id="o-sa">{String(std.stundensatz).replace(".", ",")}</output></label><input id="r-sa" type="range" min={std.mindestlohn} max="60" step="0.1" value={std.stundensatz} /></div>
         </div>
         <div class="ergebnis">
-          <span>Zeitaufwand für Planen und Umplanen</span>
+          <span>Das verlieren Sie an Planen, Anrufen und Umplanen:</span>
           <b id="e-std">0 Std.</b>
-          <span>pro Monat, das entspricht</span>
+          <span>pro Monat. Bezahlte Zeit, die keinen Umsatz bringt:</span>
           <b id="e-eur" class="grad">0 €</b>
-          <small>Grobe, vorsichtige Schätzung. Annahmen: {std.planMinProMitarbeiterWoche} Min. pro Mitarbeiter und Woche, {std.minProAusfall} Min. pro Ausfall.</small>
+          <small><strong style="color:#fff">Zum Vergleich:</strong> Schichtklar Basis kostet im Angebot {preise.pakete[0].gruender}, danach {preise.pakete[0].regulaer} pro Monat. Grobe, vorsichtige Schätzung (Mindestlohn als Untergrenze). Annahmen: {std.planMinProMitarbeiterWoche} Min. pro Mitarbeiter und Woche, {std.minProAusfall} Min. pro Ausfall.</small>
         </div>
       </div>
     </div>

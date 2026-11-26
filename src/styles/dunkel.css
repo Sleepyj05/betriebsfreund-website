@@ -242,3 +242,7 @@ details p { padding: 0 0 20px; color: var(--leise); }
   .hg.rechts { left: auto; right: 0; -webkit-mask-image: linear-gradient(to left, #000 15%, transparent 100%); mask-image: linear-gradient(to left, #000 15%, transparent 100%); }
   .hg.links { right: auto; left: 0; -webkit-mask-image: linear-gradient(to right, #000 15%, transparent 100%); mask-image: linear-gradient(to right, #000 15%, transparent 100%); }
 }
+
+.ergebnis b { color: #fff; }
+.ergebnis b:first-of-type { color: #E8F6EE; }
+.ergebnis small strong { font-weight: 800; }
