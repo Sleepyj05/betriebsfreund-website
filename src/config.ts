@@ -70,6 +70,7 @@ export const preise = {
       untertitel: "Der Dienstplan für Ihren Betrieb",
       gruender: "5,55 €",
       regulaer: "49 €",
+      modell: { grund: 19, proMitarbeiter: 3, angebotFaktor: 5.55 / 49 }, // [BITTE PRÜFEN] Preis = Grund + je Mitarbeiter; bei 10 MA = regulär
       neukunde: { betrag: "59 €", ab: "2027-02-01T00:00:00+01:00", aktiv: false },
       hervorgehoben: false,
       leistungen: [
@@ -86,6 +87,7 @@ export const preise = {
       untertitel: "Dienstplan und Hilfe, damit der Betrieb leichter läuft",
       gruender: "11,11 €",
       regulaer: "89 €",
+      modell: { grund: 39, proMitarbeiter: 5, angebotFaktor: 11.11 / 89 },
       neukunde: { betrag: "", ab: "", aktiv: false },
       hervorgehoben: true,
       /** Entwurf: "Alles aus Basis" kommt automatisch dazu. [BITTE PRÜFEN] */
@@ -98,6 +100,8 @@ export const preise = {
       ],
     },
   ],
+  /** Regler auf der Preisseite: Mitarbeiterzahl */
+  regler: { min: 3, max: 50, standard: 10 },
   /** Zusatz hinter dem Preis */
   zusatz: "pro Monat · monatlich kündbar",
   /** Obergrenze Mitarbeiter im Preis. null = keine Grenze nennen. [BITTE FESTLEGEN] */

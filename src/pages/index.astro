@@ -4,6 +4,7 @@ import { Picture } from "astro:assets";
 import person from "../assets/person.png";
 import Dunkel from "../layouts/Dunkel.astro";
 import Hintergrund from "../components/Hintergrund.astro";
+import DemoApp from "../components/DemoApp.astro";
 import kalenderStift from "../assets/fotos/kalender-stift.jpg";
 import bauplan from "../assets/fotos/bauplan.jpg";
 import handKalender from "../assets/fotos/hand-kalender.jpg";
@@ -20,6 +21,7 @@ const fragen = [
   { f: "Wie schnell bin ich startklar?", a: "Ich richte alles gemeinsam mit Ihnen ein: Team, Schichten, Einladungen. Meist geht das am selben Tag." },
   { f: "Was passiert nach dem Angebot?", a: `Danach kostet Basis ${preise.pakete[0].regulaer} und Plus ${preise.pakete[1].regulaer} pro Monat. Monatlich kündbar, keine Mindestlaufzeit.` },
   { f: "Prüft die App wirklich das Arbeitszeitgesetz?", a: "Als Hinweis und Warnung: zu kurze Ruhezeiten, fehlende Pausen, zu lange Tage, Minijob-Grenze. Die Verantwortung bleibt beim Arbeitgeber. Keine Rechtsberatung." },
+  { f: "Was kann die App noch nicht?", a: "Zum Beispiel Anfragen in normalen Worten erkennen, bei Ausfall automatisch Kollegen anschreiben und eine DATEV-Schnittstelle. Das ist machbar, aber noch nicht gebaut. Ich verspreche nur, was die App heute kann." },
   { f: "Kann ich kündigen und meine Daten mitnehmen?", a: "Ja, jederzeit zum Monatsende. Plan und Teamdaten lassen sich als Tabelle exportieren." },
 ];
 const schema = [
@@ -44,7 +46,7 @@ const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
     <div class="orb a"></div><div class="orb b"></div><div class="orb c"></div><div class="gitter"></div>
     <div class="wrap">
       <div>
-        <span class="kicker">{produkt.name} · die Dienstplan-App von {marke.name}</span>
+        <span class="kicker">{produkt.name} · der mitarbeiterfreundliche Dienstplan</span>
         <h1 id="h1">
           <span class="w"><span>Mia</span></span>
           <span class="w"><span>ist</span></span>
@@ -132,20 +134,36 @@ const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
   </section>
 
   <section class="sektion" id="demo" aria-labelledby="demo-t">
-    <Hintergrund bild={kalenderStift} seite="links" deckkraft={0.26} />
+    <Hintergrund bild={kalenderStift} seite="links" deckkraft={0.2} />
+    <div class="wrap wrap-breit">
+      <span class="kicker reveal">Die echte App zum Ausprobieren</span>
+      <h2 id="demo-t" class="reveal">Sie als Chef. <span class="grad">Ihre Leute am Handy.</span></h2>
+      <p class="lead reveal" style="margin-top:16px">Melden Sie Mia krank, beantragen Sie Urlaub, tauschen Sie Schichten und lassen Sie die KI offene Schichten füllen. Alles mit erfundenen Daten, aber genau so, wie es in der App läuft.</p>
+      <div class="reveal" style="margin-top:34px"><DemoApp /></div>
+    </div>
+  </section>
+
+  <section class="sektion" id="usp" aria-labelledby="usp-t">
+    <span class="deko d1" aria-hidden="true"></span>
     <div class="wrap">
-      <span class="kicker reveal">Zum Anklicken</span>
-      <h2 id="demo-t" class="reveal">Probieren Sie es <span class="grad">selbst aus.</span></h2>
-      <p class="lead reveal" style="margin-top:16px">Tippen Sie auf eine Schicht, um den Mitarbeiter krank zu melden.</p>
-      <div class="demo reveal">
-        <div class="tafel"><div class="plan" id="plan" role="grid" aria-label="Beispiel-Dienstplan"></div></div>
-        <div class="seite" aria-live="polite">
-          <h3>Was die App tut</h3>
-          <div class="status" id="status">Tippen Sie auf eine farbige Schicht.</div>
-          <button class="btn" id="uebernehmen" style="display:none" type="button">Vorschlag übernehmen</button>
-          <button class="btn leer klein" id="zurueck" type="button" style="display:none">Zurücksetzen</button>
-          <p>Das ist eine Vorschau mit Beispieldaten.</p>
-        </div>
+      <span class="kicker reveal">Unser Unterschied</span>
+      <h2 id="usp-t" class="reveal">Ein Dienstplan, den Ihre Mitarbeiter <span class="grad">gern benutzen.</span></h2>
+      <p class="lead reveal" style="margin-top:16px">Wer sich verstanden fühlt, meldet sich früher, tauscht fairer und bleibt länger. Darum ist Schichtklar zuerst für Ihre Mitarbeiter gebaut, und dadurch einfacher für Sie.</p>
+      <h3 class="usp-ueber reveal">Für Mitarbeiter</h3>
+      <div class="usp">
+        <article class="karte reveal" data-r="s"><span class="symbol" aria-hidden="true">📱</span><h4>Plan sofort am Handy</h4><p>Nächste Schicht, Wochenplan und Stunden auf einen Blick. Kein Foto im Chat.</p></article>
+        <article class="karte reveal" data-r="s"><span class="symbol" aria-hidden="true">🏖️</span><h4>Urlaub im Blick</h4><p>Antrag in wenigen Tippern. Anspruch, genommen, beantragt und Rest sieht jeder selbst.</p></article>
+        <article class="karte reveal" data-r="s"><span class="symbol" aria-hidden="true">🤒</span><h4>Krank melden ohne Rechtfertigung</h4><p>Ein Tipp, keine Diagnose, kein Freitext. Danach der Hinweis zur AU und die Aufforderung, zusätzlich anzurufen, mit der Nummer der zuständigen Person.<span class="neu-tag">Neu, mit dem nächsten Update</span></p></article>
+        <article class="karte reveal" data-r="s"><span class="symbol" aria-hidden="true">📊</span><h4>Eigene Krankheitstage</h4><p>Jeder sieht für sich, wie viele Krankheitstage es dieses Jahr waren. Nur für ihn selbst.<span class="neu-tag">Neu, mit dem nächsten Update</span></p></article>
+        <article class="karte reveal" data-r="s"><span class="symbol" aria-hidden="true">🔁</span><h4>Fairer Schichttausch</h4><p>Tausch mit passenden, freien Kollegen. Die App warnt bei zu wenig Ruhezeit.</p></article>
+        <article class="karte reveal" data-r="s"><span class="symbol" aria-hidden="true">🔒</span><h4>Privatsphäre</h4><p>Kollegen sehen bei Krank oder Urlaub nur „nicht verfügbar“. Nummern nur mit Einwilligung, jederzeit widerrufbar.</p></article>
+      </div>
+      <h3 class="usp-ueber reveal">Für Sie als Chef</h3>
+      <div class="usp usp4">
+        <article class="karte reveal" data-r="s"><span class="symbol" aria-hidden="true">✅</span><h4>Anfragen mit einem Tipp</h4><p>Tausch und Urlaub genehmigen oder ablehnen. Alle Beteiligten werden informiert.</p></article>
+        <article class="karte reveal" data-r="s"><span class="symbol" aria-hidden="true">🩺</span><h4>Krankheitsausfälle sortiert</h4><p>Nach Dringlichkeit, mit AU-Status, Verlauf und Telefonnummer zum Anrufen.</p></article>
+        <article class="karte reveal" data-r="s"><span class="symbol" aria-hidden="true">✨</span><h4>KI schlägt Schichten vor</h4><p>Offene Schichten werden mit passenden Kollegen vorbelegt. Sie prüfen und veröffentlichen. Die KI sieht nur Kürzel, keine Namen.</p></article>
+        <article class="karte reveal" data-r="s"><span class="symbol" aria-hidden="true">⚖️</span><h4>Regelprüfung</h4><p>Warnt bei Ruhezeit, Pausen und Minijob-Grenze. Die Verantwortung bleibt bei Ihnen.</p></article>
       </div>
     </div>
   </section>
@@ -181,20 +199,53 @@ const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
   <section class="sektion band-dunkel" id="rechner" aria-labelledby="r-t">
     <div class="wrap">
       <span class="kicker reveal">Der Preis von Chaos</span>
-      <h2 id="r-t" class="reveal">Jeden Monat verbrennen Sie Geld <span class="grad">mit Zettelwirtschaft.</span></h2>
-      <p class="lead reveal" style="margin-top:16px">Stellen Sie Ihren Betrieb ein und sehen Sie, was Anrufe, Umplanen und Nachfragen Sie wirklich kosten.</p>
+      <h2 id="r-t" class="reveal">Sie verballern jeden Monat Geld <span class="grad">mit Zettelwirtschaft.</span></h2>
+      <p class="lead reveal" style="margin-top:16px">Anrufe um 6 Uhr, Umplanen, Nachfragen: Das ist bezahlte Zeit ohne einen Cent Umsatz. Stellen Sie Ihren Betrieb ein und sehen Sie die Zahl.</p>
       <div class="rechner reveal">
         <div class="regler">
-          <div><label for="r-ma">Mitarbeiter <output id="o-ma">{std.standardMitarbeiter}</output></label><input id="r-ma" type="range" min="3" max="60" value={std.standardMitarbeiter} /></div>
+          <div><label for="r-ma">Mitarbeiter <output id="o-ma">{std.standardMitarbeiter}</output></label><input id="r-ma" type="range" min="3" max="50" value={std.standardMitarbeiter} /></div>
           <div><label for="r-au">Ausfälle pro Woche <output id="o-au">{std.standardAusfaelle}</output></label><input id="r-au" type="range" min="0" max="20" value={std.standardAusfaelle} /></div>
           <div><label for="r-sa">Stundensatz in € <output id="o-sa">{String(std.stundensatz).replace(".", ",")}</output></label><input id="r-sa" type="range" min={std.mindestlohn} max="60" step="0.1" value={std.stundensatz} /></div>
         </div>
         <div class="ergebnis">
-          <span>Das verlieren Sie an Planen, Anrufen und Umplanen:</span>
-          <b id="e-std">0 Std.</b>
-          <span>pro Monat. Bezahlte Zeit, die keinen Umsatz bringt:</span>
-          <b id="e-eur" class="grad">0 €</b>
-          <small><strong style="color:#fff">Zum Vergleich:</strong> Schichtklar Basis kostet im Angebot {preise.pakete[0].gruender}, danach {preise.pakete[0].regulaer} pro Monat. Grobe, vorsichtige Schätzung (Mindestlohn als Untergrenze). Annahmen: {std.planMinProMitarbeiterWoche} Min. pro Mitarbeiter und Woche, {std.minProAusfall} Min. pro Ausfall.</small>
+          <span class="e-kopf">Das verballern Sie jeden Monat:</span>
+          <b id="e-eur" class="e-rot"><mark>0 €</mark></b>
+          <span class="e-jahr">Das sind <b id="e-jahr">0 €</b> im Jahr und <b id="e-std">0 Std.</b> pro Monat, die Sie lieber für Ihre Gäste hätten.</span>
+          <span class="e-vergleich">Schichtklar Basis für <span id="e-n">10</span> Mitarbeiter: <b id="e-preis">49 €</b> im Monat.</span>
+          <small>Grobe, vorsichtige Schätzung mit Mindestlohn als Untergrenze. Annahmen: {std.planMinProMitarbeiterWoche} Min. pro Mitarbeiter und Woche, {std.minProAusfall} Min. pro Ausfall.</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+    <section class="sektion" id="ehrlich" aria-labelledby="eh-t">
+    <div class="wrap">
+      <span class="kicker reveal">Ohne leere Versprechen</span>
+      <h2 id="eh-t" class="reveal">Das kann die App heute. <span class="grad">Und das noch nicht.</span></h2>
+      <div class="eh">
+        <div class="eh-box ja reveal" data-r="l">
+          <h3>Kann sie heute</h3>
+          <ul>
+            <li>Wochenplan für Inhaber und Leitung, Plan drucken</li>
+            <li>Urlaub, Krank und Schichttausch inklusive Genehmigung</li>
+            <li>Ersatz für offene Schichten, nach Qualifikation und Ruhezeit geordnet</li>
+            <li>KI-Wochenvorschlag als Entwurf, nie automatisch veröffentlicht</li>
+            <li>Krankmeldung mit AU-Status, Verlauf und Zugriffsprotokoll</li>
+            <li>Warnung bei Ruhezeit, Pausen und Minijob-Grenze</li>
+            <li>Zeiterfassung, Stundenkonto und CSV-Export fürs Lohnbüro</li>
+            <li>Daten in Frankfurt, Deutsch und Englisch</li>
+          </ul>
+        </div>
+        <div class="eh-box bald reveal" data-r="r">
+          <h3>Noch nicht, aber machbar</h3>
+          <ul>
+            <li>Anfrage in normalen Worten erkennen („Bin morgen krank“) und als Antrag vorsortieren</li>
+            <li>Bei Ausfall automatisch passende Kollegen anschreiben, erste Zusage übernehmen</li>
+            <li>Eigene Tagesübersicht „Wer fehlt heute?“ für den Chef</li>
+            <li>DATEV-Schnittstelle (heute nur CSV)</li>
+            <li>Wochenvorlage mit einem Tipp aus der Vorwoche kopieren</li>
+          </ul>
+          <p>Sagen Sie mir, was Ihnen am meisten Zeit spart. Das baue ich zuerst.</p>
         </div>
       </div>
     </div>
@@ -204,21 +255,26 @@ const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
     <span class="deko d3" aria-hidden="true"></span>
     <div class="wrap">
       <span class="kicker reveal">Preise</span>
-      <h2 id="p-t" class="reveal">Klar. Ohne <span class="grad">Kleingedrucktes.</span></h2>
+      <h2 id="p-t" class="reveal">Der normale Preis. <span class="grad">Und was Sie jetzt sparen.</span></h2>
       <p class="lead reveal" style="margin-top:16px"><span class="tag" id="angebot" data-bis={preise.gruender.bis}>{preise.gruender.etikett}</span></p>
+      <div class="p-regler reveal">
+        <label for="p-ma">Wie viele Mitarbeiter hat Ihr Betrieb? <output id="p-o">{preise.regler.standard}</output></label>
+        <input id="p-ma" type="range" min={preise.regler.min} max={preise.regler.max} value={preise.regler.standard} />
+        <small>Der Preis wächst mit Ihrem Team. Kleine Betriebe zahlen wenig.</small>
+      </div>
       <div class="preise">
         {preise.pakete.map((p) => (
-          <article class={`karte preis reveal ${p.hervorgehoben ? "top" : ""}`}>
+          <article class={`karte preis reveal ${p.hervorgehoben ? "top" : ""}`} data-paketpreis={p.id}>
             <h3>{p.name}</h3>
             <p>{p.untertitel}</p>
-            <div class="betrag" data-gr={p.gruender} data-reg={p.regulaer}>{p.gruender}<s>{p.regulaer}</s></div>
-            <p>{preise.zusatz}</p>
+            <div class="alt-preis"><s class="p-reg">{p.regulaer}</s> <span>pro Monat</span></div>
+            <div class="neu-preis">Jetzt nur <b class="p-neu">{p.gruender}</b> <span class="p-bis">bis {preise.gruender.kurzDatum}</span></div>
             <ul>{p.id !== "basis" && <li>Alles aus Basis</li>}{p.leistungen.map((l) => <li>{l}</li>)}</ul>
             <a class="btn" data-magnet href={`#kontakt`} data-paket={p.id}>{p.name} anfragen</a>
           </article>
         ))}
       </div>
-      <p class="fussnote reveal">{steuerHinweis[preise.steuer]}</p>
+      <p class="fussnote reveal">{preise.zusatz}. {steuerHinweis[preise.steuer]}</p>
     </div>
   </section>
 
@@ -264,10 +320,10 @@ const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
   </section>
   <script type="application/ld+json" set:html={JSON.stringify(schema)} />
 
-  <script type="application/json" id="cfg" set:html={JSON.stringify({ std, tage })} />
+  <script type="application/json" id="cfg" set:html={JSON.stringify({ std, preiseCfg: preise.pakete.map((p) => ({ id: p.id, ...p.modell })) })} />
   <script>
     import { animate, stagger, inView, scroll } from "motion";
-    const { std, tage } = JSON.parse(document.getElementById("cfg").textContent);
+    const { std, preiseCfg } = JSON.parse(document.getElementById("cfg").textContent);
     const reduziert = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const $ = (s) => document.querySelector(s);
 
@@ -320,73 +376,34 @@ const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
       scroll(animate(fill, { transform: quer ? ["scaleX(0)", "scaleX(1)"] : ["scaleY(0)", "scaleY(1)"] }, { ease: "linear" }), { target: document.querySelector(".st-wrap"), offset: ["start 75%", "end 65%"] });
     })();
 
-    /* --- Klickbare Demo --- */
-    const namen = ["Mara", "Mia", "Lea", "Tim", "Sara"];
-    const start = [["F","S","F","-","F"],["S","F","-","F","S"],["-","-","S","S","-"],["F","-","F","S","F"],["S","S","-","-","F"]];
-    let plan = JSON.parse(JSON.stringify(start)), krank = null, vorschlag = null;
-    const label = { F: "Früh", S: "Spät", "-": "frei" };
-    const el = $("#plan"), status = $("#status"), uebernehmen = $("#uebernehmen"), zurueck = $("#zurueck");
-    function zeichne(neuZelle) {
-      el.innerHTML = "";
-      el.append(Object.assign(document.createElement("div"), { className: "k" }));
-      tage.forEach((t) => el.append(Object.assign(document.createElement("div"), { className: "k", textContent: t })));
-      namen.forEach((n, i) => {
-        el.append(Object.assign(document.createElement("div"), { className: "n", textContent: n }));
-        tage.forEach((_, d) => {
-          const b = document.createElement("button");
-          b.type = "button"; b.setAttribute("role", "gridcell");
-          const v = plan[i][d];
-          b.className = "zelle " + (v === "F" ? "fruh" : v === "S" ? "spaet" : "frei");
-          b.textContent = label[v];
-          if (krank && krank.i === i && krank.d === d) { b.classList.add("krank"); b.textContent = "krank"; }
-          if (vorschlag && vorschlag.i === i && vorschlag.d === d) { b.classList.add("vorschlag"); b.textContent = "Vorschlag"; }
-          if (neuZelle && neuZelle.i === i && neuZelle.d === d) b.classList.add("neu");
-          if (v !== "-" && !krank) b.addEventListener("click", () => melde(i, d));
-          if (v === "-") b.disabled = true;
-          el.append(b);
-        });
+    /* --- Preis nach Mitarbeitern --- */
+    const modelle = Object.fromEntries(preiseCfg.map((p) => [p.id, p]));
+    const eurGanz = (n) => Math.round(n).toLocaleString("de-DE") + " €";
+    const eurFein = (n) => n.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
+    const regPreis = (id, n) => modelle[id].grund + modelle[id].proMitarbeiter * n;
+    const angebotAktiv = Date.now() < Date.parse($("#angebot").dataset.bis);
+    function zeichnePreise() {
+      const n = Number(pm.value); $("#p-o").textContent = n;
+      document.querySelectorAll("[data-paketpreis]").forEach((k) => {
+        const id = k.dataset.paketpreis, reg = regPreis(id, n);
+        k.querySelector(".p-reg").textContent = eurGanz(reg);
+        k.querySelector(".p-neu").textContent = eurFein(reg * modelle[id].angebotFaktor);
       });
     }
-    function melde(i, d) {
-      krank = { i, d };
-      const frei = plan.map((r, k) => ({ k, v: r[d] })).filter((x) => x.v === "-" && x.k !== i)[0];
-      if (frei) {
-        vorschlag = { i: frei.k, d };
-        status.className = "status";
-        status.textContent = `${namen[i]} meldet sich am ${tage[d]} krank. ${namen[frei.k]} hat frei und passt zu Ruhezeit und Pausen.`;
-        uebernehmen.style.display = "inline-flex";
-      } else { status.textContent = `${namen[i]} ist krank. Niemand hat frei, die App meldet es Ihnen.`; }
-      zurueck.style.display = "inline-flex";
-      zeichne();
-    }
-    uebernehmen.addEventListener("click", () => {
-      if (!krank || !vorschlag) return;
-      plan[vorschlag.i][vorschlag.d] = plan[krank.i][krank.d];
-      plan[krank.i][krank.d] = "-";
-      const neu = vorschlag; status.className = "status ok";
-      status.textContent = `${namen[neu.i]} übernimmt. Der Plan ist aktualisiert und das Team benachrichtigt.`;
-      krank = null; vorschlag = null; uebernehmen.style.display = "none";
-      zeichne(neu);
-    });
-    zurueck.addEventListener("click", () => {
-      plan = JSON.parse(JSON.stringify(start)); krank = null; vorschlag = null;
-      status.className = "status"; status.textContent = "Tippen Sie auf eine farbige Schicht.";
-      uebernehmen.style.display = "none"; zurueck.style.display = "none"; zeichne();
-    });
-    zeichne();
+    const pm = $("#p-ma"); pm.addEventListener("input", zeichnePreise); zeichnePreise();
 
     /* --- Rechner --- */
-    const fmt = (n) => Math.round(n).toLocaleString("de-DE");
     const ma = $("#r-ma"), au = $("#r-au"), sa = $("#r-sa");
     let anzeige = { std: 0, eur: 0 };
     function rechne() {
       $("#o-ma").textContent = ma.value; $("#o-au").textContent = au.value; $("#o-sa").textContent = String(sa.value).replace(".", ",");
       const std_ = (ma.value * std.planMinProMitarbeiterWoche / 60 + au.value * std.minProAusfall / 60) * std.wochenProMonat;
       const eur = std_ * sa.value;
+      $("#e-n").textContent = ma.value; $("#e-preis").textContent = eurGanz(regPreis("basis", Number(ma.value)));
       if (reduziert) { anzeige = { std: std_, eur }; }
       else animate(anzeige, { std: std_, eur }, { duration: 0.6, ease: "easeOut", onUpdate: () => draw() });
       draw();
-      function draw() { $("#e-std").textContent = fmt(anzeige.std) + " Std."; $("#e-eur").textContent = fmt(anzeige.eur) + " €"; }
+      function draw() { $("#e-std").textContent = Math.round(anzeige.std).toLocaleString("de-DE") + " Std."; $("#e-eur").firstChild.textContent = eurGanz(anzeige.eur); $("#e-jahr").textContent = eurGanz(anzeige.eur * 12); }
     }
     [ma, au, sa].forEach((i) => i.addEventListener("input", rechne));
     rechne();
@@ -395,7 +412,8 @@ const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
     const tag = $("#angebot"), bis = Date.parse(tag.dataset.bis), jetzt = Date.now();
     if (jetzt >= bis) {
       tag.style.display = "none";
-      document.querySelectorAll(".betrag").forEach((b) => (b.textContent = b.dataset.reg));
+      document.querySelectorAll(".neu-preis").forEach((b) => (b.style.display = "none"));
+      document.querySelectorAll(".p-reg").forEach((b) => (b.style.textDecoration = "none"));
     } else {
       const t = Math.ceil((bis - jetzt) / 864e5);
       tag.textContent += ` · noch ${t} ${t === 1 ? "Tag" : "Tage"}`;

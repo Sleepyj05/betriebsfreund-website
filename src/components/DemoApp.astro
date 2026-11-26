@@ -1,0 +1,299 @@
+---
+// Echte Demo der Dienstplan-App mit erfundenen Daten: Inhaber-Ansicht (Rechner) und Mitarbeiter-Ansicht (Handy) teilen sich
+// einen Zustand. Was die Mitarbeiterin meldet, taucht sofort beim Inhaber auf. Alle Funktionen hier gibt es in der App (docs/FUNKTIONEN.md).
+---
+<div class="dm" id="dm" data-ansicht="inhaber">
+  <div class="dm-tabs" role="tablist" aria-label="Ansicht wählen">
+    <button class="dm-tab" role="tab" type="button" data-ansicht="inhaber" aria-selected="true">Ansicht Inhaber</button>
+    <button class="dm-tab" role="tab" type="button" data-ansicht="mitarbeiter" aria-selected="false">Ansicht Mitarbeiterin</button>
+  </div>
+  <div class="dm-stage">
+    <section class="dm-owner" id="dm-owner" aria-label="Inhaber-Ansicht">
+      <div class="dm-kopf"><b>Betriebsfreund Demo-Café</b><span>KW 49 · 30.11. bis 06.12.2026</span></div>
+      <nav class="dm-nav" id="dm-nav" aria-label="Bereiche"></nav>
+      <div class="dm-inhalt" id="dm-inhalt" aria-live="polite"></div>
+    </section>
+    <section class="dm-emp" aria-label="Mitarbeiter-Ansicht am Handy">
+      <div class="dm-handy">
+        <div class="dm-schirm" id="dm-handy"></div>
+      </div>
+      <p class="dm-hinweis">Hier meldet sich „Mia“. Probieren Sie Urlaub, Krank und Tausch aus und wechseln Sie zum Inhaber.</p>
+    </section>
+  </div>
+  <p class="dm-note">Alle Namen und Daten sind erfunden. Der Ablauf entspricht der echten App.</p>
+</div>
+
+<script>
+  const TAGE = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
+  const DAT = ["30.11.", "01.12.", "02.12.", "03.12.", "04.12.", "05.12.", "06.12."];
+  const LEUTE: Record<string, { n: string; soll: number; kueche: boolean }> = {
+    mara: { n: "Mara", soll: 32, kueche: false }, mia: { n: "Mia", soll: 24, kueche: true }, lea: { n: "Lea", soll: 24, kueche: false },
+    sara: { n: "Sara", soll: 32, kueche: false }, tim: { n: "Tim", soll: 40, kueche: true }, jonas: { n: "Jonas", soll: 32, kueche: true },
+  };
+  const IDS = Object.keys(LEUTE);
+  const ZEIT: Record<string, string> = { F: "06–14", S: "14–22" };
+  const BER: Record<string, string> = { S: "Service", K: "Küche" };
+  const START = {
+    mara: ["SF", "SF", "", "SS", "SS", "SS", ""], mia: ["SS", "", "SF", "SF", "", "SF", "SS"], lea: ["", "SS", "SS", "", "SF", "", "SF"],
+    sara: ["SF", "SF", "SF", "SS", "SF", "", ""], tim: ["KF", "KF", "KS", "KS", "KS", "", "KF"], jonas: ["KS", "KS", "KF", "KF", "", "KS", "KS"],
+  } as Record<string, string[]>;
+
+  type Zelle = { b: string; k: string; krank?: boolean; urlaub?: boolean; entwurf?: boolean; neu?: boolean; ersetzt?: boolean } | null;
+  type Slot = { id: number; tag: number; b: string; k: string; grund: "krank" | "bedarf"; von?: string };
+  type Meldung = { id: number; p: string; von: number; bis: number; status: "gemeldet" | "eingegangen" | "au_liegt_vor" | "eingereicht" | "abgeschlossen"; hoch?: boolean };
+  type Anfrage = { id: number; typ: "urlaub" | "tausch"; p: string; von?: number; bis?: number; zu?: string; tag?: number; status: "offen" | "genehmigt" | "abgelehnt" };
+
+  const neu = () => {
+    const plan: Record<string, Zelle[]> = {};
+    for (const id of IDS) plan[id] = START[id].map((c) => (c ? { b: c[0], k: c[1] } : null));
+    const meldungen: Meldung[] = [
+      { id: 1, p: "sara", von: 2, bis: 4, status: "gemeldet" },
+      { id: 2, p: "jonas", von: 0, bis: 1, status: "eingegangen" },
+    ];
+    const slots: Slot[] = [];
+    let nid = 10;
+    for (const m of meldungen) for (let t = m.von; t <= m.bis; t++) { const c = plan[m.p][t]; if (c) { c.krank = true; slots.push({ id: nid++, tag: t, b: c.b, k: c.k, grund: "krank", von: m.p }); } }
+    slots.push({ id: nid++, tag: 5, b: "S", k: "S", grund: "bedarf" });
+    return { plan, meldungen, slots, anfragen: [] as Anfrage[], nid, urlaubRest: 14, krankVorher: 2, ki: null as null | { slot: number; p: string; grund: string }[], kiLaeuft: false, tab: "plan", ma: "start", auswahl: null as null | { art: "slot" | "zelle"; slot?: number; p?: string; tag?: number }, filter: "alle" };
+  };
+  let S = neu();
+
+  const arbeitet = (c: Zelle) => !!c && !c.krank && !c.urlaub;
+  const stunden = (p: string) => S.plan[p].filter(arbeitet).length * 8;
+  function kann(p: string, tag: number, k: string, b: string): { ok: boolean; grund: string } {
+    const c = S.plan[p][tag];
+    if (c) return { ok: false, grund: c.urlaub ? "im Urlaub" : c.krank ? "krank" : "hat schon eine Schicht" };
+    if (b === "K" && !LEUTE[p].kueche) return { ok: false, grund: "nicht für die Küche qualifiziert" };
+    const vor = S.plan[p][tag - 1], nach = S.plan[p][tag + 1];
+    if (k === "F" && arbeitet(vor ?? null) && vor!.k === "S") return { ok: false, grund: "weniger als 11 Std. Ruhezeit" };
+    if (k === "S" && arbeitet(nach ?? null) && nach!.k === "F") return { ok: false, grund: "weniger als 11 Std. Ruhezeit" };
+    return { ok: true, grund: `hat frei · Ruhezeit ok · ${stunden(p)} von ${LEUTE[p].soll} Std. geplant` };
+  }
+  const kandidaten = (s: Slot) => IDS.map((p) => ({ p, ...kann(p, s.tag, s.k, s.b) })).filter((x) => x.ok).sort((a, b) => (stunden(a.p) - LEUTE[a.p].soll) - (stunden(b.p) - LEUTE[b.p].soll));
+
+  const $ = (id: string) => document.getElementById(id)!;
+  const esc = (t: string) => t.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
+  const bereichKurz = (b: string) => (b === "K" ? "Küche" : "Service");
+  const zeitraum = (v: number, b: number) => (v === b ? `${TAGE[v]} ${DAT[v]}` : `${TAGE[v]} ${DAT[v]} bis ${TAGE[b]} ${DAT[b]}`);
+  const nummer = "0221 555 01 23";
+
+  /* ---------------- Inhaber ---------------- */
+  function zaehler() {
+    const krankOffen = S.meldungen.filter((m) => m.status !== "abgeschlossen").length;
+    return { plan: S.slots.length, anfr: S.anfragen.filter((a) => a.status === "offen").length, krank: krankOffen };
+  }
+  function nav() {
+    const z = zaehler();
+    const t = [["plan", "Wochenplan", z.plan, "offen"], ["anfr", "Anfragen", z.anfr, "neu"], ["krank", "Krankheitsausfälle", z.krank, ""], ["ki", "KI-Vorschlag", 0, ""]] as const;
+    $("dm-nav").innerHTML = t.map(([id, n, c]) => `<button type="button" class="dm-nb" data-tab="${id}" aria-pressed="${S.tab === id}">${n}${c ? `<i>${c}</i>` : ""}</button>`).join("");
+  }
+  function tabelle() {
+    const kopf = `<tr><th></th>${TAGE.map((t, i) => `<th>${t}<small>${DAT[i]}</small></th>`).join("")}<th class="std">Std.</th></tr>`;
+    const zeilen = IDS.map((p) => {
+      const zellen = S.plan[p].map((c, t) => {
+        if (!c) return `<td><span class="dz leer">–</span></td>`;
+        const sel = S.auswahl?.art === "zelle" && S.auswahl.p === p && S.auswahl.tag === t ? " sel" : "";
+        if (c.urlaub) return `<td><span class="dz urlaub">Urlaub</span></td>`;
+        if (c.krank) return `<td><button type="button" class="dz krank${c.ersetzt ? " ersetzt" : ""}${sel}" data-zelle="${p}:${t}">${c.ersetzt ? "krank, ersetzt" : "krank"}</button></td>`;
+        return `<td><button type="button" class="dz ${c.k === "F" ? "frueh" : "spaet"}${c.b === "K" ? " kueche" : ""}${c.entwurf ? " entwurf" : ""}${c.neu ? " neu" : ""}${sel}" data-zelle="${p}:${t}">${c.k === "F" ? "Früh" : "Spät"}${c.entwurf ? "<em>Entwurf</em>" : ""}</button></td>`;
+      }).join("");
+      const sd = stunden(p);
+      return `<tr><th scope="row">${LEUTE[p].n}<small>${LEUTE[p].kueche ? "Küche/Service" : "Service"}</small></th>${zellen}<td class="std${sd > LEUTE[p].soll ? " zuviel" : ""}">${sd}<small>/${LEUTE[p].soll}</small></td></tr>`;
+    }).join("");
+    const offen = S.slots.map((s) => `<tr class="offenzeile"><th scope="row">${s.grund === "krank" ? "Ausfall" : "Bedarf"}</th>${TAGE.map((_, t) => `<td>${t === s.tag ? `<button type="button" class="dz offen${S.auswahl?.art === "slot" && S.auswahl.slot === s.id ? " sel" : ""}" data-slot="${s.id}">offen ${s.k === "F" ? "Früh" : "Spät"}<small>${bereichKurz(s.b)}</small></button>` : ""}</td>`).join("")}<td></td></tr>`).join("");
+    return `<div class="dm-tafel"><table class="dm-plan"><thead>${kopf}</thead><tbody>${zeilen}${offen}</tbody></table></div>`;
+  }
+  function detail() {
+    const a = S.auswahl;
+    if (!a) return `<p class="dm-leise">Tippen Sie auf eine offene Schicht, um Ersatz zu finden, oder auf eine Schicht, um sie zu ändern.</p>`;
+    if (a.art === "slot") {
+      const s = S.slots.find((x) => x.id === a.slot);
+      if (!s) return "";
+      const kand = kandidaten(s);
+      const titel = `${s.grund === "krank" ? `Ausfall ${LEUTE[s.von!].n}` : "Bedarf"}: ${TAGE[s.tag]} ${s.k === "F" ? "Früh" : "Spät"} ${ZEIT[s.k]} (${bereichKurz(s.b)})`;
+      return `<div class="dm-detail"><h3>${titel}</h3>${kand.length ? `<p class="dm-leise">Nur freie Kollegen mit passender Qualifikation und mindestens 11 Std. Ruhezeit. Zuerst, wer noch Stunden bis zum Soll hat:</p><ul class="dm-kand">${kand.map((c, i) => `<li><span><b>${LEUTE[c.p].n}</b>${i === 0 ? " <mark>beste Wahl</mark>" : ""}<small>${c.grund}</small></span><button type="button" class="btn klein" data-einsetzen="${s.id}:${c.p}">Einsetzen</button></li>`).join("")}</ul>` : `<p class="dm-warn">Niemand ist frei und passt. Idee: Schicht verschieben oder Aushilfe anfragen.</p>`}</div>`;
+    }
+    const c = S.plan[a.p!][a.tag!];
+    if (!c) return "";
+    return `<div class="dm-detail"><h3>${LEUTE[a.p!].n}, ${TAGE[a.tag!]} ${DAT[a.tag!]}: ${c.krank ? "krank" : (c.k === "F" ? "Früh " : "Spät ") + ZEIT[c.k] + " · " + bereichKurz(c.b)}</h3>${c.krank ? `<p class="dm-leise">Die Krankmeldung finden Sie unter „Krankheitsausfälle“.</p>` : `<div class="dm-akt"><button type="button" class="btn klein" data-krank="${a.p}:${a.tag}">${LEUTE[a.p!].n} krank eintragen</button><button type="button" class="btn leer klein" data-leeren="${a.p}:${a.tag}">Schicht streichen</button></div>`}</div>`;
+  }
+  function planAnsicht() {
+    const warn = S.slots.length ? `<p class="dm-warn">${S.slots.length} Schicht${S.slots.length > 1 ? "en sind" : " ist"} noch offen.</p>` : `<p class="dm-ok">Alles besetzt. Alle Regeln eingehalten.</p>`;
+    return warn + tabelle() + detail();
+  }
+  function anfrAnsicht() {
+    const liste = [...S.anfragen].sort((a, b) => Number(b.status === "offen") - Number(a.status === "offen") || b.id - a.id);
+    if (!liste.length) return `<p class="dm-leise">Keine Anfragen. Wechseln Sie zur Mitarbeiterin und beantragen Sie Urlaub oder einen Tausch.</p>`;
+    return `<ul class="dm-liste">${liste.map((a) => {
+      const was = a.typ === "urlaub" ? `Urlaub ${zeitraum(a.von!, a.bis!)}` : `Tausch ${TAGE[a.tag!]}: ${LEUTE[a.p].n} gibt Schicht an ${LEUTE[a.zu!].n}`;
+      const extra = a.typ === "tausch" ? `<small>${LEUTE[a.zu!].n} hat zugestimmt. Regeln geprüft.</small>` : `<small>${(a.bis! - a.von! + 1)} Urlaubstag${a.bis! > a.von! ? "e" : ""}, danach ${S.urlaubRest - (a.bis! - a.von! + 1)} übrig</small>`;
+      return `<li class="${a.status}"><span><b>${LEUTE[a.p].n}</b> · ${was}${extra}</span>${a.status === "offen" ? `<span class="dm-akt"><button class="btn klein" type="button" data-ja="${a.id}">Genehmigen</button><button class="btn leer klein" type="button" data-nein="${a.id}">Ablehnen</button></span>` : `<span class="dm-chip ${a.status}">${a.status === "genehmigt" ? "genehmigt" : "abgelehnt"}</span>`}</li>`;
+    }).join("")}</ul>`;
+  }
+  const SCHRITT = ["gemeldet", "eingegangen", "au_liegt_vor", "eingereicht", "abgeschlossen"] as const;
+  const SNAME: Record<string, string> = { gemeldet: "Neu gemeldet", eingegangen: "Eingang bestätigt", au_liegt_vor: "AU liegt vor", eingereicht: "Eingereicht", abgeschlossen: "Erledigt" };
+  const NAECHST: Record<string, string> = { gemeldet: "Eingang bestätigen", eingegangen: "AU liegt vor", au_liegt_vor: "Als eingereicht markieren", eingereicht: "Abschließen" };
+  function krankAnsicht() {
+    const rang = (m: Meldung) => (m.status === "abgeschlossen" ? 9 : m.status === "gemeldet" ? 0 : m.status === "eingegangen" ? 1 : 2);
+    const liste = [...S.meldungen].filter((m) => S.filter === "alle" || (S.filter === "neu" ? m.status === "gemeldet" : S.filter === "offen" ? m.status !== "abgeschlossen" : m.status === "abgeschlossen")).sort((a, b) => rang(a) - rang(b) || b.id - a.id);
+    const offenAus = S.meldungen.filter((m) => m.status !== "abgeschlossen").length;
+    const fl = ["alle", "neu", "offen", "erledigt"].map((f) => `<button type="button" class="dm-f" data-filter="${f === "erledigt" ? "erl" : f}" aria-pressed="${S.filter === (f === "erledigt" ? "erl" : f)}">${f[0].toUpperCase() + f.slice(1)}</button>`).join("");
+    return `<div class="dm-kopf2"><p><b>${offenAus}</b> aktive Ausfälle · sortiert nach Dringlichkeit</p><div class="dm-filter">${fl}</div></div>
+    ${liste.length ? `<ul class="dm-liste">${liste.map((m) => {
+      const tage = m.bis - m.von + 1, schritt = SCHRITT.indexOf(m.status);
+      const auFehlt = schritt < 2, faellig = auFehlt && tage >= 4;
+      const offenSlots = S.slots.filter((s) => s.von === m.p && s.tag >= m.von && s.tag <= m.bis).length;
+      return `<li class="krank-k"><div><b>${LEUTE[m.p].n}</b> · ${zeitraum(m.von, m.bis)} <span class="dm-chip ${schritt >= 3 ? "genehmigt" : "wait"}">${SNAME[m.status]}</span>
+        ${auFehlt ? `<p class="dm-warn klein">${faellig ? "AU fehlt und ist ab Tag 4 Pflicht." : "AU liegt noch nicht vor."}</p>` : ""}
+        <ol class="dm-schritte">${SCHRITT.map((s, i) => `<li class="${i < schritt ? "ok" : i === schritt ? "jetzt" : ""}"><i></i>${SNAME[s]}</li>`).join("")}</ol>
+        ${offenSlots ? `<p class="dm-leise">${offenSlots} Schicht${offenSlots > 1 ? "en" : ""} noch ohne Ersatz. <button type="button" class="dm-link" data-zumplan="1">Zum Plan</button></p>` : ""}</div>
+        <div class="dm-akt"><button type="button" class="btn leer klein" data-anruf="${m.p}">Anrufen ${esc(nummer.slice(0, 8))}…</button>${NAECHST[m.status] ? `<button type="button" class="btn klein" data-weiter="${m.id}">${NAECHST[m.status]}</button>` : ""}</div></li>`;
+    }).join("")}</ul>` : `<p class="dm-leise">Hier ist nichts.</p>`}`;
+  }
+  function kiAnsicht() {
+    const n = S.slots.length;
+    if (S.kiLaeuft) return `<div class="dm-ki"><p class="dm-ladeb"><i></i><i></i><i></i> KI prüft ${n} offene Schichten, Qualifikationen, Ruhezeiten und Stunden …</p></div>`;
+    if (S.ki) {
+      return `<div class="dm-ki"><p class="dm-ok">Vorschlag fertig: ${S.ki.length} von ${S.ki.length + S.slots.filter((s) => !S.ki!.some((k) => k.slot === s.id)).length} Schichten besetzt, 0 Regelverstöße. Noch nichts veröffentlicht.</p><ul class="dm-kand">${S.ki.map((k) => { const s = S.slots.find((x) => x.id === k.slot)!; return `<li><span><b>${TAGE[s.tag]} ${s.k === "F" ? "Früh" : "Spät"} (${bereichKurz(s.b)})</b>: ${LEUTE[k.p].n}<small>${k.grund}</small></span></li>`; }).join("")}</ul><div class="dm-akt"><button type="button" class="btn" data-ki-ja="1">Als Entwurf übernehmen</button><button type="button" class="btn leer" data-ki-nein="1">Verwerfen</button></div><p class="dm-leise">Die KI bekommt nur Kürzel statt Namen. Sie entscheiden, ob der Entwurf veröffentlicht wird.</p></div>`;
+    }
+    const hatEntwurf = Object.values(S.plan).some((r) => r.some((c) => c?.entwurf));
+    return `<div class="dm-ki">${hatEntwurf ? `<p class="dm-ok">Entwurf im Wochenplan. Prüfen und veröffentlichen:</p><div class="dm-akt"><button type="button" class="btn" data-publish="1">Veröffentlichen und Team informieren</button></div>` : n ? `<p>Es sind <b>${n}</b> Schichten offen. Die KI schlägt vor, wer sie übernehmen kann, und hält dabei Ruhezeiten, Qualifikation und Stunden ein.</p><div class="dm-akt"><button type="button" class="btn" data-ki-start="1">KI-Vorschlag erstellen</button></div>` : `<p class="dm-ok">Nichts offen. Es gibt nichts vorzuschlagen.</p>`}</div>`;
+  }
+  function renderOwner() {
+    nav();
+    $("dm-inhalt").innerHTML = S.tab === "plan" ? planAnsicht() : S.tab === "anfr" ? anfrAnsicht() : S.tab === "krank" ? krankAnsicht() : kiAnsicht();
+  }
+
+  /* ---------------- Mitarbeiterin (Mia) ---------------- */
+  function krankTage() { return S.krankVorher + S.meldungen.filter((m) => m.p === "mia").reduce((s, m) => s + (m.bis - m.von + 1), 0); }
+  function handy() {
+    const mia = S.plan.mia;
+    const naechste = mia.findIndex((c, t) => t >= 0 && arbeitet(c));
+    const nc = naechste >= 0 ? mia[naechste]! : null;
+    const urlBeantragt = S.anfragen.filter((a) => a.p === "mia" && a.typ === "urlaub" && a.status === "offen").reduce((s, a) => s + (a.bis! - a.von! + 1), 0);
+    const woche = mia.map((c, t) => `<li><span>${TAGE[t]} ${DAT[t]}</span><b class="${!c ? "frei" : c.krank ? "krank" : c.urlaub ? "urlaub" : ""}">${!c ? "frei" : c.krank ? "krank" : c.urlaub ? "Urlaub" : (c.k === "F" ? "Früh" : "Spät") + " " + ZEIT[c.k]}</b></li>`).join("");
+    $("dm-handy").innerHTML = `<div class="dh-kopf"><b>Hallo Mia</b><span>KW 49</span></div>
+      <div class="dh-hero"><small>Nächste Schicht</small><b>${nc ? `${TAGE[naechste]} ${DAT[naechste]}` : "keine"}</b><span>${nc ? `${nc.k === "F" ? "Früh" : "Spät"} ${ZEIT[nc.k]} · ${bereichKurz(nc.b)}` : "Genieß die Pause"}</span></div>
+      <div class="dh-kz"><div><small>Resturlaub</small><b>${S.urlaubRest}</b><span>${urlBeantragt ? `${urlBeantragt} beantragt` : "von 26 Tagen"}</span></div><div><small>Krankheitstage 2026</small><b>${krankTage()}</b><span>nur für dich sichtbar</span></div></div>
+      <ul class="dh-woche">${woche}</ul>
+      <div class="dh-akt"><button type="button" data-m="urlaub">Urlaub</button><button type="button" data-m="tausch">Tausch</button><button type="button" class="rot" data-m="krank">Krank melden</button></div>
+      <div class="dh-modal" id="dh-modal" hidden></div>`;
+  }
+  const optTage = (von = 0) => TAGE.map((t, i) => `<option value="${i}"${i === von ? " selected" : ""}>${t} ${DAT[i]}</option>`).join("");
+  function modal(html: string) { const m = $("dh-modal"); m.innerHTML = html; m.hidden = false; }
+  function zu() { const m = document.getElementById("dh-modal"); if (m) m.hidden = true; }
+  function mUrlaub() {
+    modal(`<h4>Urlaub beantragen</h4><label>Von<select id="u-von">${optTage(3)}</select></label><label>Bis<select id="u-bis">${optTage(4)}</select></label><p class="dm-leise">Die App zählt nur deine Arbeitstage und prüft Urlaubssperren.</p><div class="dh-zeile"><button type="button" class="btn klein" data-senden="urlaub">Beantragen</button><button type="button" class="btn leer klein" data-zu="1">Abbrechen</button></div>`);
+  }
+  function mKrank() {
+    modal(`<h4>Krank melden</h4><label>Ab<select id="k-von">${optTage(0)}</select></label><label>Voraussichtlich bis<select id="k-bis">${optTage(1)}</select></label><p class="dm-leise">Keine Diagnose, kein Freitext.</p><p class="dm-gelb">Ruf bei Krankheit zusätzlich sofort deine Leitung an. Die Meldung in der App ersetzt den Anruf nicht.</p><div class="dh-zeile"><button type="button" class="btn rotb klein" data-senden="krank">Krank melden</button><button type="button" class="btn leer klein" data-zu="1">Abbrechen</button></div>`);
+  }
+  function mTausch() {
+    const eigene = S.plan.mia.map((c, t) => ({ c, t })).filter((x) => arbeitet(x.c));
+    modal(`<h4>Schicht tauschen</h4><label>Welche Schicht?<select id="t-tag">${eigene.map((x) => `<option value="${x.t}">${TAGE[x.t]} ${DAT[x.t]} · ${x.c!.k === "F" ? "Früh" : "Spät"}</option>`).join("")}</select></label><div id="t-kand" class="dm-leise"></div><div class="dh-zeile"><button type="button" class="btn klein" data-senden="tausch">Anfragen</button><button type="button" class="btn leer klein" data-zu="1">Abbrechen</button></div>`);
+    const sel = $("t-tag") as HTMLSelectElement;
+    const zeige = () => {
+      const t = Number(sel.value), c = S.plan.mia[t]!;
+      const kand = IDS.filter((p) => p !== "mia").map((p) => ({ p, ...kann(p, t, c.k, c.b) })).filter((x) => x.ok);
+      $("t-kand").innerHTML = kand.length ? `Frei und passend:<br />${kand.map((k, i) => `<label class="dh-radio"><input type="radio" name="t-zu" value="${k.p}"${i === 0 ? " checked" : ""} /> ${LEUTE[k.p].n}</label>`).join("")}<br /><small>Nur Kollegen mit Qualifikation und 11 Std. Ruhezeit.</small>` : "Niemand ist frei und passt für diese Schicht.";
+    };
+    sel.addEventListener("change", zeige); zeige();
+  }
+  function mKrankFertig() {
+    modal(`<h4>✓ Krankmeldung gesendet</h4><div class="dh-anruf"><b>Bitte rufe jetzt zusätzlich an</b><span>Die Meldung in der App ersetzt den Anruf nicht.</span><button type="button" class="btn klein" data-fake-anruf="1">Frau Beispiel (Büro) anrufen<br /><em>${nummer}</em></button></div><div class="dh-au"><b>Wichtig: AU unbedingt einreichen</b><span>Ab dem 4. Kalendertag ist die Arbeitsunfähigkeitsbescheinigung Pflicht.</span></div><div class="dh-zeile"><button type="button" class="btn klein" data-zu="1">Verstanden</button></div>`);
+  }
+
+  /* ---------------- Aktionen ---------------- */
+  const toast = (t: string) => { const el = document.createElement("div"); el.className = "dm-toast"; el.textContent = t; $("dm").append(el); setTimeout(() => el.remove(), 2600); };
+  const neuZeichnen = () => { renderOwner(); handy(); };
+  const sagVonMia = () => { document.querySelector(".dm-tab[data-ansicht=inhaber]")?.classList.add("hinweis"); };
+
+  function krankEintragen(p: string, von: number, bis: number, ausMia = false) {
+    S.meldungen.push({ id: ++S.nid, p, von, bis, status: "gemeldet" });
+    for (let t = von; t <= bis; t++) { const c = S.plan[p][t]; if (c && arbeitet(c)) { c.krank = true; S.slots.push({ id: ++S.nid, tag: t, b: c.b, k: c.k, grund: "krank", von: p }); } }
+    if (ausMia) sagVonMia();
+  }
+  function einsetzen(slotId: number, p: string) {
+    const i = S.slots.findIndex((s) => s.id === slotId); if (i < 0) return;
+    const s = S.slots[i];
+    if (!kann(p, s.tag, s.k, s.b).ok) return;
+    S.plan[p][s.tag] = { b: s.b, k: s.k, neu: true };
+    if (s.von) { const o = S.plan[s.von][s.tag]; if (o) o.ersetzt = true; }
+    S.slots.splice(i, 1); S.auswahl = null;
+    toast(`${LEUTE[p].n} ist informiert. Plan aktualisiert.`);
+  }
+  function kiStart() {
+    S.kiLaeuft = true; renderOwner();
+    setTimeout(() => {
+      S.kiLaeuft = false;
+      const vorlaeufig: Record<string, (Zelle)[]> = JSON.parse(JSON.stringify(S.plan));
+      const res: { slot: number; p: string; grund: string }[] = [];
+      const alt = S.plan;
+      S.plan = vorlaeufig;
+      for (const s of S.slots) {
+        const k = kandidaten(s)[0];
+        if (k) { S.plan[k.p][s.tag] = { b: s.b, k: s.k }; res.push({ slot: s.id, p: k.p, grund: k.grund }); }
+      }
+      S.plan = alt;
+      S.ki = res; renderOwner();
+    }, 1600);
+  }
+  function kiUebernehmen() {
+    for (const k of S.ki ?? []) {
+      const s = S.slots.find((x) => x.id === k.slot); if (!s) continue;
+      S.plan[k.p][s.tag] = { b: s.b, k: s.k, entwurf: true };
+      if (s.von) { const o = S.plan[s.von][s.tag]; if (o) o.ersetzt = true; }
+      S.slots = S.slots.filter((x) => x.id !== s.id);
+    }
+    S.ki = null; S.tab = "plan";
+  }
+
+  document.addEventListener("click", (e) => {
+    const t = (e.target as HTMLElement).closest("button, a") as HTMLElement | null;
+    if (!t || !t.closest("#dm")) return;
+    const d = t.dataset;
+    if (d.ansicht) { $("dm").dataset.ansicht = d.ansicht; document.querySelectorAll(".dm-tab").forEach((b) => b.setAttribute("aria-selected", String((b as HTMLElement).dataset.ansicht === d.ansicht))); t.classList.remove("hinweis"); return; }
+    if (d.tab) { S.tab = d.tab; S.auswahl = null; return renderOwner(); }
+    if (d.zelle) { const [p, tg] = d.zelle.split(":"); S.auswahl = { art: "zelle", p, tag: Number(tg) }; return renderOwner(); }
+    if (d.slot) { S.auswahl = { art: "slot", slot: Number(d.slot) }; return renderOwner(); }
+    if (d.einsetzen) { const [id, p] = d.einsetzen.split(":"); einsetzen(Number(id), p); return neuZeichnen(); }
+    if (d.krank) { const [p, tg] = d.krank.split(":"); krankEintragen(p, Number(tg), Number(tg)); S.auswahl = null; toast(`${LEUTE[p].n} ist krank eingetragen. Ersatz finden unter „offen“.`); return neuZeichnen(); }
+    if (d.leeren) { const [p, tg] = d.leeren.split(":"); S.plan[p][Number(tg)] = null; S.auswahl = null; return neuZeichnen(); }
+    if (d.ja || d.nein) {
+      const a = S.anfragen.find((x) => x.id === Number(d.ja || d.nein)); if (!a) return;
+      if (d.nein) { a.status = "abgelehnt"; toast("Abgelehnt. Mitarbeiter informiert."); return neuZeichnen(); }
+      a.status = "genehmigt";
+      if (a.typ === "urlaub") { for (let tg = a.von!; tg <= a.bis!; tg++) { const c = S.plan[a.p][tg]; if (c && arbeitet(c)) S.slots.push({ id: ++S.nid, tag: tg, b: c.b, k: c.k, grund: "bedarf" }); S.plan[a.p][tg] = { b: "S", k: "F", urlaub: true }; } S.urlaubRest -= a.bis! - a.von! + 1; toast("Urlaub genehmigt. Schichten werden offen."); }
+      else { const c = S.plan[a.p][a.tag!]!; S.plan[a.p][a.tag!] = null; S.plan[a.zu!][a.tag!] = { b: c.b, k: c.k, neu: true }; toast("Tausch genehmigt. Beide informiert."); }
+      return neuZeichnen();
+    }
+    if (d.filter) { S.filter = d.filter; return renderOwner(); }
+    if (d.weiter) { const m = S.meldungen.find((x) => x.id === Number(d.weiter)); if (m) { const i = SCHRITT.indexOf(m.status); m.status = SCHRITT[Math.min(i + 1, 4)]; } return neuZeichnen(); }
+    if (d.zumplan) { S.tab = "plan"; return renderOwner(); }
+    if (d.anruf) { toast("In der echten App startet jetzt der Anruf."); return; }
+    if (d.kiStart) return kiStart();
+    if (d.kiNein) { S.ki = null; return renderOwner(); }
+    if (d.kiJa) { kiUebernehmen(); return neuZeichnen(); }
+    if (d.publish) { for (const r of Object.values(S.plan)) for (const c of r) if (c?.entwurf) { c.entwurf = false; c.neu = true; } toast("Veröffentlicht. Das Team ist benachrichtigt."); S.tab = "plan"; return neuZeichnen(); }
+    // Mitarbeiterin
+    if (d.m) return d.m === "urlaub" ? mUrlaub() : d.m === "krank" ? mKrank() : mTausch();
+    if (d.zu) return zu();
+    if (d.fakeAnruf) return toast("In der echten App startet jetzt der Anruf.");
+    if (d.senden === "urlaub") {
+      const v = Number((document.getElementById("u-von") as HTMLSelectElement).value), b = Number((document.getElementById("u-bis") as HTMLSelectElement).value);
+      if (b < v) return toast("Das Ende liegt vor dem Beginn.");
+      S.anfragen.push({ id: ++S.nid, typ: "urlaub", p: "mia", von: v, bis: b, status: "offen" }); sagVonMia(); toast("Urlaub beantragt. Der Chef sieht es sofort."); zu(); return neuZeichnen();
+    }
+    if (d.senden === "krank") {
+      const v = Number((document.getElementById("k-von") as HTMLSelectElement).value), b = Number((document.getElementById("k-bis") as HTMLSelectElement).value);
+      if (b < v) return toast("Das Ende liegt vor dem Beginn.");
+      krankEintragen("mia", v, b, true); neuZeichnen(); return mKrankFertig();
+    }
+    if (d.senden === "tausch") {
+      const tg = Number((document.getElementById("t-tag") as HTMLSelectElement).value), zu_ = (document.querySelector("input[name=t-zu]:checked") as HTMLInputElement | null)?.value;
+      if (!zu_) return toast("Bitte einen Kollegen wählen.");
+      S.anfragen.push({ id: ++S.nid, typ: "tausch", p: "mia", tag: tg, zu: zu_, status: "offen" }); sagVonMia(); toast(`${LEUTE[zu_].n} hat zugestimmt. Jetzt entscheidet der Chef.`); zu(); return neuZeichnen();
+    }
+  });
+  neuZeichnen();
+</script>
