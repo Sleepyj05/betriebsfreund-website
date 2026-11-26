@@ -407,3 +407,25 @@ tr.offenzeile th { color: var(--warn); }
 
 #ehrlich .eh { grid-template-columns: 1fr; } @media (min-width: 900px) { #ehrlich .eh { grid-template-columns: 1fr 1fr; } }
 #ehrlich .eh-box.ja li > span b { display: block; font-size: 1.02rem; margin-bottom: 2px; }
+
+/* ---------- #ehrlich: auffälliger (nur dieser Abschnitt) ---------- */
+#ehrlich { background: linear-gradient(180deg, #F6F3EC 0%, #E6F3EA 55%, #F6F3EC 100%); }
+#ehrlich .eh { gap: 24px; }
+#ehrlich .eh-box { position: relative; border: 0; border-radius: 30px; padding: 36px 32px 32px; overflow: hidden; }
+#ehrlich .eh-box h3 { display: inline-block; font-size: 1.35rem; padding: 8px 18px; border-radius: 999px; margin-bottom: 22px; }
+/* Inhaber: dunkles Grün, weiße Schrift, Mint-Haken */
+#ehrlich .eh-box:first-child { background: linear-gradient(155deg, #1E4D40 0%, #0F2B24 100%); color: #EAF6EF; box-shadow: 0 40px 80px -40px rgba(15,43,36,.8); }
+#ehrlich .eh-box:first-child h3 { background: #A8D5BA; color: #0F2B24; }
+#ehrlich .eh-box:first-child li > span b { color: #fff; }
+#ehrlich .eh-box:first-child.ja li::before { background: #A8D5BA; color: #0F2B24; }
+#ehrlich .eh-box:first-child .neu-tag { background: #FFD98A; color: #5a4000; }
+/* Mitarbeiter: warm, Koralle als Akzent */
+#ehrlich .eh-box:last-child { background: linear-gradient(155deg, #FFF3E3 0%, #FFE2D6 100%); box-shadow: 0 40px 80px -40px rgba(201,74,74,.45); }
+#ehrlich .eh-box:last-child h3 { background: #C94A4A; color: #fff; }
+#ehrlich .eh-box:last-child.ja li::before { background: #C94A4A; color: #fff; }
+/* Glanz-Kreis als Dekor */
+#ehrlich .eh-box::after { content: ""; position: absolute; right: -80px; top: -80px; width: 240px; height: 240px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,.28), transparent 70%); pointer-events: none; }
+#ehrlich .eh-box li { padding: 7px 0; font-size: 1.02rem; }
+#ehrlich .eh-box.ja li::before { width: 26px; height: 26px; min-width: 26px; font-size: .9rem; }
+#ehrlich .eh-box li { grid-template-columns: 30px 1fr; }
+#ehrlich .eh-box:hover { transform: translateY(-8px) rotate(-.3deg); }
