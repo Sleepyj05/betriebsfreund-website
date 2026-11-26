@@ -434,3 +434,5 @@ tr.offenzeile th { color: var(--warn); }
 .ergebnis .e-rot { font-size: clamp(3rem, 7vw, 4.8rem) !important; }
 .ergebnis .e-rot, .ergebnis .e-rot mark { color: #FF4F42 !important; }
 .ergebnis .e-rot mark { background: none !important; background-image: none !important; text-decoration: underline solid #FF4F42 !important; text-decoration-thickness: 5px !important; text-underline-offset: 8px !important; }
+.ergebnis .e-rot, .ergebnis .e-rot mark { color: #E2554B !important; }
+.ergebnis .e-rot mark { text-decoration: none !important; }
