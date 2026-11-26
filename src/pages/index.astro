@@ -3,6 +3,10 @@
 import { Picture } from "astro:assets";
 import person from "../assets/person.png";
 import Dunkel from "../layouts/Dunkel.astro";
+import Hintergrund from "../components/Hintergrund.astro";
+import kalenderStift from "../assets/fotos/kalender-stift.jpg";
+import bauplan from "../assets/fotos/bauplan.jpg";
+import handKalender from "../assets/fotos/hand-kalender.jpg";
 import { marke, produkt, seite, kontakt, preise, rechner, kennzahlen, weitereLeistungen, steuerHinweis, whatsappHref, telHref, mailHref, demoLink } from "../config";
 
 const std = rechner;
@@ -82,6 +86,7 @@ const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
   </div>
 
   <section class="sektion" aria-labelledby="pl-t">
+    <Hintergrund bild={handKalender} seite="rechts" deckkraft={0.22} />
     <div class="wrap">
       <span class="kicker reveal">Kennen Sie das?</span>
       <h2 id="pl-t" class="reveal">Drei Alltagsprobleme. <span class="grad">Drei einfache Lösungen.</span></h2>
@@ -94,6 +99,7 @@ const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
   </section>
 
   <section class="sektion" id="demo" aria-labelledby="demo-t">
+    <Hintergrund bild={kalenderStift} seite="links" deckkraft={0.26} />
     <div class="wrap">
       <span class="kicker reveal">Zum Anklicken</span>
       <h2 id="demo-t" class="reveal">Probieren Sie es <span class="grad">selbst aus.</span></h2>
@@ -112,6 +118,7 @@ const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
   </section>
 
   <section class="sektion" aria-labelledby="mehr-t">
+    <Hintergrund bild={bauplan} seite="rechts" deckkraft={0.3} />
     <div class="wrap">
       <span class="kicker reveal">Mehr als Dienstplan</span>
       <h2 id="mehr-t" class="reveal">Ich helfe auch <span class="grad">drumherum.</span></h2>

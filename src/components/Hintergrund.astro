@@ -1,0 +1,9 @@
+---
+// Foto als zarter, ausgeblendeter Hintergrund eines Abschnitts (leicht transparent, Text bleibt gut lesbar).
+import { Picture } from "astro:assets";
+interface Props { bild: ImageMetadata; seite?: "rechts" | "links"; deckkraft?: number }
+const { bild, seite = "rechts", deckkraft = 0.28 } = Astro.props;
+---
+<div class:list={["hg", seite]} style={`--deck:${deckkraft}`} aria-hidden="true">
+  <Picture src={bild} formats={["avif", "webp"]} widths={[480, 800, 1200]} sizes="(min-width: 900px) 55vw, 100vw" alt="" loading="lazy" decoding="async" />
+</div>
