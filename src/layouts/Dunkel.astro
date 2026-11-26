@@ -14,7 +14,7 @@ const kanonisch = new URL(Astro.url.pathname, seite.url).href;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#07100d" />
+    <meta name="theme-color" content="#F6F3EC" />
     <title>{titel}</title>
     <meta name="description" content={beschreibung} />
     <link rel="canonical" href={kanonisch} />
@@ -87,6 +87,7 @@ const kanonisch = new URL(Astro.url.pathname, seite.url).href;
 
         // Hero-Überschrift Wort für Wort
         animate(".hero h1 .w > span", { transform: ["translateY(110%)", "translateY(0%)"] }, { delay: stagger(0.09, { startDelay: 0.15 }), duration: 0.9, ease: [0.22, 1, 0.36, 1] });
+        animate(".chip", { opacity: [0, 1], transform: ["translateY(14px) scale(.9)", "translateY(0px) scale(1)"] }, { delay: stagger(0.3, { startDelay: 1.4 }), duration: 0.6 });
         animate(".hero .lead, .hero .knoepfe, .hero .hinweis", { opacity: [0, 1], transform: ["translateY(20px)", "translateY(0px)"] }, { delay: stagger(0.12, { startDelay: 0.7 }), duration: 0.8 });
 
         // Magnetische Buttons

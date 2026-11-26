@@ -1,5 +1,7 @@
 ---
 // Neue, dunkle und animierte Startseite. Alle Texte, Preise und Kontaktdaten kommen weiter aus src/config.ts.
+import { Picture } from "astro:assets";
+import person from "../assets/person.png";
 import Dunkel from "../layouts/Dunkel.astro";
 import { marke, produkt, seite, kontakt, preise, rechner, kennzahlen, weitereLeistungen, steuerHinweis, whatsappHref, telHref, mailHref, demoLink } from "../config";
 
@@ -26,11 +28,10 @@ const schema = [
   { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: fragen.map((x) => ({ "@type": "Question", name: x.f, acceptedAnswer: { "@type": "Answer", text: x.a } })) },
 ];
 const branchen = ["Gastronomie", "Cafés", "Bäckereien", "Einzelhandel", "Hotels", "Friseure", "Pflegedienste", "Dienstleister"];
-const bento = [
-  { s: "⚡", t: "Krank? Ersatz in Sekunden.", x: "Eine Krankmeldung, und die App schlägt passende Kollegen vor. Ohne Telefonkette.", c: "b1" },
-  { s: "🔁", t: "Schichttausch", x: "Mitarbeiter tauschen selbst, Sie bestätigen mit einem Tipp.", c: "b2" },
-  { s: "⚖️", t: "Regelprüfung", x: "Warnt bei Ruhezeiten, Pausen und Minijob-Grenze.", c: "b3" },
-  { s: "📱", t: "Läuft im Browser", x: "Keine App-Store-Pflicht. Plan auf dem Handy, als PDF oder im Kalender.", c: "b4" },
+const paare = [
+  { p: "Der Plan hängt als Foto in der WhatsApp-Gruppe und keiner findet die aktuelle Version.", l: "Ein Plan, immer aktuell, auf dem Handy jedes Mitarbeiters." },
+  { p: "Krankmeldung um 6 Uhr. Zehn Anrufe. Keiner geht ran.", l: "Die App zeigt sofort, wer einspringen kann. Sie tippen nur auf „Freigeben“." },
+  { p: "Wer hat wie viele Stunden? Passt das noch zur Minijob-Grenze?", l: "Die App warnt Sie, bevor es ein Problem wird." },
 ];
 const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
 ---
@@ -39,28 +40,37 @@ const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
     <div class="orb a"></div><div class="orb b"></div><div class="orb c"></div><div class="gitter"></div>
     <div class="wrap">
       <div>
-        <span class="kicker">{produkt.name} · Dienstplan aus {kontakt.ort}</span>
+        <span class="kicker">{produkt.name} · die Dienstplan-App von {marke.name}</span>
         <h1 id="h1">
-          <span class="w"><span>Dienstplan</span></span>
-          <span class="w"><span>ohne</span></span>
-          <span class="w"><span class="grad">Chaos.</span></span>
+          <span class="w"><span>Mia</span></span>
+          <span class="w"><span>ist</span></span>
+          <span class="w"><span class="grad">krank.</span></span>
         </h1>
-        <p class="lead" style="opacity:0">Krankmeldung rein, Ersatz vorgeschlagen, Plan fertig. Persönlich eingerichtet von mir, ohne Software-Frust.</p>
-        <div class="knoepfe" style="opacity:0">
+        <p class="lead" style="font-weight:700;color:var(--text);font-size:clamp(1.3rem,3.4vw,1.9rem);line-height:1.25">Die App findet Ersatz.<br /><span class="grad">Sie tippen nur auf „Freigeben“.</span></p>
+        <div class="knoepfe">
           <a class="btn" data-magnet href="#demo">Selbst ausprobieren →</a>
           <a class="btn leer" data-magnet href="#kontakt">Demo anfragen</a>
         </div>
-        <p class="hinweis" style="opacity:0">Monatlich kündbar · Daten in Frankfurt · Rückruf {kontakt.antwortFrist}</p>
+        <p class="hinweis">Monatlich kündbar · Daten in Frankfurt · Ich richte alles für Sie ein</p>
       </div>
-      <div class="handy" aria-hidden="true">
-        <div class="schirm">
-          <div class="titel"><span>Diese Woche</span><small>Mo 16:00</small></div>
-          <div class="zeile"><span class="ava">M</span>Mara<span class="zeit">Früh 06–14</span></div>
-          <div class="zeile" id="hk"><span class="ava">J</span>Jonas<span class="zeit">Früh 06–14</span></div>
-          <div class="zeile"><span class="ava">T</span>Tim<span class="zeit">Spät 14–22</span></div>
-          <div class="zeile" id="he" style="display:none"><span class="ava">L</span>Lea<span class="zeit">Früh 06–14</span></div>
+      <div class="buehne">
+        <div class="handy" aria-hidden="true">
+          <div class="schirm">
+            <div class="titel"><span>Diese Woche</span><small>Mo 06:02</small></div>
+            <div class="zeile"><span class="ava">M</span>Mara<span class="zeit">Früh 06–14</span></div>
+            <div class="zeile" id="hk"><span class="ava">M</span>Mia<span class="zeit">Früh 06–14</span></div>
+            <div class="zeile"><span class="ava">T</span>Tim<span class="zeit">Spät 14–22</span></div>
+            <div class="zeile" id="he" style="display:none"><span class="ava">L</span>Lea<span class="zeit">Früh 06–14</span></div>
+          </div>
+          <div class="toast" id="ht">✓ Lea springt ein. Plan aktualisiert.</div>
         </div>
-        <div class="toast" id="ht">✓ Lea springt ein. Plan aktualisiert.</div>
+        <figure class="person">
+          <Picture src={person} formats={["avif", "webp"]} widths={[360, 520, 690]} sizes="(min-width: 980px) 380px, 62vw" alt="Eine Frau im Blazer zeigt mit offener Hand auf das Handy" width={690} height={687} loading="eager" fetchpriority="high" />
+          <figcaption class="ki">KI-generiertes Bild</figcaption>
+        </figure>
+        <span class="chip c1" aria-hidden="true">✓ Ersatz gefunden</span>
+        <span class="chip c2" aria-hidden="true">Urlaub genehmigt</span>
+        <span class="chip c3" aria-hidden="true">Plan veröffentlicht</span>
       </div>
     </div>
   </section>
@@ -71,23 +81,22 @@ const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
     </div>
   </div>
 
-  <section class="sektion" aria-labelledby="zahlen-t">
+  <section class="sektion" aria-labelledby="pl-t">
     <div class="wrap">
-      <span class="kicker reveal">Rechenbeispiel</span>
-      <h2 id="zahlen-t" class="reveal">Zeit, die <span class="grad">Sie zurückbekommen.</span></h2>
-      <div class="zahlen" style="margin-top:40px">
-        <div class="zahl reveal"><b data-zaehler data-ziel={ersparnisStd} data-suffix=" Std.">0</b><span>pro Monat weniger Planen und Telefonieren (Beispiel: {std.standardMitarbeiter} Mitarbeiter, {std.standardAusfaelle} Ausfälle pro Woche)</span></div>
-        <div class="zahl reveal"><b data-zaehler data-ziel={ersparnisEuro} data-suffix=" €">0</b><span>Gegenwert pro Monat, vorsichtig gerechnet mit Mindestlohn</span></div>
-        <div class="zahl reveal"><b data-zaehler data-ziel="0">0</b><span>Apps zu installieren: läuft im Browser</span></div>
+      <span class="kicker reveal">Kennen Sie das?</span>
+      <h2 id="pl-t" class="reveal">Drei Alltagsprobleme. <span class="grad">Drei einfache Lösungen.</span></h2>
+      <div class="paare">
+        {paare.map((x) => (
+          <article class="paar reveal"><p class="problem">„{x.p}“</p><span class="pfeil" aria-hidden="true">↓</span><p class="loesung">{x.l}</p></article>
+        ))}
       </div>
-      <p class="fussnote reveal">Das ist ein Rechenbeispiel, keine Messung bei Kunden.</p>
     </div>
   </section>
 
   <section class="sektion" id="demo" aria-labelledby="demo-t">
     <div class="wrap">
       <span class="kicker reveal">Zum Anklicken</span>
-      <h2 id="demo-t" class="reveal">Probieren Sie es <span class="grad">sofort aus.</span></h2>
+      <h2 id="demo-t" class="reveal">Probieren Sie es <span class="grad">selbst aus.</span></h2>
       <p class="lead reveal" style="margin-top:16px">Tippen Sie auf eine Schicht, um den Mitarbeiter krank zu melden.</p>
       <div class="demo reveal">
         <div class="tafel"><div class="plan" id="plan" role="grid" aria-label="Beispiel-Dienstplan"></div></div>
@@ -102,19 +111,12 @@ const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
     </div>
   </section>
 
-  <section class="sektion" aria-labelledby="bento-t">
+  <section class="sektion" aria-labelledby="mehr-t">
     <div class="wrap">
-      <span class="kicker reveal">Funktionen</span>
-      <h2 id="bento-t" class="reveal">Weniger Text. <span class="grad">Mehr Ruhe.</span></h2>
-      <div class="bento">
-        {bento.map((b) => (
-          <article class={`karte reveal ${b.c}`}><span class="symbol" aria-hidden="true">{b.s}</span><h3>{b.t}</h3><p>{b.x}</p></article>
-        ))}
-      </div>
-      <div class="bento" style="margin-top:16px">
-        {weitereLeistungen.map((w, i) => (
-          <article class={`karte reveal ${i === 0 ? "b1" : i === 1 ? "b2" : "b4"}`} style={i === 2 ? "grid-column: span 6" : ""}><h3>{w.titel}</h3><p>{w.text}</p></article>
-        ))}
+      <span class="kicker reveal">Mehr als Dienstplan</span>
+      <h2 id="mehr-t" class="reveal">Ich helfe auch <span class="grad">drumherum.</span></h2>
+      <div class="mehr" style="margin-top:36px">
+        {weitereLeistungen.map((w) => <article class="karte reveal"><h3>{w.titel}</h3><p>{w.text}</p></article>)}
       </div>
     </div>
   </section>
@@ -235,7 +237,7 @@ const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
     })();
 
     /* --- Klickbare Demo --- */
-    const namen = ["Mara", "Jonas", "Lea", "Tim", "Sara"];
+    const namen = ["Mara", "Mia", "Lea", "Tim", "Sara"];
     const start = [["F","S","F","-","F"],["S","F","-","F","S"],["-","-","S","S","-"],["F","-","F","S","F"],["S","S","-","-","F"]];
     let plan = JSON.parse(JSON.stringify(start)), krank = null, vorschlag = null;
     const label = { F: "Früh", S: "Spät", "-": "frei" };
