@@ -1,70 +1,321 @@
 ---
-// Startseite, Reihenfolge wie im Konzept. Schema.org-Daten (SoftwareApplication, LocalBusiness) stehen unten.
-import Base from "../layouts/Base.astro";
-import Hero from "../components/Hero.astro";
-import Problem from "../components/Problem.astro";
-import Steps from "../components/Steps.astro";
-import Features from "../components/Features.astro";
-import ForWho from "../components/ForWho.astro";
-import Calculator from "../components/Calculator.astro";
-import Comparison from "../components/Comparison.astro";
-import Pricing from "../components/Pricing.astro";
-import Services from "../components/Services.astro";
-import Stats from "../components/Stats.astro";
-import Overview from "../components/Overview.astro";
-import Welle from "../components/Welle.astro";
-import Zusammenarbeit from "../components/Zusammenarbeit.astro";
-import Testimonials from "../components/Testimonials.astro";
-import Faq from "../components/Faq.astro";
-import Contact from "../components/Contact.astro";
-import { marke, produkt, seite, kontakt, preise } from "../config";
+// Neue, dunkle und animierte Startseite. Alle Texte, Preise und Kontaktdaten kommen weiter aus src/config.ts.
+import Dunkel from "../layouts/Dunkel.astro";
+import { marke, produkt, seite, kontakt, preise, rechner, kennzahlen, weitereLeistungen, steuerHinweis, whatsappHref, telHref, mailHref, demoLink } from "../config";
 
+const std = rechner;
+const stundenBeispiel = (std.standardMitarbeiter * std.planMinProMitarbeiterWoche / 60 + std.standardAusfaelle * std.minProAusfall / 60) * std.wochenProMonat;
+const ersparnisStd = Math.round(stundenBeispiel * kennzahlen.ersparnisAnteil);
+const ersparnisEuro = Math.round(stundenBeispiel * kennzahlen.ersparnisAnteil * std.stundensatz);
+
+const fragen = [
+  { f: "Brauchen meine Mitarbeiter eine App aus dem App Store?", a: "Nein. Die App läuft im Browser und lässt sich mit einem Tipp auf den Startbildschirm legen. Nichts zu installieren." },
+  { f: "Wo liegen die Daten?", a: "Auf Servern in Frankfurt am Main. Die DSGVO wird beachtet, einen Auftragsverarbeitungsvertrag bekommen Sie dazu." },
+  { f: "Wie schnell bin ich startklar?", a: "Ich richte alles gemeinsam mit Ihnen ein: Team, Schichten, Einladungen. Meist geht das am selben Tag." },
+  { f: "Was passiert nach dem Angebot?", a: `Danach kostet Basis ${preise.pakete[0].regulaer} und Plus ${preise.pakete[1].regulaer} pro Monat. Monatlich kündbar, keine Mindestlaufzeit.` },
+  { f: "Prüft die App wirklich das Arbeitszeitgesetz?", a: "Als Hinweis und Warnung: zu kurze Ruhezeiten, fehlende Pausen, zu lange Tage, Minijob-Grenze. Die Verantwortung bleibt beim Arbeitgeber. Keine Rechtsberatung." },
+  { f: "Kann ich kündigen und meine Daten mitnehmen?", a: "Ja, jederzeit zum Monatsende. Plan und Teamdaten lassen sich als Tabelle exportieren." },
+];
 const schema = [
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    name: produkt.name,
-    applicationCategory: "BusinessApplication",
-    operatingSystem: "Web",
-    inLanguage: "de",
+  { "@context": "https://schema.org", "@type": "SoftwareApplication", name: produkt.name, applicationCategory: "BusinessApplication", operatingSystem: "Web", inLanguage: "de",
     description: "Dienstplan-App für Betriebe mit Schichten: Krankmeldung, Schichttausch, Urlaub und automatische Regelprüfung.",
     offers: preise.pakete.map((p) => ({ "@type": "Offer", name: p.name, price: p.regulaer.replace(/[^\d,]/g, "").replace(",", "."), priceCurrency: "EUR" })),
-    provider: { "@type": "Organization", name: marke.name },
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": ["Organization", "LocalBusiness"],
-    name: marke.name,
-    url: seite.url,
-    telephone: kontakt.telefon,
-    email: kontakt.email,
-    address: { "@type": "PostalAddress", addressLocality: kontakt.ort, addressCountry: "DE" },
-    areaServed: kontakt.ort,
-    description: marke.slogan,
-  },
+    provider: { "@type": "Organization", name: marke.name } },
+  { "@context": "https://schema.org", "@type": ["Organization", "LocalBusiness"], name: marke.name, url: seite.url, telephone: kontakt.telefon, email: kontakt.email,
+    address: { "@type": "PostalAddress", addressLocality: kontakt.ort, addressCountry: "DE" }, areaServed: kontakt.ort, description: marke.slogan },
+  { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: fragen.map((x) => ({ "@type": "Question", name: x.f, acceptedAnswer: { "@type": "Answer", text: x.a } })) },
 ];
+const branchen = ["Gastronomie", "Cafés", "Bäckereien", "Einzelhandel", "Hotels", "Friseure", "Pflegedienste", "Dienstleister"];
+const bento = [
+  { s: "⚡", t: "Krank? Ersatz in Sekunden.", x: "Eine Krankmeldung, und die App schlägt passende Kollegen vor. Ohne Telefonkette.", c: "b1" },
+  { s: "🔁", t: "Schichttausch", x: "Mitarbeiter tauschen selbst, Sie bestätigen mit einem Tipp.", c: "b2" },
+  { s: "⚖️", t: "Regelprüfung", x: "Warnt bei Ruhezeiten, Pausen und Minijob-Grenze.", c: "b3" },
+  { s: "📱", t: "Läuft im Browser", x: "Keine App-Store-Pflicht. Plan auf dem Handy, als PDF oder im Kalender.", c: "b4" },
+];
+const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
 ---
-<Base>
-  <Hero />
-  <Welle farbe="var(--papier)" hinter="var(--sand)" />
-  <Stats />
-  <Welle farbe="var(--sand)" hinter="var(--papier)" />
-  <Problem />
-  <Welle farbe="var(--papier)" hinter="var(--sand)" />
-  <Steps />
-  <Welle farbe="var(--sand)" hinter="var(--papier)" />
-  <Overview />
-  <Features />
-  <ForWho />
-  <Calculator />
-  <Comparison />
-  <Pricing />
-  <Welle farbe="var(--papier)" hinter="var(--tiefgruen)" />
-  <Services />
-  <Welle farbe="var(--tiefgruen)" hinter="var(--papier)" />
-  <Zusammenarbeit />
-  <Testimonials />
-  <Faq />
-  <Contact />
+<Dunkel>
+  <section class="hero" aria-labelledby="h1">
+    <div class="orb a"></div><div class="orb b"></div><div class="orb c"></div><div class="gitter"></div>
+    <div class="wrap">
+      <div>
+        <span class="kicker">{produkt.name} · Dienstplan aus {kontakt.ort}</span>
+        <h1 id="h1">
+          <span class="w"><span>Dienstplan</span></span>
+          <span class="w"><span>ohne</span></span>
+          <span class="w"><span class="grad">Chaos.</span></span>
+        </h1>
+        <p class="lead" style="opacity:0">Krankmeldung rein, Ersatz vorgeschlagen, Plan fertig. Persönlich eingerichtet von mir, ohne Software-Frust.</p>
+        <div class="knoepfe" style="opacity:0">
+          <a class="btn" data-magnet href="#demo">Selbst ausprobieren →</a>
+          <a class="btn leer" data-magnet href="#kontakt">Demo anfragen</a>
+        </div>
+        <p class="hinweis" style="opacity:0">Monatlich kündbar · Daten in Frankfurt · Rückruf {kontakt.antwortFrist}</p>
+      </div>
+      <div class="handy" aria-hidden="true">
+        <div class="schirm">
+          <div class="titel"><span>Diese Woche</span><small>Mo 16:00</small></div>
+          <div class="zeile"><span class="ava">M</span>Mara<span class="zeit">Früh 06–14</span></div>
+          <div class="zeile" id="hk"><span class="ava">J</span>Jonas<span class="zeit">Früh 06–14</span></div>
+          <div class="zeile"><span class="ava">T</span>Tim<span class="zeit">Spät 14–22</span></div>
+          <div class="zeile" id="he" style="display:none"><span class="ava">L</span>Lea<span class="zeit">Früh 06–14</span></div>
+        </div>
+        <div class="toast" id="ht">✓ Lea springt ein. Plan aktualisiert.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="band" aria-hidden="true">
+    <div class="laufband">
+      {[...branchen, ...branchen, ...branchen, ...branchen].map((b) => <span>{b}</span>)}
+    </div>
+  </div>
+
+  <section class="sektion" aria-labelledby="zahlen-t">
+    <div class="wrap">
+      <span class="kicker reveal">Rechenbeispiel</span>
+      <h2 id="zahlen-t" class="reveal">Zeit, die <span class="grad">Sie zurückbekommen.</span></h2>
+      <div class="zahlen" style="margin-top:40px">
+        <div class="zahl reveal"><b data-zaehler data-ziel={ersparnisStd} data-suffix=" Std.">0</b><span>pro Monat weniger Planen und Telefonieren (Beispiel: {std.standardMitarbeiter} Mitarbeiter, {std.standardAusfaelle} Ausfälle pro Woche)</span></div>
+        <div class="zahl reveal"><b data-zaehler data-ziel={ersparnisEuro} data-suffix=" €">0</b><span>Gegenwert pro Monat, vorsichtig gerechnet mit Mindestlohn</span></div>
+        <div class="zahl reveal"><b data-zaehler data-ziel="0">0</b><span>Apps zu installieren: läuft im Browser</span></div>
+      </div>
+      <p class="fussnote reveal">Das ist ein Rechenbeispiel, keine Messung bei Kunden.</p>
+    </div>
+  </section>
+
+  <section class="sektion" id="demo" aria-labelledby="demo-t">
+    <div class="wrap">
+      <span class="kicker reveal">Zum Anklicken</span>
+      <h2 id="demo-t" class="reveal">Probieren Sie es <span class="grad">sofort aus.</span></h2>
+      <p class="lead reveal" style="margin-top:16px">Tippen Sie auf eine Schicht, um den Mitarbeiter krank zu melden.</p>
+      <div class="demo reveal">
+        <div class="tafel"><div class="plan" id="plan" role="grid" aria-label="Beispiel-Dienstplan"></div></div>
+        <div class="seite" aria-live="polite">
+          <h3>Was die App tut</h3>
+          <div class="status" id="status">Tippen Sie auf eine farbige Schicht.</div>
+          <button class="btn" id="uebernehmen" style="display:none" type="button">Vorschlag übernehmen</button>
+          <button class="btn leer klein" id="zurueck" type="button" style="display:none">Zurücksetzen</button>
+          <p>Das ist eine Vorschau mit Beispieldaten.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sektion" aria-labelledby="bento-t">
+    <div class="wrap">
+      <span class="kicker reveal">Funktionen</span>
+      <h2 id="bento-t" class="reveal">Weniger Text. <span class="grad">Mehr Ruhe.</span></h2>
+      <div class="bento">
+        {bento.map((b) => (
+          <article class={`karte reveal ${b.c}`}><span class="symbol" aria-hidden="true">{b.s}</span><h3>{b.t}</h3><p>{b.x}</p></article>
+        ))}
+      </div>
+      <div class="bento" style="margin-top:16px">
+        {weitereLeistungen.map((w, i) => (
+          <article class={`karte reveal ${i === 0 ? "b1" : i === 1 ? "b2" : "b4"}`} style={i === 2 ? "grid-column: span 6" : ""}><h3>{w.titel}</h3><p>{w.text}</p></article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sektion" id="rechner" aria-labelledby="r-t">
+    <div class="wrap">
+      <span class="kicker reveal">Rechner</span>
+      <h2 id="r-t" class="reveal">Was kostet Sie der Plan <span class="grad">heute?</span></h2>
+      <div class="rechner reveal">
+        <div class="regler">
+          <div><label for="r-ma">Mitarbeiter <output id="o-ma">{std.standardMitarbeiter}</output></label><input id="r-ma" type="range" min="3" max="60" value={std.standardMitarbeiter} /></div>
+          <div><label for="r-au">Ausfälle pro Woche <output id="o-au">{std.standardAusfaelle}</output></label><input id="r-au" type="range" min="0" max="20" value={std.standardAusfaelle} /></div>
+          <div><label for="r-sa">Stundensatz in € <output id="o-sa">{String(std.stundensatz).replace(".", ",")}</output></label><input id="r-sa" type="range" min={std.mindestlohn} max="60" step="0.1" value={std.stundensatz} /></div>
+        </div>
+        <div class="ergebnis">
+          <span>Zeitaufwand für Planen und Umplanen</span>
+          <b id="e-std">0 Std.</b>
+          <span>pro Monat, das entspricht</span>
+          <b id="e-eur" class="grad">0 €</b>
+          <small>Grobe, vorsichtige Schätzung. Annahmen: {std.planMinProMitarbeiterWoche} Min. pro Mitarbeiter und Woche, {std.minProAusfall} Min. pro Ausfall.</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sektion" id="preise" aria-labelledby="p-t">
+    <div class="wrap">
+      <span class="kicker reveal">Preise</span>
+      <h2 id="p-t" class="reveal">Klar. Ohne <span class="grad">Kleingedrucktes.</span></h2>
+      <p class="lead reveal" style="margin-top:16px"><span class="tag" id="angebot" data-bis={preise.gruender.bis}>{preise.gruender.etikett}</span></p>
+      <div class="preise">
+        {preise.pakete.map((p) => (
+          <article class={`karte preis reveal ${p.hervorgehoben ? "top" : ""}`}>
+            <h3>{p.name}</h3>
+            <p>{p.untertitel}</p>
+            <div class="betrag" data-gr={p.gruender} data-reg={p.regulaer}>{p.gruender}<s>{p.regulaer}</s></div>
+            <p>{preise.zusatz}</p>
+            <ul>{p.id !== "basis" && <li>Alles aus Basis</li>}{p.leistungen.map((l) => <li>{l}</li>)}</ul>
+            <a class="btn" data-magnet href={`#kontakt`} data-paket={p.id}>{p.name} anfragen</a>
+          </article>
+        ))}
+      </div>
+      <p class="fussnote reveal">{steuerHinweis[preise.steuer]}</p>
+    </div>
+  </section>
+
+  <section class="sektion" id="faq" aria-labelledby="f-t">
+    <div class="wrap">
+      <span class="kicker reveal">Fragen</span>
+      <h2 id="f-t" class="reveal">Kurz <span class="grad">beantwortet.</span></h2>
+      <div class="faq">
+        {fragen.map((x) => <details class="reveal"><summary>{x.f}</summary><p>{x.a}</p></details>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="sektion" id="kontakt" aria-labelledby="k-t">
+    <div class="wrap kontakt">
+      <div class="direkt">
+        <span class="kicker reveal">Kontakt</span>
+        <h2 id="k-t" class="reveal">Lassen Sie uns <span class="grad">sprechen.</span></h2>
+        <p class="lead reveal">Ich rufe Sie {kontakt.antwortFrist} zurück. {kontakt.zeiten}.</p>
+        <a class="btn reveal" data-magnet href={whatsappHref} rel="noopener">WhatsApp schreiben</a>
+        <a class="btn leer reveal" href={telHref}>{kontakt.telefon}</a>
+        <a class="btn leer reveal" href={mailHref}>{kontakt.email}</a>
+        {demoLink.startsWith("http") && <a class="btn leer reveal" href={demoLink}>Live-Demo öffnen</a>}
+      </div>
+      <form class="formular reveal" name="demo-anfrage" method="POST" action="/danke" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="demo-anfrage" />
+        <p class="honig" aria-hidden="true"><label>Bitte nicht ausfüllen: <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+        <label>Ihr Name<input name="name" type="text" required autocomplete="name" /></label>
+        <label>Betrieb<input name="betrieb" type="text" required autocomplete="organization" /></label>
+        <label>Telefon<input name="telefon" type="tel" required autocomplete="tel" inputmode="tel" /></label>
+        <label>E-Mail (optional)<input name="email" type="email" autocomplete="email" /></label>
+        <label>Interesse
+          <select name="paket" id="f-paket">
+            <option value="">Noch unsicher, beraten Sie mich</option>
+            <option value="basis">Basis (Dienstplan)</option>
+            <option value="plus">Plus (Dienstplan und laufende Hilfe)</option>
+          </select>
+        </label>
+        <label class="haken"><input type="checkbox" name="datenschutz" required /> <span>Ich habe die <a href="/datenschutz">Datenschutzerklärung</a> gelesen.</span></label>
+        <button class="btn" type="submit">Rückruf anfordern</button>
+      </form>
+    </div>
+  </section>
   <script type="application/ld+json" set:html={JSON.stringify(schema)} />
-</Base>
+
+  <script type="application/json" id="cfg" set:html={JSON.stringify({ std, tage })} />
+  <script>
+    import { animate, stagger } from "motion";
+    const { std, tage } = JSON.parse(document.getElementById("cfg").textContent);
+    const reduziert = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const $ = (s) => document.querySelector(s);
+
+    /* --- Hero-Handy: kleine Geschichte in Dauerschleife --- */
+    (async () => {
+      const zeilen = [...document.querySelectorAll(".handy .zeile")].filter((z) => z.id !== "he");
+      const hk = $("#hk"), he = $("#he"), ht = $("#ht");
+      if (reduziert) { zeilen.forEach((z) => (z.style.opacity = 1)); return; }
+            const warte = (s) => new Promise((r) => setTimeout(r, s * 1000));
+      while (true) {
+        hk.classList.remove("krank"); he.style.display = "none"; ht.style.opacity = 0;
+        zeilen.forEach((z) => { z.style.opacity = 0; });
+        await animate(zeilen, { opacity: [0, 1], transform: ["translateY(14px)", "translateY(0px)"] }, { delay: stagger(0.15), duration: 0.5 }).finished;
+        await warte(1.2);
+        hk.classList.add("krank"); hk.querySelector(".zeit").textContent = "Krank";
+        await animate(hk, { transform: ["translateX(-6px)", "translateX(6px)", "translateX(0px)"] }, { duration: 0.4 }).finished;
+        await warte(0.8);
+        he.style.display = "flex"; he.classList.add("ersatz");
+        await animate(he, { opacity: [0, 1], transform: ["translateY(14px) scale(.95)", "translateY(0px) scale(1)"] }, { duration: 0.5 }).finished;
+        await animate(ht, { opacity: [0, 1], transform: ["translateY(20px) scale(.95)", "translateY(0px) scale(1)"] }, { duration: 0.5 }).finished;
+        await warte(3);
+        hk.querySelector(".zeit").textContent = "Früh 06–14";
+        await animate([ht, he], { opacity: 0 }, { duration: 0.4 }).finished;
+        he.classList.remove("ersatz");
+      }
+    })();
+
+    /* --- Klickbare Demo --- */
+    const namen = ["Mara", "Jonas", "Lea", "Tim", "Sara"];
+    const start = [["F","S","F","-","F"],["S","F","-","F","S"],["-","-","S","S","-"],["F","-","F","S","F"],["S","S","-","-","F"]];
+    let plan = JSON.parse(JSON.stringify(start)), krank = null, vorschlag = null;
+    const label = { F: "Früh", S: "Spät", "-": "frei" };
+    const el = $("#plan"), status = $("#status"), uebernehmen = $("#uebernehmen"), zurueck = $("#zurueck");
+    function zeichne(neuZelle) {
+      el.innerHTML = "";
+      el.append(Object.assign(document.createElement("div"), { className: "k" }));
+      tage.forEach((t) => el.append(Object.assign(document.createElement("div"), { className: "k", textContent: t })));
+      namen.forEach((n, i) => {
+        el.append(Object.assign(document.createElement("div"), { className: "n", textContent: n }));
+        tage.forEach((_, d) => {
+          const b = document.createElement("button");
+          b.type = "button"; b.setAttribute("role", "gridcell");
+          const v = plan[i][d];
+          b.className = "zelle " + (v === "F" ? "fruh" : v === "S" ? "spaet" : "frei");
+          b.textContent = label[v];
+          if (krank && krank.i === i && krank.d === d) { b.classList.add("krank"); b.textContent = "krank"; }
+          if (vorschlag && vorschlag.i === i && vorschlag.d === d) { b.classList.add("vorschlag"); b.textContent = "Vorschlag"; }
+          if (neuZelle && neuZelle.i === i && neuZelle.d === d) b.classList.add("neu");
+          if (v !== "-" && !krank) b.addEventListener("click", () => melde(i, d));
+          if (v === "-") b.disabled = true;
+          el.append(b);
+        });
+      });
+    }
+    function melde(i, d) {
+      krank = { i, d };
+      const frei = plan.map((r, k) => ({ k, v: r[d] })).filter((x) => x.v === "-" && x.k !== i)[0];
+      if (frei) {
+        vorschlag = { i: frei.k, d };
+        status.className = "status";
+        status.textContent = `${namen[i]} meldet sich am ${tage[d]} krank. ${namen[frei.k]} hat frei und passt zu Ruhezeit und Pausen.`;
+        uebernehmen.style.display = "inline-flex";
+      } else { status.textContent = `${namen[i]} ist krank. Niemand hat frei, die App meldet es Ihnen.`; }
+      zurueck.style.display = "inline-flex";
+      zeichne();
+    }
+    uebernehmen.addEventListener("click", () => {
+      if (!krank || !vorschlag) return;
+      plan[vorschlag.i][vorschlag.d] = plan[krank.i][krank.d];
+      plan[krank.i][krank.d] = "-";
+      const neu = vorschlag; status.className = "status ok";
+      status.textContent = `${namen[neu.i]} übernimmt. Der Plan ist aktualisiert und das Team benachrichtigt.`;
+      krank = null; vorschlag = null; uebernehmen.style.display = "none";
+      zeichne(neu);
+    });
+    zurueck.addEventListener("click", () => {
+      plan = JSON.parse(JSON.stringify(start)); krank = null; vorschlag = null;
+      status.className = "status"; status.textContent = "Tippen Sie auf eine farbige Schicht.";
+      uebernehmen.style.display = "none"; zurueck.style.display = "none"; zeichne();
+    });
+    zeichne();
+
+    /* --- Rechner --- */
+    const fmt = (n) => Math.round(n).toLocaleString("de-DE");
+    const ma = $("#r-ma"), au = $("#r-au"), sa = $("#r-sa");
+    let anzeige = { std: 0, eur: 0 };
+    function rechne() {
+      $("#o-ma").textContent = ma.value; $("#o-au").textContent = au.value; $("#o-sa").textContent = String(sa.value).replace(".", ",");
+      const std_ = (ma.value * std.planMinProMitarbeiterWoche / 60 + au.value * std.minProAusfall / 60) * std.wochenProMonat;
+      const eur = std_ * sa.value;
+      if (reduziert) { anzeige = { std: std_, eur }; }
+      else animate(anzeige, { std: std_, eur }, { duration: 0.6, ease: "easeOut", onUpdate: () => draw() });
+      draw();
+      function draw() { $("#e-std").textContent = fmt(anzeige.std) + " Std."; $("#e-eur").textContent = fmt(anzeige.eur) + " €"; }
+    }
+    [ma, au, sa].forEach((i) => i.addEventListener("input", rechne));
+    rechne();
+
+    /* --- Angebot: echter Countdown, danach reguläre Preise --- */
+    const tag = $("#angebot"), bis = Date.parse(tag.dataset.bis), jetzt = Date.now();
+    if (jetzt >= bis) {
+      tag.style.display = "none";
+      document.querySelectorAll(".betrag").forEach((b) => (b.textContent = b.dataset.reg));
+    } else {
+      const t = Math.ceil((bis - jetzt) / 864e5);
+      tag.textContent += ` · noch ${t} ${t === 1 ? "Tag" : "Tage"}`;
+    }
+
+    /* --- Paket-Buttons wählen das Formularfeld vor --- */
+    document.querySelectorAll("[data-paket]").forEach((a) => a.addEventListener("click", () => { $("#f-paket").value = a.dataset.paket; }));
+  </script>
+</Dunkel>

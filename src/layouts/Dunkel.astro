@@ -1,0 +1,132 @@
+---
+// Dunkles Grundgerüst für die neue Startseite: SEO, selbst gehostete Schrift, Animationen (Motion + Lenis).
+import "@fontsource-variable/inter/wght.css";
+import interLatin from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
+import "../styles/dunkel.css";
+import { produkt, marke, seite, kontakt, telHref, whatsappHref } from "../config";
+
+interface Props { titel?: string; beschreibung?: string }
+const { titel = produkt.titel, beschreibung = produkt.beschreibung } = Astro.props;
+const kanonisch = new URL(Astro.url.pathname, seite.url).href;
+---
+<!doctype html>
+<html lang={seite.sprache}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#07100d" />
+    <title>{titel}</title>
+    <meta name="description" content={beschreibung} />
+    <link rel="canonical" href={kanonisch} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preload" href={interLatin} as="font" type="font/woff2" crossorigin />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:site_name" content={marke.name} />
+    <meta property="og:title" content={titel} />
+    <meta property="og:description" content={beschreibung} />
+    <meta property="og:url" content={kanonisch} />
+    <meta property="og:image" content={new URL("/og.png", seite.url).href} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script is:inline>document.documentElement.classList.add("js");</script>
+  </head>
+  <body>
+    <a class="skip" href="#inhalt">Zum Inhalt springen</a>
+    <div id="fortschritt" aria-hidden="true"></div>
+    <header class="kopf">
+      <div class="leiste">
+        <a class="logo" href="/" aria-label={`${marke.name}, Startseite`}><i></i>{marke.name}</a>
+        <nav aria-label="Hauptmenü">
+          <a href="#demo">Demo</a><a href="#rechner">Rechner</a><a href="#preise">Preise</a><a href="#faq">Fragen</a>
+        </nav>
+        <a class="btn klein" data-magnet href="#kontakt">Demo anfragen</a>
+      </div>
+    </header>
+    <main id="inhalt"><slot /></main>
+    <footer class="fuss">
+      <div class="wrap">
+        <p>© {new Date().getFullYear()} {marke.name} · {kontakt.ort}</p>
+        <nav aria-label="Rechtliches">
+          <a href="/impressum">Impressum</a><a href="/datenschutz">Datenschutz</a><a href="/agb">AGB</a><a href="/av-vertrag">AV-Vertrag</a>
+        </nav>
+      </div>
+    </footer>
+    <div class="leiste-unten">
+      <a class="btn" href={whatsappHref} rel="noopener">WhatsApp</a>
+      <a class="btn leer" style="background:var(--bg2)" href={telHref}>Anrufen</a>
+    </div>
+    <script>
+      import Lenis from "lenis";
+      import { animate, inView, scroll, stagger } from "motion";
+
+      const reduziert = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      // Weiches Scrollen
+      if (!reduziert) {
+        const lenis = new Lenis({ lerp: 0.1 });
+        const raf = (t: number) => { lenis.raf(t); requestAnimationFrame(raf); };
+        requestAnimationFrame(raf);
+        document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((a) =>
+          a.addEventListener("click", (e) => {
+            const ziel = a.getAttribute("href");
+            if (ziel && ziel.length > 1 && document.querySelector(ziel)) { e.preventDefault(); lenis.scrollTo(ziel, { offset: -80 }); }
+          })
+        );
+      }
+
+      // Fortschrittsbalken
+      const balken = document.getElementById("fortschritt");
+      if (balken && !reduziert) scroll(animate(balken, { scaleX: [0, 1] }, { ease: "linear" }));
+
+      if (!reduziert) {
+        // Einblenden beim Scrollen
+        inView(".reveal", (el) => {
+          animate(el, { opacity: [0, 1], transform: ["translateY(34px)", "translateY(0px)"] }, { duration: 0.8, ease: [0.22, 1, 0.36, 1] });
+        }, { margin: "0px 0px -10% 0px" });
+
+        // Hero-Überschrift Wort für Wort
+        animate(".hero h1 .w > span", { transform: ["translateY(110%)", "translateY(0%)"] }, { delay: stagger(0.09, { startDelay: 0.15 }), duration: 0.9, ease: [0.22, 1, 0.36, 1] });
+        animate(".hero .lead, .hero .knoepfe, .hero .hinweis", { opacity: [0, 1], transform: ["translateY(20px)", "translateY(0px)"] }, { delay: stagger(0.12, { startDelay: 0.7 }), duration: 0.8 });
+
+        // Magnetische Buttons
+        document.querySelectorAll<HTMLElement>("[data-magnet]").forEach((b) => {
+          b.addEventListener("pointermove", (e) => {
+            const r = b.getBoundingClientRect();
+            const x = (e.clientX - r.left - r.width / 2) * 0.25, y = (e.clientY - r.top - r.height / 2) * 0.35;
+            b.style.transform = `translate(${x}px, ${y}px)`;
+          });
+          b.addEventListener("pointerleave", () => { b.style.transform = ""; });
+        });
+
+        // Handy kippt mit der Maus
+        const handy = document.querySelector<HTMLElement>(".handy");
+        if (handy && matchMedia("(hover: hover)").matches) {
+          addEventListener("pointermove", (e) => {
+            const x = (e.clientX / innerWidth - 0.5) * 14, y = (e.clientY / innerHeight - 0.5) * -14;
+            handy.style.transform = `perspective(900px) rotateY(${x}deg) rotateX(${y}deg)`;
+          });
+        }
+        // Hintergrundkugeln wandern beim Scrollen
+        document.querySelectorAll<HTMLElement>(".orb").forEach((o, i) => scroll(animate(o, { y: [0, (i + 1) * -90] }, { ease: "linear" }), { target: o.parentElement!, offset: ["start start", "end start"] }));
+      }
+
+      // Spotlight auf Karten
+      document.querySelectorAll<HTMLElement>(".karte").forEach((k) =>
+        k.addEventListener("pointermove", (e) => {
+          const r = k.getBoundingClientRect();
+          k.style.setProperty("--mx", `${e.clientX - r.left}px`);
+          k.style.setProperty("--my", `${e.clientY - r.top}px`);
+        })
+      );
+
+      // Zähler
+      const zaehle = (el: HTMLElement) => {
+        const ziel = Number(el.dataset.ziel || 0), suffix = el.dataset.suffix || "";
+        if (reduziert) { el.textContent = ziel.toLocaleString("de-DE") + suffix; return; }
+        animate(0, ziel, { duration: 1.6, ease: [0.22, 1, 0.36, 1], onUpdate: (v) => { el.textContent = Math.round(v).toLocaleString("de-DE") + suffix; } });
+      };
+      inView("[data-zaehler]", (el) => { zaehle(el as HTMLElement); });
+    </script>
+  </body>
+</html>

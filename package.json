@@ -12,6 +12,8 @@
     "@astrojs/sitemap": "^3.7.6",
     "@fontsource-variable/inter": "^5.2.8",
     "astro": "^5.0.0",
+    "lenis": "^1.3.29",
+    "motion": "^14.14.0",
     "sharp": "^0.34.0"
   }
 }
