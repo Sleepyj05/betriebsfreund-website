@@ -395,3 +395,12 @@ tr.offenzeile th { color: var(--warn); }
 .ergebnis .e-vergleich { margin-top: 12px; padding: 14px 16px; border-radius: 14px; background: rgba(168,213,186,.18); color: #fff; font-weight: 600; } .ergebnis .e-vergleich b { font-size: 1.15rem; color: var(--mint); letter-spacing: 0; display: inline; }
 .ergebnis b { font-size: inherit; }
 .ergebnis .e-rot mark { background-color: transparent; }
+
+/* Ehrlich-Abschnitt: Glas-Karten über dem Hintergrund */
+#ehrlich { position: relative; overflow: hidden; }
+#ehrlich .eh-box { background: rgba(255,255,255,.78); backdrop-filter: blur(10px); box-shadow: 0 30px 60px -40px rgba(30,77,64,.5); transition: transform .3s, box-shadow .3s; }
+#ehrlich .eh-box.bald { background: rgba(255,248,230,.85); }
+#ehrlich .eh-box:hover { transform: translateY(-6px); box-shadow: 0 40px 70px -35px rgba(30,77,64,.55); }
+#ehrlich .eh-box li { padding: 4px 0; } #ehrlich .eh-box li > .neu-tag { margin-top: 6px; }
+#ehrlich .eh-box.ja li::before { display: grid; place-items: center; min-width: 22px; height: 22px; border-radius: 50%; background: #D8EFE1; font-size: .8rem; }
+#ehrlich .eh-box li { display: grid; grid-template-columns: 24px 1fr; gap: 0 10px; align-items: start; } #ehrlich .eh-box li > .neu-tag { grid-column: 2; }

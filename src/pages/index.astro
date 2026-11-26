@@ -219,6 +219,8 @@ const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
   </section>
 
     <section class="sektion" id="ehrlich" aria-labelledby="eh-t">
+    <Hintergrund bild={bauplan} seite="rechts" deckkraft={0.18} />
+    <span class="deko d2" aria-hidden="true"></span><span class="deko d1" aria-hidden="true"></span>
     <div class="wrap">
       <span class="kicker reveal">Ohne leere Versprechen</span>
       <h2 id="eh-t" class="reveal">Das kann die App heute. <span class="grad">Und das noch nicht.</span></h2>
@@ -227,10 +229,12 @@ const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
           <h3>Kann sie heute</h3>
           <ul>
             <li>Wochenplan für Inhaber und Leitung, Plan drucken</li>
+            <li>Wochenplan kopieren und als Vorlage speichern</li>
+            <li>„Heute“-Übersicht: wer da ist, wer fehlt, was offen ist</li>
             <li>Urlaub, Krank und Schichttausch inklusive Genehmigung</li>
             <li>Ersatz für offene Schichten, nach Qualifikation und Ruhezeit geordnet</li>
             <li>KI-Wochenvorschlag als Entwurf, nie automatisch veröffentlicht</li>
-            <li>Krankmeldung mit AU-Status, Verlauf und Zugriffsprotokoll</li>
+            <li>Krankmeldung mit AU-Status, Verlauf und Zugriffsprotokoll<span class="neu-tag">nach Dringlichkeit sortiert: mit dem nächsten Update</span></li>
             <li>Warnung bei Ruhezeit, Pausen und Minijob-Grenze</li>
             <li>Zeiterfassung, Stundenkonto und CSV-Export fürs Lohnbüro</li>
             <li>Daten in Frankfurt, Deutsch und Englisch</li>
@@ -241,9 +245,7 @@ const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
           <ul>
             <li>Anfrage in normalen Worten erkennen („Bin morgen krank“) und als Antrag vorsortieren</li>
             <li>Bei Ausfall automatisch passende Kollegen anschreiben, erste Zusage übernehmen</li>
-            <li>Eigene Tagesübersicht „Wer fehlt heute?“ für den Chef</li>
             <li>DATEV-Schnittstelle (heute nur CSV)</li>
-            <li>Wochenvorlage mit einem Tipp aus der Vorwoche kopieren</li>
           </ul>
           <p>Sagen Sie mir, was Ihnen am meisten Zeit spart. Das baue ich zuerst.</p>
         </div>
