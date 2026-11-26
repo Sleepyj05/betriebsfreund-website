@@ -85,6 +85,39 @@ const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
     </div>
   </div>
 
+  <section class="sektion" aria-labelledby="vn-t">
+    <span class="deko d1" aria-hidden="true"></span>
+    <div class="wrap">
+      <span class="kicker reveal">Ein ganz normaler Montagmorgen</span>
+      <h2 id="vn-t" class="reveal">Chaos im Gruppenchat. <span class="grad">Oder ein Tipp.</span></h2>
+      <div class="vn">
+        <div class="vn-box vorher reveal" data-r="l">
+          <div class="vn-kopf"><span class="vn-tag schlecht">Heute</span><b>WhatsApp „Team Service"</b></div>
+          <div class="chat" id="chat">
+            <p class="msg ein"><i>Mia</i>Bin krank, kann heute nicht 🤒<time>06:02</time></p>
+            <p class="msg chef"><i>Chef</i>Wer kann einspringen??<time>06:04</time></p>
+            <p class="msg ein"><i>Tim</i>Ich nicht, bin beim Arzt<time>06:09</time></p>
+            <p class="msg ein"><i>Sara</i>Hab die Kinder, sorry<time>06:15</time></p>
+            <p class="msg chef"><i>Chef</i>Hallo?? Irgendjemand??<time>06:21</time></p>
+            <p class="msg chef"><i>Chef</i>Ok, ich ruf jeden einzeln an …<time>06:40</time></p>
+          </div>
+          <p class="vn-fuss schlecht">😩 Schon 40 Minuten weg. Und noch kein Ersatz.</p>
+        </div>
+        <div class="vn-box nachher reveal" data-r="r">
+          <div class="vn-kopf"><span class="vn-tag gut">Mit Schichtklar</span><b>Ihr Handy</b></div>
+          <div class="chat" id="app">
+            <p class="karte-n a1"><span>🔔</span><span><b>Mia hat sich krank gemeldet</b><br />Frühschicht heute, 06–14 Uhr</span></p>
+            <p class="karte-n a2"><span>✨</span><span><b>Vorschlag: Lea</b><br />Hat frei, Ruhezeit passt, Stunden passen</span></p>
+            <button class="btn" id="freigeben" type="button">Freigeben</button>
+            <p class="karte-n a3 fertig" id="fertig"><span>✅</span><span><b>Lea ist informiert.</b><br />Plan aktualisiert. Fertig.</span></p>
+          </div>
+          <p class="vn-fuss gut">⚡ Ein Tipp. Ein paar Sekunden.</p>
+        </div>
+      </div>
+      <p class="fussnote reveal">Beispielhafter Ablauf zur Veranschaulichung.</p>
+    </div>
+  </section>
+
   <section class="sektion" aria-labelledby="pl-t">
     <Hintergrund bild={handKalender} seite="rechts" deckkraft={0.22} />
     <div class="wrap">
@@ -92,7 +125,7 @@ const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
       <h2 id="pl-t" class="reveal">Drei Alltagsprobleme. <span class="grad">Drei einfache Lösungen.</span></h2>
       <div class="paare">
         {paare.map((x) => (
-          <article class="paar reveal"><p class="problem">„{x.p}“</p><span class="pfeil" aria-hidden="true">↓</span><p class="loesung">{x.l}</p></article>
+          <article class="paar reveal" data-r="s"><p class="problem">„{x.p}“</p><span class="pfeil" aria-hidden="true">↓</span><p class="loesung">{x.l}</p></article>
         ))}
       </div>
     </div>
@@ -117,6 +150,23 @@ const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
     </div>
   </section>
 
+  <section class="sektion schritte" aria-labelledby="st-t">
+    <span class="deko d2" aria-hidden="true"></span>
+    <div class="wrap">
+      <span class="kicker reveal">So starten Sie</span>
+      <h2 id="st-t" class="reveal">Morgen schon <span class="grad">ohne Chaos.</span></h2>
+      <div class="st-wrap">
+        <div class="st-linie" aria-hidden="true"><i id="st-fill"></i></div>
+        <ol class="st">
+          <li class="reveal" data-r="s"><span class="nr">1</span><h3>Kurzes Gespräch</h3><p>Sie sagen mir, wie Ihr Betrieb läuft. Ich zeige Ihnen die App.</p></li>
+          <li class="reveal" data-r="s"><span class="nr">2</span><h3>Ich richte alles ein</h3><p>Team, Schichten, Einladungen. Meist am selben Tag.</p></li>
+          <li class="reveal" data-r="s"><span class="nr">3</span><h3>Plan aufs Handy</h3><p>Ihre Mitarbeiter sehen den Plan sofort. Sie tippen nur noch auf „Freigeben".</p></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+
   <section class="sektion" aria-labelledby="mehr-t">
     <Hintergrund bild={bauplan} seite="rechts" deckkraft={0.3} />
     <div class="wrap">
@@ -128,7 +178,7 @@ const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
     </div>
   </section>
 
-  <section class="sektion" id="rechner" aria-labelledby="r-t">
+  <section class="sektion band-dunkel" id="rechner" aria-labelledby="r-t">
     <div class="wrap">
       <span class="kicker reveal">Der Preis von Chaos</span>
       <h2 id="r-t" class="reveal">Jeden Monat verbrennen Sie Geld <span class="grad">mit Zettelwirtschaft.</span></h2>
@@ -151,6 +201,7 @@ const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
   </section>
 
   <section class="sektion" id="preise" aria-labelledby="p-t">
+    <span class="deko d3" aria-hidden="true"></span>
     <div class="wrap">
       <span class="kicker reveal">Preise</span>
       <h2 id="p-t" class="reveal">Klar. Ohne <span class="grad">Kleingedrucktes.</span></h2>
@@ -181,7 +232,7 @@ const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
     </div>
   </section>
 
-  <section class="sektion" id="kontakt" aria-labelledby="k-t">
+  <section class="sektion band-dunkel" id="kontakt" aria-labelledby="k-t">
     <div class="wrap kontakt">
       <div class="direkt">
         <span class="kicker reveal">Kontakt</span>
@@ -215,7 +266,7 @@ const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
 
   <script type="application/json" id="cfg" set:html={JSON.stringify({ std, tage })} />
   <script>
-    import { animate, stagger } from "motion";
+    import { animate, stagger, inView, scroll } from "motion";
     const { std, tage } = JSON.parse(document.getElementById("cfg").textContent);
     const reduziert = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const $ = (s) => document.querySelector(s);
@@ -242,6 +293,31 @@ const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
         await animate([ht, he], { opacity: 0 }, { duration: 0.4 }).finished;
         he.classList.remove("ersatz");
       }
+    })();
+
+    /* --- Chat-Chaos gegen ein Tipp --- */
+    (() => {
+      const msgs = [...document.querySelectorAll("#chat .msg")];
+      const a = [...document.querySelectorAll("#app .karte-n, #app #freigeben")].filter((e) => !e.classList.contains("fertig"));
+      const fertig = document.getElementById("fertig"), knopf = document.getElementById("freigeben");
+      if (reduziert) { msgs.concat(a).forEach((e) => (e.style.opacity = 1)); knopf.addEventListener("click", () => { fertig.style.opacity = 1; fertig.style.display = "flex"; }); return; }
+      inView("#chat", () => {
+        animate(msgs, { opacity: [0, 1], transform: ["translateY(16px) scale(.96)", "translateY(0px) scale(1)"] }, { delay: stagger(0.55), duration: 0.45 });
+        animate(".vn-fuss.schlecht", { opacity: [0, 1] }, { delay: 0.55 * msgs.length + 0.2, duration: 0.5 });
+        animate(a, { opacity: [0, 1], transform: ["translateY(16px)", "translateY(0px)"] }, { delay: stagger(0.5, { startDelay: 0.6 }), duration: 0.5 });
+        animate(".vn-fuss.gut", { opacity: [0, 1] }, { delay: 2.2, duration: 0.5 });
+      }, { amount: 0.4 });
+      knopf.addEventListener("click", () => {
+        knopf.style.display = "none"; fertig.style.display = "flex";
+        animate(fertig, { opacity: [0, 1], transform: ["scale(.85)", "scale(1)"] }, { duration: 0.5, ease: [0.34, 1.56, 0.64, 1] });
+      });
+    })();
+
+    /* --- Schritte: Linie füllt sich beim Scrollen --- */
+    (() => {
+      const fill = document.getElementById("st-fill"); if (!fill || reduziert) return;
+      const quer = matchMedia("(min-width: 900px)").matches;
+      scroll(animate(fill, { transform: quer ? ["scaleX(0)", "scaleX(1)"] : ["scaleY(0)", "scaleY(1)"] }, { ease: "linear" }), { target: document.querySelector(".st-wrap"), offset: ["start 75%", "end 65%"] });
     })();
 
     /* --- Klickbare Demo --- */

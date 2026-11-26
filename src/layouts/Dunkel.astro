@@ -82,7 +82,11 @@ const kanonisch = new URL(Astro.url.pathname, seite.url).href;
       if (!reduziert) {
         // Einblenden beim Scrollen
         inView(".reveal", (el) => {
-          animate(el, { opacity: [0, 1], transform: ["translateY(34px)", "translateY(0px)"] }, { duration: 0.8, ease: [0.22, 1, 0.36, 1] });
+          const e = el as HTMLElement, r = e.dataset.r;
+          const von = r === "l" ? "translateX(-60px)" : r === "r" ? "translateX(60px)" : r === "s" ? "translateY(40px) scale(.94)" : "translateY(34px)";
+          const nach = r === "s" ? "translateY(0px) scale(1)" : "translate(0px, 0px)";
+          const idx = e.parentElement ? [...e.parentElement.children].filter((c) => c.classList.contains("reveal")).indexOf(e) : 0;
+          animate(e, { opacity: [0, 1], transform: [von, nach] }, { delay: Math.min(idx, 4) * 0.12, duration: 0.8, ease: [0.22, 1, 0.36, 1] });
         }, { margin: "0px 0px -10% 0px" });
 
         // Hero-Überschrift Wort für Wort
