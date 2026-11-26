@@ -429,3 +429,8 @@ tr.offenzeile th { color: var(--warn); }
 #ehrlich .eh-box.ja li::before { width: 26px; height: 26px; min-width: 26px; font-size: .9rem; }
 #ehrlich .eh-box li { grid-template-columns: 30px 1fr; }
 #ehrlich .eh-box:hover { transform: translateY(-8px) rotate(-.3deg); }
+
+/* Rechner-Zahl: kleiner, gerade Linie, kräftigeres Rot */
+.ergebnis .e-rot { font-size: clamp(3rem, 7vw, 4.8rem) !important; }
+.ergebnis .e-rot, .ergebnis .e-rot mark { color: #FF4F42 !important; }
+.ergebnis .e-rot mark { background: none !important; background-image: none !important; text-decoration: underline solid #FF4F42 !important; text-decoration-thickness: 5px !important; text-underline-offset: 8px !important; }
