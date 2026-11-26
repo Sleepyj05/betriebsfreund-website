@@ -19,7 +19,7 @@ const fragen = [
   { f: "Brauchen meine Mitarbeiter eine App aus dem App Store?", a: "Nein. Die App läuft im Browser und lässt sich mit einem Tipp auf den Startbildschirm legen. Nichts zu installieren." },
   { f: "Wo liegen die Daten?", a: "Auf Servern in Frankfurt am Main. Die DSGVO wird beachtet, einen Auftragsverarbeitungsvertrag bekommen Sie dazu." },
   { f: "Wie schnell bin ich startklar?", a: "Ich richte alles gemeinsam mit Ihnen ein: Team, Schichten, Einladungen. Meist geht das am selben Tag." },
-  { f: "Was passiert nach dem Angebot?", a: `Danach kostet Basis ${preise.pakete[0].regulaer} und Plus ${preise.pakete[1].regulaer} pro Monat. Monatlich kündbar, keine Mindestlaufzeit.` },
+  { f: "Was passiert nach dem Angebot?", a: `Danach kostet Basis 5 € pro Mitarbeiter und Monat (bei 10 Mitarbeitern ${preise.pakete[0].regulaer}) und Plus ${preise.pakete[1].regulaer} bei 10 Mitarbeitern. Monatlich kündbar, keine Mindestlaufzeit.` },
   { f: "Prüft die App wirklich das Arbeitszeitgesetz?", a: "Als Hinweis und Warnung: zu kurze Ruhezeiten, fehlende Pausen, zu lange Tage, Minijob-Grenze. Die Verantwortung bleibt beim Arbeitgeber. Keine Rechtsberatung." },
   { f: "Was kann die App noch nicht?", a: "Zum Beispiel Anfragen in normalen Worten erkennen, bei Ausfall automatisch Kollegen anschreiben und eine DATEV-Schnittstelle. Das ist machbar, aber noch nicht gebaut. Ich verspreche nur, was die App heute kann." },
   { f: "Kann ich kündigen und meine Daten mitnehmen?", a: "Ja, jederzeit zum Monatsende. Plan und Teamdaten lassen sich als Tabelle exportieren." },
@@ -262,7 +262,7 @@ const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
       <div class="p-regler reveal">
         <label for="p-ma">Wie viele Mitarbeiter hat Ihr Betrieb? <output id="p-o">{preise.regler.standard}</output></label>
         <input id="p-ma" type="range" min={preise.regler.min} max={preise.regler.max} value={preise.regler.standard} />
-        <small>Der Preis wächst mit Ihrem Team. Kleine Betriebe zahlen wenig.</small>
+        <small>Basis: 5 € pro Mitarbeiter und Monat. Kleine Betriebe zahlen wenig.</small>
       </div>
       <div class="preise">
         {preise.pakete.map((p) => (

@@ -70,7 +70,7 @@ export const preise = {
       untertitel: "Der Dienstplan für Ihren Betrieb",
       gruender: "5,55 €",
       regulaer: "49 €",
-      modell: { grund: 19, proMitarbeiter: 3, angebotFaktor: 5.55 / 49 }, // [BITTE PRÜFEN] Preis = Grund + je Mitarbeiter; bei 10 MA = regulär
+      modell: { grund: 0, proMitarbeiter: 5, angebotFaktor: 5.55 / 49 }, // Basis regulär: 5 € je Mitarbeiter. Angebot: wie bisher ca. 11 % davon [BITTE PRÜFEN]
       neukunde: { betrag: "59 €", ab: "2027-02-01T00:00:00+01:00", aktiv: false },
       hervorgehoben: false,
       leistungen: [
