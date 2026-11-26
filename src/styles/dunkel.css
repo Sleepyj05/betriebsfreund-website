@@ -436,3 +436,6 @@ tr.offenzeile th { color: var(--warn); }
 .ergebnis .e-rot mark { background: none !important; background-image: none !important; text-decoration: underline solid #FF4F42 !important; text-decoration-thickness: 5px !important; text-underline-offset: 8px !important; }
 .ergebnis .e-rot, .ergebnis .e-rot mark { color: #E2554B !important; }
 .ergebnis .e-rot mark { text-decoration: none !important; }
+
+.logo .logo-zeichen { width: 34px; height: 34px; flex: none; transition: transform .4s; } .logo:hover .logo-zeichen { transform: rotate(-8deg) scale(1.06); }
+.logo { font-size: 1.15rem; }
