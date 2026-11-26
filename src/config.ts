@@ -92,7 +92,7 @@ export const preise = {
       hervorgehoben: true,
       /** Entwurf: "Alles aus Basis" kommt automatisch dazu. [BITTE PRÜFEN] */
       leistungen: [
-        "Wöchentliches Gespräch (30 Min.): Was läuft gut, was lässt sich vereinfachen?",
+        "Wöchentliches Gespräch (bis zu 1 Std.): Was läuft gut, was lässt sich vereinfachen?",
         "Hilfe beim Einsatz von KI im Alltag (z. B. Texte, Aushänge, Auswertungen)",
         "Persönlich eingerichtete Vorlagen für Schichten und Bereiche",
         "Bevorzugter Support: Antwort am selben Werktag",
