@@ -21,7 +21,6 @@ const fragen = [
   { f: "Wie schnell bin ich startklar?", a: "Ich richte alles gemeinsam mit Ihnen ein: Team, Schichten, Einladungen. Meist geht das am selben Tag." },
   { f: "Was passiert nach dem Angebot?", a: `Danach kostet Basis 5 € pro Mitarbeiter und Monat (bei 10 Mitarbeitern ${preise.pakete[0].regulaer}) und Plus ${preise.pakete[1].regulaer} bei 10 Mitarbeitern. Monatlich kündbar, keine Mindestlaufzeit.` },
   { f: "Prüft die App wirklich das Arbeitszeitgesetz?", a: "Als Hinweis und Warnung: zu kurze Ruhezeiten, fehlende Pausen, zu lange Tage, Minijob-Grenze. Die Verantwortung bleibt beim Arbeitgeber. Keine Rechtsberatung." },
-  { f: "Was kann die App noch nicht?", a: "Zum Beispiel Anfragen in normalen Worten erkennen, bei Ausfall automatisch Kollegen anschreiben und eine DATEV-Schnittstelle. Das ist machbar, aber noch nicht gebaut. Ich verspreche nur, was die App heute kann." },
   { f: "Kann ich kündigen und meine Daten mitnehmen?", a: "Ja, jederzeit zum Monatsende. Plan und Teamdaten lassen sich als Tabelle exportieren." },
 ];
 const schema = [
@@ -222,32 +221,34 @@ const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
     <Hintergrund bild={bauplan} seite="rechts" deckkraft={0.18} />
     <span class="deko d2" aria-hidden="true"></span><span class="deko d1" aria-hidden="true"></span>
     <div class="wrap">
-      <span class="kicker reveal">Ohne leere Versprechen</span>
-      <h2 id="eh-t" class="reveal">Das kann die App heute. <span class="grad">Und das noch nicht.</span></h2>
+      <span class="kicker reveal">Was die App kann</span>
+      <h2 id="eh-t" class="reveal">Jede Funktion spart Ihnen <span class="grad">Zeit und Nerven.</span></h2>
+      <p class="lead reveal" style="margin-top:16px">Nur Dinge, die die App wirklich kann. Und was sie Ihnen und Ihrem Team im Alltag bringt.</p>
       <div class="eh">
         <div class="eh-box ja reveal" data-r="l">
-          <h3>Kann sie heute</h3>
+          <h3>Für Sie als Inhaber</h3>
           <ul>
-            <li>Wochenplan für Inhaber und Leitung, Plan drucken</li>
-            <li>Wochenplan kopieren und als Vorlage speichern</li>
-            <li>„Heute“-Übersicht: wer da ist, wer fehlt, was offen ist</li>
-            <li>Urlaub, Krank und Schichttausch inklusive Genehmigung</li>
-            <li>Ersatz für offene Schichten, nach Qualifikation und Ruhezeit geordnet</li>
-            <li>KI-Wochenvorschlag als Entwurf, nie automatisch veröffentlicht</li>
-            <li>Krankmeldung mit AU-Status, Verlauf und Zugriffsprotokoll<span class="neu-tag">nach Dringlichkeit sortiert: mit dem nächsten Update</span></li>
-            <li>Warnung bei Ruhezeit, Pausen und Minijob-Grenze</li>
-            <li>Zeiterfassung, Stundenkonto und CSV-Export fürs Lohnbüro</li>
-            <li>Daten in Frankfurt, Deutsch und Englisch</li>
+            <li><span><b>KI schlägt den Wochenplan vor.</b> Statt Zettel und Rechnerei prüfen Sie nur einen Entwurf. Nichts wird ohne Sie veröffentlicht.</span></li>
+            <li><span><b>Ersatz bei Ausfall mit einem Tipp.</b> Die App zeigt freie, passende Kollegen mit genug Ruhezeit. Kein Rundruf mehr.</span></li>
+            <li><span><b>Tausch und Urlaub in Sekunden entscheiden.</b> Alle Beteiligten werden automatisch informiert.</span></li>
+            <li><span><b>Krankmeldungen sortiert.</b> Nach Dringlichkeit, mit AU-Status und Nummer zum Anrufen.<span class="neu-tag">Sortierung: mit dem nächsten Update</span></span></li>
+            <li><span><b>„Heute“-Übersicht.</b> Wer da ist, wer fehlt, was offen ist. Ein Blick statt zehn Nachrichten.</span></li>
+            <li><span><b>Woche kopieren, Vorlagen speichern.</b> Der Standardplan steht in einem Klick.</span></li>
+            <li><span><b>Plan im eigenen Design.</b> Mit Ihrem Firmenlogo, Ihrer Farbe und einem zarten Logo-Wasserzeichen. Gedruckt sieht er aus wie von Ihnen.<span class="neu-tag">Neu, mit dem nächsten Update</span></span></li>
+            <li><span><b>Regelprüfung und Lohn-Export.</b> Warnung bei Ruhezeit, Pausen und Minijob-Grenze. Stunden als CSV fürs Lohnbüro.</span></li>
           </ul>
         </div>
-        <div class="eh-box bald reveal" data-r="r">
-          <h3>Noch nicht, aber machbar</h3>
+        <div class="eh-box ja reveal" data-r="r">
+          <h3>Für Ihre Mitarbeiter</h3>
           <ul>
-            <li>Anfrage in normalen Worten erkennen („Bin morgen krank“) und als Antrag vorsortieren</li>
-            <li>Bei Ausfall automatisch passende Kollegen anschreiben, erste Zusage übernehmen</li>
-            <li>DATEV-Schnittstelle (heute nur CSV)</li>
+            <li><span><b>Plan immer am Handy.</b> Keine Nachfragen mehr nach der nächsten Schicht.</span></li>
+            <li><span><b>Urlaub beantragen, Resturlaub sehen.</b> Ohne Zettel, ohne Frage beim Chef.</span></li>
+            <li><span><b>Krank melden mit einem Tipp.</b> Keine Diagnose, kein Freitext. Danach der Hinweis auf die AU.</span></li>
+            <li><span><b>„Bitte jetzt anrufen“ mit Nummer.</b> Die zuständige Person steht direkt da, damit niemand lange suchen muss.<span class="neu-tag">Neu, mit dem nächsten Update</span></span></li>
+            <li><span><b>Eigene Krankheitstage im Blick.</b> Nur für den Mitarbeiter selbst sichtbar.<span class="neu-tag">Neu, mit dem nächsten Update</span></span></li>
+            <li><span><b>Schichten tauschen.</b> Es werden nur freie, passende Kollegen vorgeschlagen.</span></li>
+            <li><span><b>Datenschutz.</b> Kollegen sehen bei Urlaub und Krank nur „nicht verfügbar“. Daten in Frankfurt, Deutsch und Englisch.</span></li>
           </ul>
-          <p>Sagen Sie mir, was Ihnen am meisten Zeit spart. Das baue ich zuerst.</p>
         </div>
       </div>
     </div>

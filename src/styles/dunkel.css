@@ -404,3 +404,6 @@ tr.offenzeile th { color: var(--warn); }
 #ehrlich .eh-box li { padding: 4px 0; } #ehrlich .eh-box li > .neu-tag { margin-top: 6px; }
 #ehrlich .eh-box.ja li::before { display: grid; place-items: center; min-width: 22px; height: 22px; border-radius: 50%; background: #D8EFE1; font-size: .8rem; }
 #ehrlich .eh-box li { display: grid; grid-template-columns: 24px 1fr; gap: 0 10px; align-items: start; } #ehrlich .eh-box li > .neu-tag { grid-column: 2; }
+
+#ehrlich .eh { grid-template-columns: 1fr; } @media (min-width: 900px) { #ehrlich .eh { grid-template-columns: 1fr 1fr; } }
+#ehrlich .eh-box.ja li > span b { display: block; font-size: 1.02rem; margin-bottom: 2px; }
