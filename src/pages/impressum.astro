@@ -15,7 +15,8 @@ const [strasse, ort] = kontakt.anschrift.split(", ");
   <h2>Kontakt</h2>
   <p>
     Telefon: <a href={`tel:+${"49" + kontakt.telefon.replace(/\D/g, "").slice(1)}`}>{kontakt.telefon}</a><br />
-    E-Mail: <a href={`mailto:${kontakt.email}`}>{kontakt.email}</a>
+    E-Mail: <a href={`mailto:${kontakt.email}`}>{kontakt.email}</a><br />
+    E-Mail (alternativ): <a href={`mailto:${kontakt.emailPrivat}`}>{kontakt.emailPrivat}</a>
   </p>
 
   <h2>Umsatzsteuer</h2>

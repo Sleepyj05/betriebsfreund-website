@@ -36,7 +36,9 @@ export const kontakt = {
   /** WhatsApp-Nummer nur mit Ziffern, mit Ländervorwahl ohne + und ohne Null (49 = Deutschland) */
   whatsapp: "491747350533",
   whatsappText: "Hallo Daniel, ich interessiere mich für Betriebsfreund.",
-  email: "daniel.odman05@gmail.com",
+  email: "betriebsfreund@gmail.com",
+  /** Private Adresse, nur im Impressum zusätzlich genannt */
+  emailPrivat: "daniel.odman05@gmail.com",
   zeiten: "Mo–Fr, 9–16 Uhr",
   ort: "Köln",
   /** Vollständige Anschrift (für Impressum und Footer) – Platzhalter aus dem Flyer */
