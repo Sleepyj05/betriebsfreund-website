@@ -302,7 +302,7 @@ const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
         <a class="btn leer reveal" href={mailHref}>{kontakt.email}</a>
         {demoLink.startsWith("http") && <a class="btn leer reveal" href={demoLink}>Live-Demo öffnen</a>}
       </div>
-      <form class="formular reveal" name="demo-anfrage" method="POST" action="/danke" data-netlify="true" netlify-honeypot="bot-field">
+      <form class="formular reveal" id="anfrage-form" name="demo-anfrage" method="POST" action="/danke" data-netlify="true" netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="demo-anfrage" />
         <p class="honig" aria-hidden="true"><label>Bitte nicht ausfüllen: <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
         <label>Ihr Name<input name="name" type="text" required autocomplete="name" /></label>
@@ -317,8 +317,17 @@ const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
           </select>
         </label>
         <label class="haken"><input type="checkbox" name="datenschutz" required /> <span>Ich habe die <a href="/datenschutz">Datenschutzerklärung</a> gelesen.</span></label>
+        <p class="form-fehler" id="form-fehler" role="alert" hidden>Das Absenden hat gerade nicht geklappt. Bitte rufen Sie kurz an oder schreiben Sie per WhatsApp, dann kümmere ich mich sofort darum.</p>
         <button class="btn" type="submit">Rückruf anfordern</button>
       </form>
+      <div class="form-ok" id="form-ok" role="status" aria-live="polite" tabindex="-1" hidden>
+        <div class="form-ok-haken" aria-hidden="true">✓</div>
+        <h3>Danke. Ich melde mich.</h3>
+        <p>Ich rufe Sie {kontakt.antwortFrist} zurück. Ihre Angaben sind bei mir angekommen.</p>
+        <p>Es eilt? Ich bin direkt erreichbar ({kontakt.zeiten}):</p>
+        <a class="btn" href={telHref}>Jetzt anrufen: {kontakt.telefon}</a>
+        <a class="btn leer" href={whatsappHref} rel="noopener">WhatsApp schreiben</a>
+      </div>
     </div>
   </section>
   <script type="application/ld+json" set:html={JSON.stringify(schema)} />
@@ -421,6 +430,32 @@ const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
       const t = Math.ceil((bis - jetzt) / 864e5);
       tag.textContent += ` · noch ${t} ${t === 1 ? "Tag" : "Tage"}`;
     }
+
+
+    /* --- Kontaktformular: Absenden ohne Seitenwechsel, Bestätigung direkt an Ort und Stelle --- */
+    (() => {
+      const form = document.getElementById("anfrage-form");
+      if (!form) return;
+      const ok = document.getElementById("form-ok");
+      const fehler = document.getElementById("form-fehler");
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const btn = form.querySelector("button[type=submit]");
+        const text = btn.textContent;
+        btn.disabled = true; btn.textContent = "Wird gesendet …"; fehler.hidden = true;
+        try {
+          const res = await fetch("/", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams(new FormData(form)).toString(),
+          });
+          if (!res.ok) throw new Error("Status " + res.status);
+          form.hidden = true; ok.hidden = false; ok.focus();
+        } catch (err) {
+          fehler.hidden = false; btn.disabled = false; btn.textContent = text;
+        }
+      });
+    })();
 
     /* --- Paket-Buttons wählen das Formularfeld vor --- */
     document.querySelectorAll("[data-paket]").forEach((a) => a.addEventListener("click", () => { $("#f-paket").value = a.dataset.paket; }));

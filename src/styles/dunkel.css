@@ -439,3 +439,11 @@ tr.offenzeile th { color: var(--warn); }
 
 .logo .logo-zeichen { width: 34px; height: 34px; flex: none; transition: transform .4s; } .logo:hover .logo-zeichen { transform: rotate(-8deg) scale(1.06); }
 .logo { font-size: 1.15rem; }
+
+/* Kontaktformular: Bestätigung und Fehlerhinweis */
+.formular[hidden], .form-ok[hidden], .form-fehler[hidden] { display: none; }
+.form-fehler { padding: 12px 14px; border-radius: 12px; background: #FDECEC; color: #8A1F1F; font-size: .92rem; line-height: 1.45; }
+.form-ok { display: grid; gap: 14px; padding: 28px; border-radius: var(--radius); border: 1px solid var(--linie); background: var(--karte); outline: none; }
+.form-ok h3 { font-size: clamp(1.6rem, 6vw, 2.2rem); line-height: 1.05; }
+.form-ok p { color: var(--leise); }
+.form-ok-haken { width: 56px; height: 56px; border-radius: 50%; background: var(--mint); color: var(--gruen); display: grid; place-items: center; font-size: 1.6rem; font-weight: 800; }
