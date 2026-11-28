@@ -31,16 +31,16 @@ export const seite = {
 
 export const kontakt = {
   vorname: "Daniel",
-  /** Telefon, so wie es angezeigt wird (Platzhalter aus dem Flyer) */
-  telefon: "0221 123 456 78",
+  /** Telefon, so wie es angezeigt wird  */
+  telefon: "0174 7350533",
   /** WhatsApp-Nummer nur mit Ziffern, mit Ländervorwahl ohne + und ohne Null (49 = Deutschland) */
-  whatsapp: "4922112345678",
+  whatsapp: "491747350533",
   whatsappText: "Hallo Daniel, ich interessiere mich für Betriebsfreund.",
-  email: "kontakt@betriebsfreund.de", // [BITTE AUSFÜLLEN] echte E-Mail-Adresse
+  email: "daniel.odman05@gmail.com",
   zeiten: "Mo–Fr, 9–16 Uhr",
   ort: "Köln",
   /** Vollständige Anschrift (für Impressum und Footer) – Platzhalter aus dem Flyer */
-  anschrift: "Musterstraße 12, 50667 Köln",
+  anschrift: "Ernstbergstraße 101, 50765 Köln",
   /** Zusage nach dem Formular */
   antwortFrist: "innerhalb von 24 Stunden (Mo–Fr)",
 };
