@@ -165,7 +165,8 @@ details p { padding: 0 0 20px; color: var(--leise); }
 .formular { display: grid; gap: 14px; padding: 28px; border-radius: var(--radius); border: 1px solid var(--linie); background: var(--karte); }
 .formular label { display: grid; gap: 6px; font-weight: 600; font-size: .92rem; }
 .formular input:not([type=checkbox]), .formular select { min-height: 52px; padding: 0 14px; font: inherit; color: var(--text); background: #F6F3EC; border: 1px solid var(--linie); border-radius: 12px; }
-.formular input:focus, .formular select:focus { outline: none; border-color: var(--gruen); box-shadow: 0 0 0 4px rgba(46,139,94,.15); }
+.formular textarea { padding: 12px 14px; font: inherit; color: var(--text); background: #F6F3EC; border: 1px solid var(--linie); border-radius: 12px; resize: vertical; min-height: 110px; }
+.formular input:focus, .formular select:focus, .formular textarea:focus { outline: none; border-color: var(--gruen); box-shadow: 0 0 0 4px rgba(46,139,94,.15); }
 .formular .haken { display: flex; gap: 10px; align-items: flex-start; font-weight: 400; color: var(--leise); }
 .formular .haken input { width: 22px; height: 22px; accent-color: var(--gruen); flex: none; }
 .honig { position: absolute; left: -9999px; }

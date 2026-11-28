@@ -316,6 +316,9 @@ const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
             <option value="plus">Plus (Dienstplan und laufende Hilfe)</option>
           </select>
         </label>
+        <label>Zusatzinfos (optional)
+          <textarea name="nachricht" rows="4" maxlength="1500" placeholder="z. B. Anzahl Mitarbeiter, wie Sie heute planen, was Ihnen wichtig ist"></textarea>
+        </label>
         <label class="haken"><input type="checkbox" name="datenschutz" required /> <span>Ich habe die <a href="/datenschutz">Datenschutzerklärung</a> gelesen.</span></label>
         <p class="form-fehler" id="form-fehler" role="alert" hidden>Das Absenden hat gerade nicht geklappt. Bitte rufen Sie kurz an oder schreiben Sie per WhatsApp, dann kümmere ich mich sofort darum.</p>
         <button class="btn" type="submit">Rückruf anfordern</button>
