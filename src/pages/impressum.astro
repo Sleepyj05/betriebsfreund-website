@@ -1,21 +1,29 @@
 ---
 import Recht from "../layouts/Recht.astro";
-import { kontakt } from "../config";
+import { kontakt, marke } from "../config";
+const [strasse, ort] = kontakt.anschrift.split(", ");
 ---
-<Recht titel="Impressum">
+<Recht titel="Impressum" fertig>
   <h2>Angaben gemäß § 5 DDG</h2>
-  <p><span class="ph">[VOLLSTÄNDIGER NAME, ggf. Firma und Rechtsform]</span><br />
-  {kontakt.anschrift} <span class="ph">[BITTE PRÜFEN: ladungsfähige Anschrift, kein Platzhalter]</span></p>
+  <p>
+    {marke.name}<br />
+    Inhaber: {kontakt.vorname} Odman (Einzelunternehmen)<br />
+    {strasse}<br />
+    {ort}
+  </p>
 
   <h2>Kontakt</h2>
-  <p>Telefon: {kontakt.telefon}<br />E-Mail: {kontakt.email}</p>
+  <p>
+    Telefon: <a href={`tel:+${"49" + kontakt.telefon.replace(/\D/g, "").slice(1)}`}>{kontakt.telefon}</a><br />
+    E-Mail: <a href={`mailto:${kontakt.email}`}>{kontakt.email}</a>
+  </p>
 
   <h2>Umsatzsteuer</h2>
-  <p><span class="ph">[Umsatzsteuer-ID falls vorhanden – ODER Hinweis auf Kleinunternehmerregelung nach § 19 UStG]</span></p>
+  <p>Eine Umsatzsteuer-Identifikationsnummer ist nicht vorhanden. Als Kleinunternehmer im Sinne von § 19 UStG wird keine Umsatzsteuer berechnet und ausgewiesen.</p>
 
-  <h2>Verantwortlich für den Inhalt</h2>
-  <p><span class="ph">[Name und Anschrift, falls nach § 18 Abs. 2 MStV erforderlich]</span></p>
+  <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+  <p>{kontakt.vorname} Odman, {kontakt.anschrift}</p>
 
-  <h2>Streitbeilegung</h2>
-  <p><span class="ph">[Hinweis zur Verbraucherstreitbeilegung – rechtlich prüfen lassen, ob und wie erforderlich]</span></p>
+  <h2>Verbraucherstreitbeilegung</h2>
+  <p>Ich bin nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
 </Recht>

@@ -4,14 +4,14 @@
 import Base from "./Base.astro";
 import { rechtHinweis } from "../config";
 
-interface Props { titel: string; beschreibung?: string }
-const { titel, beschreibung } = Astro.props;
+interface Props { titel: string; beschreibung?: string; /** true = fertig ausgefüllt, Vorlagen-Hinweis ausblenden */ fertig?: boolean }
+const { titel, beschreibung, fertig = false } = Astro.props;
 ---
 <Base titel={`${titel} | Betriebsfreund`} beschreibung={beschreibung ?? `${titel} von Betriebsfreund`}>
   <article class="abschnitt recht">
     <div class="wrap">
       <h1>{titel}</h1>
-      <p class="warn" role="note"><strong>{rechtHinweis}</strong> Diese Seite ist eine Vorlage und kein verbindlicher Rechtstext. Stellen in [eckigen Klammern] müssen ausgefüllt werden.</p>
+      {!fertig && <p class="warn" role="note"><strong>{rechtHinweis}</strong> Diese Seite ist eine Vorlage und kein verbindlicher Rechtstext. Stellen in [eckigen Klammern] müssen ausgefüllt werden.</p>}
       <div class="text"><slot /></div>
     </div>
   </article>
