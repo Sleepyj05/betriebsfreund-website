@@ -1,4 +1,5 @@
 ---
+import WaIcon from "../components/WaIcon.astro";
 // Neue, dunkle und animierte Startseite. Alle Texte, Preise und Kontaktdaten kommen weiter aus src/config.ts.
 import { Picture } from "astro:assets";
 import person from "../assets/person.png";
@@ -296,8 +297,8 @@ const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
       <div class="direkt">
         <span class="kicker reveal">Kontakt</span>
         <h2 id="k-t" class="reveal">Lassen Sie uns <span class="grad">sprechen.</span></h2>
-        <p class="lead reveal">Ich rufe Sie {kontakt.antwortFrist} zurück. {kontakt.zeiten}.</p>
-        <a class="btn reveal" data-magnet href={whatsappHref} rel="noopener">WhatsApp schreiben</a>
+        <p class="lead reveal">Ich rufe Sie {kontakt.antwortFrist} zurück.</p>
+        <a class="btn reveal" data-magnet href={whatsappHref} rel="noopener"><WaIcon />WhatsApp schreiben</a>
         <a class="btn leer reveal" href={telHref}>{kontakt.telefon}</a>
         <a class="btn leer reveal" href={mailHref}>{kontakt.email}</a>
         {demoLink.startsWith("http") && <a class="btn leer reveal" href={demoLink}>Live-Demo öffnen</a>}
@@ -327,9 +328,9 @@ const tage = ["Mo", "Di", "Mi", "Do", "Fr"];
         <div class="form-ok-haken" aria-hidden="true">✓</div>
         <h3>Danke. Ich melde mich.</h3>
         <p>Ich rufe Sie {kontakt.antwortFrist} zurück. Ihre Angaben sind bei mir angekommen.</p>
-        <p>Es eilt? Ich bin direkt erreichbar ({kontakt.zeiten}):</p>
+        <p>Es eilt? Ich bin direkt erreichbar:</p>
         <a class="btn" href={telHref}>Jetzt anrufen: {kontakt.telefon}</a>
-        <a class="btn leer" href={whatsappHref} rel="noopener">WhatsApp schreiben</a>
+        <a class="btn leer" href={whatsappHref} rel="noopener"><WaIcon />WhatsApp schreiben</a>
       </div>
     </div>
   </section>

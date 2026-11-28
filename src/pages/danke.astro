@@ -1,4 +1,5 @@
 ---
+import WaIcon from "../components/WaIcon.astro";
 // Bestätigung nach dem Absenden des Formulars (Netlify leitet hierher weiter).
 import Base from "../layouts/Base.astro";
 import { kontakt, telHref, whatsappHref } from "../config";
@@ -10,10 +11,10 @@ import { kontakt, telHref, whatsappHref } from "../config";
       <div class="haken" aria-hidden="true">✓</div></div>
       <h1>Danke. <span class="mark">Ich melde mich.</span></h1>
       <p class="lead">Ich rufe Sie {kontakt.antwortFrist} zurück. Ihre Angaben sind bei mir angekommen.</p>
-      <p class="lead">Es eilt? Ich bin auch direkt erreichbar ({kontakt.zeiten}):</p>
+      <p class="lead">Es eilt? Ich bin auch direkt erreichbar:</p>
       <div class="knoepfe">
         <a class="btn btn-primaer btn-gross" href={telHref}>Jetzt anrufen: {kontakt.telefon}</a>
-        <a class="btn btn-zweit btn-gross" href={whatsappHref} target="_blank" rel="noopener">WhatsApp schreiben</a>
+        <a class="btn btn-zweit btn-gross" href={whatsappHref} target="_blank" rel="noopener"><WaIcon />WhatsApp schreiben</a>
       </div>
       <p class="zurueck"><a class="textlink" href="/">Zurück zur Startseite</a></p>
     </div>

@@ -1,4 +1,5 @@
 ---
+import WaIcon from "../components/WaIcon.astro";
 // Dunkles Grundgerüst für die neue Startseite: SEO, selbst gehostete Schrift, Animationen (Motion + Lenis).
 import "@fontsource-variable/inter/wght.css";
 import interLatin from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
@@ -53,9 +54,16 @@ const kanonisch = new URL(Astro.url.pathname, seite.url).href;
       </div>
     </footer>
     <div class="leiste-unten">
-      <a class="btn" href={whatsappHref} rel="noopener">WhatsApp</a>
+      <a class="btn" href={whatsappHref} rel="noopener"><WaIcon />WhatsApp</a>
       <a class="btn leer" style="background:var(--bg2)" href={telHref}>Anrufen</a>
     </div>
+    <script is:inline>
+      (function () {
+        var bar = document.querySelector(".leiste-unten"), k = document.getElementById("kontakt");
+        if (!bar || !k || !("IntersectionObserver" in window)) return;
+        new IntersectionObserver(function (e) { bar.classList.toggle("weg", e[0].isIntersecting); }, { threshold: 0.05 }).observe(k);
+      })();
+    </script>
     <script>
       import Lenis from "lenis";
       import { animate, inView, scroll, stagger } from "motion";

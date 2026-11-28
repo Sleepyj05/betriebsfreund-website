@@ -39,12 +39,11 @@ export const kontakt = {
   email: "betriebsfreund@gmail.com",
   /** Private Adresse, nur im Impressum zusätzlich genannt */
   emailPrivat: "daniel.odman05@gmail.com",
-  zeiten: "Mo–Fr, 9–16 Uhr",
   ort: "Köln",
   /** Vollständige Anschrift (für Impressum und Footer) – Platzhalter aus dem Flyer */
   anschrift: "Ernstbergstraße 101, 50765 Köln",
   /** Zusage nach dem Formular */
-  antwortFrist: "innerhalb von 24 Stunden (Mo–Fr)",
+  antwortFrist: "innerhalb von 24 Stunden",
 };
 
 /** Link zum Demo-Modus der App. Leer lassen, solange es ihn nicht gibt → Button führt dann zum Formular. */

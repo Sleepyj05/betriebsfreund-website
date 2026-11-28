@@ -1,4 +1,5 @@
 ---
+import WaIcon from "./WaIcon.astro";
 // Kontakt / Demo anfragen: Formular (Netlify Forms, Honeypot gegen Spam) + direkte Kontaktwege.
 import Szene from "./Szene.astro";
 import { kontakt, telHref, whatsappHref, mailHref, demoLink, demoLinkExtern } from "../config";
@@ -76,15 +77,6 @@ import { kontakt, telHref, whatsappHref, mailHref, demoLink, demoLinkExtern } fr
           <label for="f-mail">E-Mail <span class="opt">(optional)</span></label>
           <input id="f-mail" name="email" type="email" autocomplete="email" />
         </div>
-        <div class="feld">
-          <label for="f-zeit">Wann soll ich zurückrufen?</label>
-          <select id="f-zeit" name="wunschzeit">
-            <option>Egal, ich bin flexibel</option>
-            <option>Vormittags (9–12 Uhr)</option>
-            <option>Mittags (12–14 Uhr)</option>
-            <option>Nachmittags (14–16 Uhr)</option>
-          </select>
-        </div>
         <label class="check">
           <input type="checkbox" name="datenschutz" required />
           <span>Ich habe die <a href="/datenschutz" target="_blank" rel="noopener">Datenschutzerklärung</a> gelesen und bin einverstanden, dass Sie mich zur Anfrage kontaktieren.</span>
@@ -96,11 +88,11 @@ import { kontakt, telHref, whatsappHref, mailHref, demoLink, demoLinkExtern } fr
       <aside class="direkt reveal" style="--d:0.1s" aria-label="Direkter Kontakt">
         <p class="eyebrow">Direkt erreichbar</p>
         <p class="name">{kontakt.vorname}</p>
-        <p class="zeiten">{kontakt.zeiten} · {kontakt.ort}</p>
+        <p class="zeiten">{kontakt.ort}</p>
         <a class="tel" href={telHref}>{kontakt.telefon}</a>
         <div class="knoepfe">
           <a class="btn btn-primaer" href={telHref}>Anrufen</a>
-          <a class="btn btn-zweit wa" href={whatsappHref} target="_blank" rel="noopener">WhatsApp schreiben</a>
+          <a class="btn btn-zweit wa" href={whatsappHref} target="_blank" rel="noopener"><WaIcon />WhatsApp schreiben</a>
         </div>
         <a class="mail" href={mailHref}>{kontakt.email}</a>
         <hr />

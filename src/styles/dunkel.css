@@ -448,3 +448,6 @@ tr.offenzeile th { color: var(--warn); }
 .form-ok h3 { font-size: clamp(1.6rem, 6vw, 2.2rem); line-height: 1.05; }
 .form-ok p { color: var(--leise); }
 .form-ok-haken { width: 56px; height: 56px; border-radius: 50%; background: var(--mint); color: var(--gruen); display: grid; place-items: center; font-size: 1.6rem; font-weight: 800; }
+.wa-i { width: 20px; height: 20px; flex: none; display: block; }
+.leiste-unten { transition: transform .25s, opacity .25s; }
+.leiste-unten.weg { transform: translateY(120%); opacity: 0; pointer-events: none; }
